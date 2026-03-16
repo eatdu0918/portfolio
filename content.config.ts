@@ -1,0 +1,24 @@
+import { defineContentConfig, defineCollection, z } from '@nuxt/content'
+
+export default defineContentConfig({
+  collections: {
+    projects: defineCollection({
+      type: 'page',
+      source: 'projects/**/*.md',
+      schema: z.object({
+        title: z.string(),
+        slug: z.string().optional(),
+        summary: z.string().optional(),
+        period: z.string().optional(),
+        role: z.string().optional(),
+        thumbnail: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+        techStack: z.record(z.string(), z.array(z.string())).optional(),
+        highlights: z.array(z.string()).optional(),
+        order: z.number().optional(),
+        featured: z.boolean().optional(),
+        category: z.string().optional(),
+      }),
+    }),
+  },
+})

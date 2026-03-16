@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface-50 text-surface-700;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-900;
+  }
+}
+
+@layer components {
+  .section-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .section-container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .section-container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-container {
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-500 via-accent-500 to-brand-600;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-surface-200 rounded-2xl shadow-lg shadow-brand-500/5;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-500/15;
+  }
+
+  .glow-border {
+    @apply border border-brand-200 hover:border-brand-400 transition-colors;
+  }
+
+  .prose-content h2 {
+    @apply text-2xl font-bold mt-12 mb-4 text-surface-800;
+  }
+
+  .prose-content h3 {
+    @apply text-xl font-semibold mt-8 mb-3 text-surface-700;
+  }
+
+  .prose-content p {
+    @apply mb-4 leading-relaxed text-surface-600;
+  }
+
+  .prose-content ul {
+    @apply mb-4 space-y-2 list-disc list-inside text-surface-600;
+  }
+
+  .prose-content code {
+    @apply bg-brand-50 px-1.5 py-0.5 rounded text-sm font-mono text-brand-600;
+  }
+
+  .prose-content pre {
+    @apply bg-surface-800 rounded-xl p-4 mb-4 overflow-x-auto border border-surface-700;
+  }
+
+  .prose-content pre code {
+    @apply bg-transparent text-surface-100 p-0;
+  }
+
+  .prose-content table {
+    @apply w-full mb-6 text-sm;
+  }
+
+  .prose-content th {
+    @apply text-left py-2 px-3 bg-surface-100 font-semibold text-surface-700 border-b border-surface-200;
+  }
+
+  .prose-content td {
+    @apply py-2 px-3 border-b border-surface-100 text-surface-600;
+  }
+
+  .prose-content blockquote {
+    @apply border-l-4 border-brand-400 pl-4 my-4 text-surface-600 italic bg-brand-50/50 py-2 rounded-r-lg;
+  }
+}
+
+@layer utilities {
+  .network-bg {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.12), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(217, 70, 239, 0.08), transparent),
+      radial-gradient(ellipse 40% 30% at 10% 80%, rgba(192, 38, 211, 0.05), transparent);
+  }
+
+  .dot-pattern {
+    background-image: radial-gradient(rgba(168, 85, 247, 0.2) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .mesh-gradient {
+    background:
+      linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+      linear-gradient(225deg, rgba(217, 70, 239, 0.08) 0%, transparent 50%),
+      linear-gradient(315deg, rgba(192, 38, 211, 0.06) 0%, transparent 50%);
+  }
+}
