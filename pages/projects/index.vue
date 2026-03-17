@@ -29,7 +29,7 @@ const { data: projects } = await useAsyncData('all-projects', () =>
             :tags="project.tags ?? []"
             :period="project.period"
             :featured="project.featured"
-            :index="idx + 1"
+            :index="Number(idx) + 1"
           />
         </div>
 
