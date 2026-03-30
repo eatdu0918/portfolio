@@ -7,7 +7,9 @@ order: 3
 
 ## Spring Boot 3 멀티모듈 구조
 
-백엔드 API는 Spring Boot 3.2.4 기반 Maven 멀티모듈 프로젝트로 구성됩니다.
+**요구**: 사용자 앱과 관리 백오피스는 배포 단위·포트·권한 모델이 다르지만, 도메인 로직과 영속성은 공유해야 합니다.
+
+**선택**: Maven 멀티모듈로 **실행 가능한 API 두 개**와 **공통 라이브러리 한 개**로 나눴습니다. 사용자 API는 WebSocket까지 포함하고, 백오피스는 REST만 노출해 공격 면을 줄입니다.
 
 ```mermaid
 graph TD
@@ -25,58 +27,24 @@ graph TD
     BackAPI -->|"의존"| Common
 ```
 
-- **front-module**: 사용자용 REST API + WebSocket (포트 8000, context-path: /api)
-- **backoffice-module**: 관리자용 REST API (포트 35001, context-path: /api)
-- **common-module**: 공통 Service, VO, Mapper, 설정 클래스 (실행 불가, JAR만 생성)
+**결과**: 공통 코드 중복 없이 팀·배포 경계를 명확히 하고, 사용자 트래픽과 운영자 기능을 인프라 수준에서 분리할 수 있습니다.
 
-## REST API 엔드포인트
+## REST API 역할 묶음
 
-### 사용자 API (front-module)
+엔드포인트는 컨트롤러 단위 나열 대신 **업무 단위**로 묶였습니다.
 
-| 컨트롤러 | 엔드포인트 | 기능 |
-|----------|-----------|------|
-| **LoginController** | `POST /loginProc` | JWT 로그인, 중복 로그인 체크 |
-| **UserController** | `POST /user/userList` | 사용자 목록 |
-| | `POST /user/insertUser` | 사용자 등록 |
-| | `POST /user/deleteUser` | 사용자 삭제 |
-| | `POST /user/userInfoUpdate` | 정보 수정 |
-| | `POST /user/userPasswdReset` | 비밀번호 초기화 |
-| **TaskController** | `POST /task/create` | 작업 생성 |
-| | `POST /task/getTaskList` | 작업 목록 |
-| | `POST /task/getTaskDetail` | 작업 상세 |
-| | `POST /task/cancelTask` | 작업 취소 |
-| | `POST /task/deleteTask` | 작업 삭제 |
-| | `POST /task/downloadPdfFile` | PDF 리포트 다운로드 |
-| | `POST /task/downloadExcelFile` | Excel 리포트 다운로드 |
-| | `POST /task/userSelectedObject` | 사용자 선택 객체 처리 |
-| | `POST /task/selectiveVideoBlur` | 선택적 비디오 블러 요청 |
-| **UploadController** | `POST /upload/fileUploadImageOneByOneFtp` | 이미지 FTP 업로드 |
-| **DashboardController** | `POST /dashboard/taskTypeData` | 작업 유형 통계 |
-| | `POST /dashboard/donutChart` | 도넛 차트 데이터 |
-| | `POST /dashboard/barChart` | 막대 차트 데이터 |
-| **NoticeController** | `POST /notice/getList` | 공지 목록 |
-| | `GET /notice/fileDownload/{locale}/{noticeIdx}/{attachIdx}` | 첨부파일 다운로드 |
+- **인증·세션**: 로그인, JWT 발급, 중복 로그인 시 기존 세션 정리
+- **사용자·회사(백오피스)**: 테넌트·멤버·모델(큐) 설정, 공지·파일
+- **작업·업로드**: 작업 생성·목록·취소·리포트, SFTP 연동 업로드, 수동/선택적 비디오 블러 요청
+- **대시보드**: 작업 유형·차트용 집계
 
-### 관리자 API (backoffice-module)
-
-| 컨트롤러 | 주요 기능 |
-|----------|-----------|
-| **CompanyController** | 회사 CRUD, 멤버 관리, 사용 여부 변경 |
-| **NoticeController** | 공지사항 CRUD, 다국어 파일 관리 |
-| **ModelController** | AI 모델/큐 목록 조회 |
-| **FileController** | 공지/회사 파일 업로드/다운로드 |
-| **TaskController** | 관리자 작업 목록, 취소 |
+POST 중심 API는 레거시 클라이언트와의 호환을 유지한 형태입니다.
 
 ## 인증/보안 (Spring Security + JWT)
 
-### JWT 설정
+**요구**: SaaS 테넌트 경계와 관리자 구분을 모든 요청에서 일관되게 적용하고, 비밀번호·민감 필드는 저장·전송 단계에서 보호해야 합니다.
 
-- **라이브러리**: jjwt 0.11.5
-- **알고리즘**: HS512
-- **유효기간**: 86,400초 (24시간)
-- **Claims**: `sub`(loginId), `cpIdx`(회사), `queueName`(큐), `adminYn`(관리자), `aistudioAPI`(authorities)
-
-### Spring Security 필터 체인
+**선택**: 무상태 JWT와 필터 체인으로 인증을 통일하고, 비밀번호는 BCrypt, 일부 필드는 대칭키 암호화를 사용합니다. WebSocket·업로드 등 예외 경로만 최소로 열어 둡니다.
 
 ```mermaid
 graph LR
@@ -87,116 +55,37 @@ graph LR
     Auth --> Controller["Controller"]
 ```
 
-- **JwtFilter**: `Authorization: Bearer` 헤더에서 토큰 파싱, 검증 후 `cpIdx`, `queueName`, `adminYn`을 request attribute로 전달
-- **인증 예외 경로**: `/loginProc`, `/stomp/**`, `/upload/getProgress`, Swagger, Actuator
-- **세션**: STATELESS
-- **비밀번호**: BCryptPasswordEncoder
-- **데이터 암호화**: AesBytesEncryptor (secret + salt)
+**로그인 흐름**: 자격 증명 검증 → 회사 사용 여부 확인 → Redis로 중복 접속 처리(필요 시 기존 클라이언트에 로그아웃 신호) → JWT 발급.
 
-### 로그인 흐름
+**결과**: API·STOMP·업로드 파이프라인이 같은 신원·회사 맥락을 공유하고, 운영 정책(강제 로그아웃 등)을 한곳에서 적용할 수 있습니다.
 
-1. `POST /loginProc` 수신 (userId, password, cpIdx)
-2. `CustomUserDetailsService`로 사용자 조회
-3. 회사 사용 여부 검증 (`cp_login_yn`)
-4. Redis로 중복 로그인 체크 (기존 세션 강제 로그아웃)
-5. JWT 토큰 생성, `AccessTokenVo` 반환
+## 실시간·메시징과의 연결
 
-## WebSocket STOMP 설정
+WebSocket STOMP, RabbitMQ 발행, Redis 구독·캐시의 **역할 분담과 이유**는 이 프로젝트의 **아키텍처** 탭(시스템 아키텍처) 통신 흐름 절에 정리되어 있습니다.
 
-```mermaid
-graph TD
-    subgraph wsConfig [WebSocket Configuration]
-        Endpoint["/stomp (SockJS)"]
-        BrokerSub["/sub, /serverToClient, /serverToClientAll"]
-        ClientPrefix["/pub"]
-        MaxSize["메시지 크기: 50MB"]
-    end
-    
-    subgraph wsController [WebSocket Events]
-        Connect["SessionConnectEvent\nJWT 검증, Redis 세션 저장"]
-        Disconnect["SessionDisconnectEvent\nRedis 키 삭제, 이력 기록"]
-        Ping["@MessageMapping('/ping')\npong 응답"]
-    end
-    
-    subgraph channels [구독 채널]
-        Personal["/serverToClient/{userId}"]
-        Company["/serverToClient/{cpIdx}"]
-        Broadcast["/serverToClientAll"]
-        Pong["/sub/pong/{userId}"]
-    end
-```
+백엔드 쪽에서의 요지는 다음과 같습니다.
 
-- **연결 시**: JWT 검증 → Redis에 `heidi:login:{sessionId}` 저장
-- **해제 시**: Redis 키 삭제 → `websocket_hist` 테이블에 기록
-- **인터셉터**: FilterChannelInterceptor (STOMP CONNECT 시 JWT 검증)
-
-## RabbitMQ 메시지 프로듀서
-
-### 설정
-
-- **ConnectionFactory**: host, port, username, password (환경별 설정)
-- **MessageConverter**: Jackson2JsonMessageConverter
-- **DeliveryMode**: PERSISTENT (메시지 영속화)
-- **큐 선언**: `Queue(queueName, durable=true)`, RabbitAdmin으로 동적 선언
-
-### 메시지 발행
-
-`UploadService.insertModelFile()`에서 파일 업로드 완료 후 RabbitMQ에 메시지 발행:
-- 회사별 `model.queue_name`으로 동적 큐 결정
-- `RabbitMessageVo` JSON 직렬화 후 전송
-
-## Redis 활용
-
-### 캐시
-
-- Spring Cache (`@Cacheable`, `CacheManager`)
-- 캐시명: `TASK_FILE_CNT` (작업별 파일 수)
-- TTL: 30일
-
-### Hash (상태 관리)
-
-| 키 패턴 | 필드 | 용도 |
-|---------|------|------|
-| `heidi:file:{taskId}` | totalCnt, processCnt, successCnt, failCnt, status, progress | 작업 진행 상태 |
-| `heidi:login:{sessionId}` | userId, cpIdx, dateTime | WebSocket 세션 |
-
-### Pub/Sub (이벤트)
-
-`StartRunComponent`에서 16개 채널 구독:
-- `progress`, `start`, `end`, `error`, `fileDown`
-- `zeroshotTrackEnd`, `zeroshotBlurEnd`
-- `selectiveEnd`, `videoSelectiveEnd`, `videoSelectiveBlurEnd`, `videoSelectiveBlurComplete`
-- `trackingEnd`, `videoEnd`
-
-`RedisSubService`가 메시지 수신 → `SimpMessageSendingOperations`로 WebSocket 전달
+- 업로드·작업 승인 후 **첫 단계 큐로 메시지를 넣어** API 응답을 길게 붙잡지 않는다.
+- Python Consumer가 올린 이벤트는 **한곳에서 Redis를 구독**해 WebSocket으로만 넘겨, 워커가 API URL을 알 필요 없게 한다.
+- 작업·파일 건수 등 반복 조회는 **캐시**로 DB 부하를 줄인다.
 
 ## 데이터 액세스
 
-- **ORM**: MyBatis 3 (주력) + JPA (DDL 없음, ddl-auto=none)
-- **매퍼 위치**: `classpath:/mybatis/mapper/**/*.xml`
-- **VO 패턴**: `TaskVo`, `UserVo`, `CompanyVo`, `ModelVo`, `ModelFileListVo` 등
-- **드라이버**: MariaDB (log4jdbc 래핑)
-- **커넥션 풀**: HikariCP
+**요구**: 복잡한 조회·리포트·기존 스키마와의 호환을 유지하면서도, 일부 도메인은 JPA 엔티티로 다루고 싶었습니다.
 
-## 서비스 레이어
+**선택**: **MyBatis**를 주력으로 SQL·매퍼를 명시하고, JPA는 DDL 없이 제한적으로 병행합니다. HikariCP와 MariaDB 드라이버로 풀링합니다.
 
-| 서비스 | 역할 |
-|--------|------|
-| `UserService` | 사용자 CRUD, 로그인 검증 |
-| `TaskService` | 작업 CRUD, PDF/Excel 생성 (iText, Apache POI) |
-| `UploadService` | 파일 업로드, 작업 생성, RabbitMQ 발행 |
-| `MessageService` | RabbitMQ 메시지 발행 |
-| `RedisSubService` | Redis Pub/Sub 구독 → WebSocket 전달 |
-| `RedisPubService` | Redis Pub/Sub 발행 |
-| `RedisNewService` | Redis Hash/Value/List/Set 연산 |
-| `WebsocketHistService` | WebSocket 접속 이력 |
-| `CustomUserDetailsService` | Spring Security 사용자 로드 |
-| `DashboardService` | 대시보드 통계 |
-| `CompanyService` | 회사 CRUD |
-| `NoticeFoService` / `NoticeService` | 공지사항 CRUD |
+**결과**: 보고서·목록 쿼리를 튜닝하기 쉽고, 팀에 익숙한 방식으로 유지보수할 수 있습니다.
 
-## 모니터링
+## 도메인 서비스 구성
 
-- **Prometheus**: Spring Boot Actuator + Micrometer
-- **엔드포인트**: `/actuator/prometheus`, `/actuator/health`, `/actuator/info`
-- **Swagger**: SpringDoc OpenAPI (`/api/swagger-ui/index.html`)
+클래스 이름 나열 대신 **책임 묶음**으로 보면 다음과 같습니다.
+
+- **사용자·회사·공지**: CRUD와 권한에 맞는 노출
+- **작업·업로드**: 작업 생성, 파일 메타, PDF/Excel 리포트, 큐 메시지 발행
+- **메시징·캐시**: Rabbit 발행, Redis 구독 후 STOMP 전달, Hash·캐시 갱신
+- **대시보드·이력**: 통계, WebSocket 접속 이력
+
+## 모니터링·문서
+
+Actuator·Micrometer로 Prometheus 스크랩에 맞는 메트릭을 노출하고, SpringDoc으로 API를 문서화해 연동·검증 비용을 줄였습니다.

@@ -13,19 +13,23 @@ order: 2
 
 - **프레임워크**: Vue 3 (Composition API) + Vite 5
 - **데스크톱**: Electron 30, electron-builder
-- **상태관리**: Pinia (8개 스토어, localStorage 영속화)
+- **상태관리**: Pinia (여러 스토어, 일부 localStorage 영속화)
 - **UI**: PrimeVue 4 + Tailwind CSS 4
 - **실시간**: SockJS + webstomp-client (STOMP over WebSocket)
 - **다국어**: vue-i18n 9 (한국어, 영어, 일본어)
-- **로컬 DB**: SQLite3 (수동 비식별화 데이터 저장)
+- **로컬 DB**: SQLite3 (수동 비식별화 임시 데이터)
 - **파일 처리**: ssh2-sftp-client (SFTP), Sharp (이미지), FFmpeg (비디오)
 
-### Electron 아키텍처
+### Electron: 왜 메인 프로세스와 나눴나
+
+**요구**: 대용량 파일을 브라우저만으로 안정적으로 올리기 어렵고, 현장에서는 폴더 단위 배치·SFTP·로컬 캐시가 필요했습니다.
+
+**선택**: **preload + contextBridge**로 렌더러에 최소 API만 노출하고, SFTP·SQLite·FFmpeg·네이티브 다이얼로그는 메인 프로세스에서만 실행합니다.
 
 ```mermaid
 graph LR
     subgraph electronMain [Main Process]
-        IPC["IPC Handlers\n(40+ 핸들러)"]
+        IPC["IPC Handlers"]
         SFTP["SFTP Client\n(ssh2-sftp-client)"]
         SQLite["SQLite DB\n(dbconn.cjs)"]
         FFmpeg["FFmpeg/Sharp\n(파일 처리)"]
@@ -33,7 +37,7 @@ graph LR
     
     subgraph renderer [Renderer Process]
         Vue["Vue 3 App\n(Composition API)"]
-        Pinia["Pinia Stores\n(8개 스토어)"]
+        Pinia["Pinia Stores"]
         WS["WebSocket\n(SockJS + STOMP)"]
     end
     
@@ -48,45 +52,27 @@ graph LR
     IPC --> FFmpeg
 ```
 
-**주요 IPC 핸들러**:
-- `chooseFolder` - 폴더 선택 다이얼로그
-- `startElectronFileTaskFtp` - SFTP 파일 업로드
-- `fileDownLoadFtp` - SFTP 파일 다운로드
-- `selectiveImageLoad/Save` - 수동 비식별화 이미지 로드/저장
-- `selectiveVideoLoad` - 수동 비식별화 비디오 로드
-- `insertManualImage/Video` - 수동 좌표 SQLite 저장
-- `insertTrackZeroShot` - 제로샷 트래킹 요청
-- `cancelTask` - 작업 취소
+**과정·결과**: 사용자는 작업 생성 화면에서 폴더를 고르고 SFTP 업로드를 돌리며, 수동 편집 중에는 캔버스 결과를 로컬 SQLite에 잠깐 두었다가 서버와 동기화합니다. 권한이 필요한 작업은 메인에만 있어 보안·안정성을 맞출 수 있습니다.
 
-### 라우트 구조
+### 화면 흐름(라우트 관점)
 
-| 경로 | 컴포넌트 | 기능 |
-|------|----------|------|
-| `/login` | Login.vue | JWT 인증 로그인 |
-| `/introduction/introduction` | Introduction.vue | 대시보드 (차트, 작업 통계) |
-| `/task/taskList/:page` | TaskList.vue | 작업 목록 (검색, 필터, 페이지네이션) |
-| `/task/create` | TaskCreate.vue | 작업 생성 (파일 선택, 옵션 설정) |
-| `/task/selective/:taskId` | TaskSelective.vue | 이미지 수동 비식별화 편집 |
-| `/task/videoSelective/:taskId` | TaskSelectiveVideo.vue | 비디오 수동 비식별화 편집 |
-| `/user/userList` | UserList.vue | 사용자 관리 (CRUD) |
-| `/noticeList/NoticeList` | NoticeList.vue | 공지사항 목록 |
+**요구**: 로그인 후 대시보드 → 작업 목록·생성 → 자동 처리 모니터링 → 필요 시 이미지/비디오 수동 편집 → 사용자·공지 관리로 이어지는 업무 동선을 한 앱 안에서 처리합니다.
 
-**레이아웃 패턴**: LoginLayout(로그인 전용), OtherLayout(Sidebar + Header + 메인 콘텐츠)
+**구성**: 로그인 전용 레이아웃과 사이드바형 메인 레이아웃을 나누고, 작업 상세·수동 편집은 `taskId` 기준 동적 경로로 진입합니다. 백오피스와 달리 **실시간 진행률**이 핵심이라 STOMP 구독을 앱 전역과 연동합니다.
 
-### Pinia 스토어
+### 상태 관리(Pinia)
 
-| 스토어 | 역할 | 영속화 |
-|--------|------|--------|
-| `login` | 사용자 정보 (userId, adminYn, cpIdx) | - |
-| `taskList` | 작업 목록 필터 상태 | - |
-| `taskProgress` | 실시간 처리 진행률 추적 | localStorage |
-| `socket` | WebSocket 연결 상태 | - |
-| `page` | UI 상태 (언어, 로딩) | - |
-| `noticeList` | 공지사항 상태 | - |
-| `delivery` | Delivery 모드 서버 설정 | localStorage |
-| `content` | 사용자 상세 정보 | - |
+**요구**: 작업 목록 필터, 다국어·로딩 같은 UI 상태와, 끊기지 않아야 하는 **진행률·소켓 연결**을 분리해 두고 싶었습니다.
+
+**선택**: 로그인·작업 필터·공지 등은 세션/화면별 스토어로 두고, 진행률은 WebSocket 이벤트와 맞물리도록 스토어를 설계했으며 필요한 값만 localStorage에 남깁니다.
+
+**결과**: 탭 이동·재접속 후에도 처리 현황을 잃지 않기 쉽고, 컴포넌트 간 이벤트 버스(mitt)와 조합해 진행 UI를 단순히 유지합니다.
 
 ### WebSocket 실시간 연동
+
+**요구**: 서버에서 오는 진행·완료·오류를 즉시 반영해 장시간 작업의 신뢰도를 높입니다.
+
+**선택**: STOMP 구독 후 수신 메시지의 유형 필드를 보고 mitt로 관련 화면에 전달합니다.
 
 ```mermaid
 sequenceDiagram
@@ -109,35 +95,20 @@ sequenceDiagram
     App->>App: mitt 이벤트 버스로 컴포넌트 업데이트
 ```
 
-**이벤트 처리 흐름**:
-1. WebSocket 메시지 수신 (`gubun` 필드로 이벤트 유형 구분)
-2. mitt 이벤트 버스로 해당 컴포넌트에 전달
-3. Pinia `taskProgress` 스토어 상태 업데이트
-4. UI 자동 반영 (진행률 바, 완료 알림 등)
+**결과**: 진행률 바·완료 알림·다운로드 준비 등이 폴링 없이 갱신되고, 아키텍처 탭의 파이프라인 설명과 같은 서버 흐름과 맞닿아 있습니다.
 
-### 수동 비식별화 편집 기능
+### 수동 비식별화 편집
 
-이미지/비디오에서 사용자가 직접 비식별화 영역을 지정하는 캔버스 기반 편집 기능:
+**요구**: 자동 탐지가 빗나간 구간만 사용자가 고치고 싶은 경우가 많아, 캔버스 기반 편집이 필요했습니다.
 
-- **이미지**: 드래그로 영역 선택 → SQLite 저장 → API로 블러 요청
-- **비디오**: 프레임별 영역 선택 → ODTrack으로 자동 트래킹 → 전체 프레임 블러
+**과정**: 이미지는 영역 선택 후 로컬 저장과 API 요청을 병행하고, 비디오는 초기 박스를 넣은 뒤 트래킹 결과를 받아 전 프레임 블러로 이어집니다.
+
+**결과**: 엔터프라이즈 현장에서 “완전 자동”과 “사람이 보정”을 같은 제품 안에서 전환할 수 있습니다.
 
 ## 백오피스: Vue 3 웹
 
-관리자용 백오피스는 별도의 Vue 3 SPA로 개발되었습니다.
+**요구**: 관리자는 데스크톱 설치 없이 브라우저에서 테넌트·공지·작업 감시·포인트·탈퇴 처리를 해야 합니다.
 
-### 기술 스택
+**선택**: 별도 Vue 3 SPA로 두고 PrimeVue·SCSS 기반으로 단순한 화면 집합을 구성했습니다. 공지는 WYSIWYG 에디터로 다국어 첨부까지 다룹니다.
 
-- Vue 3 + Vite 5, Pinia (1개 스토어)
-- PrimeVue 3, SCSS
-- @vueup/vue-quill (공지사항 에디터)
-
-### 주요 기능
-
-| 기능 | 설명 |
-|------|------|
-| 회사 관리 | 테넌트 CRUD, 사용 여부, 멤버 관리 |
-| 작업 관리 | 전체 작업 목록 조회, 취소 |
-| 공지사항 | WYSIWYG 에디터, 다국어 파일 업로드 |
-| 포인트 관리 | 충전, 소멸, 이력 조회 |
-| 탈퇴 관리 | 회사 탈퇴 요청 처리 |
+**결과**: 운영 업무는 웹으로, 실제 비식별 작업은 Electron으로 나누어 각 역할에 맞는 배포 형태를 취했습니다.
