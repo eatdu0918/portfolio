@@ -70,7 +70,7 @@ const activeSubPage = computed(() => {
           프로젝트 목록
         </NuxtLink>
 
-        <div v-if="project" class="max-w-2xl">
+        <div v-if="project" class="w-full max-w-4xl">
           <div v-if="project.featured" class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md mb-3">
             <Icon name="heroicons:star-20-solid" class="w-3 h-3" />
             Featured
@@ -122,7 +122,7 @@ const activeSubPage = computed(() => {
     <section class="py-10 sm:py-14 bg-white">
       <div class="section-container">
         <!-- Overview Tab -->
-        <div v-if="activeTab === 'overview'" class="max-w-3xl">
+        <div v-if="activeTab === 'overview'" class="w-full">
           <!-- Tech Stack -->
           <div v-if="project?.techStack" class="mb-10">
             <h2 class="text-lg font-bold text-surface-800 mb-4 tracking-tight">기술 스택</h2>
@@ -144,7 +144,7 @@ const activeSubPage = computed(() => {
         </div>
 
         <!-- Sub Pages -->
-        <div v-else-if="activeSubPage" class="max-w-3xl prose-content">
+        <div v-else-if="activeSubPage" class="w-full prose-content">
           <ContentRenderer :value="activeSubPage" />
         </div>
       </div>
