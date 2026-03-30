@@ -4,7 +4,18 @@ slug: "aetem-v2-cop"
 summary: "OpenLayers + MIL-STD-2525D 기반의 공통작전상황도(COP) 시스템. NATO 표준 군사 부호 및 전술 그래픽을 3개 독립 맵 화면에 실시간 렌더링하며, Provider/Manager 아키텍처로 설계된 모듈화된 군사 지도 플랫폼입니다."
 period: "2025.03 - 현재"
 role: "프론트엔드 개발 (아키텍처 설계)"
-thumbnail: "/images/projects/aetem-v2-cop/thumbnail.png"
+thumbnail: "/images/projects/aetem-v2-cop/shared_cop.png"
+gallery:
+  - src: "/images/projects/aetem-v2-cop/shared_cop.png"
+    alt: "공통작전상황도(COP) 공유 화면"
+  - src: "/images/projects/aetem-v2-cop/mission_timeline.png"
+    alt: "작전 타임라인"
+  - src: "/images/projects/aetem-v2-cop/threat_assessment.png"
+    alt: "위협 평가"
+  - src: "/images/projects/aetem-v2-cop/surveillance_feeds.png"
+    alt: "감시 피드"
+  - src: "/images/projects/aetem-v2-cop/logistics_supply.png"
+    alt: "보급·물류"
 tags: ["Vue 3", "OpenLayers", "MIL-STD-2525D", "Tailwind CSS", "Pinia", "Vue Flow", "Turf.js"]
 techStack:
   frontend: ["Vue 3", "Vite 7", "Pinia", "Vue Router", "Tailwind CSS 4"]
