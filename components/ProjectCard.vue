@@ -67,7 +67,7 @@ watch(
         <span
           v-for="tag in tags.slice(0, 3)"
           :key="tag"
-          class="text-[10px] px-2 py-0.5 rounded-full bg-brand-50 border border-brand-100 text-brand-600 font-medium"
+          class="text-[10px] px-2 py-0.5 rounded-full bg-brand-50 border border-brand-100 text-brand-600 font-sans font-bold"
         >
           {{ tag }}
         </span>
