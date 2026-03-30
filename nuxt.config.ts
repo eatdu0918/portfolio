@@ -21,7 +21,13 @@ export default defineNuxtConfig({
   },
 
   content: {
-    // v3 configuration
+    build: {
+      markdown: {
+        highlight: {
+          theme: 'github-light',
+        },
+      },
+    },
   },
 
   app: {
