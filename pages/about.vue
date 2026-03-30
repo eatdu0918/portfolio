@@ -43,72 +43,72 @@ const skillCategories = [
     title: 'Frontend',
     icon: 'heroicons:computer-desktop-20-solid',
     skills: [
-      { name: 'Vue 3 / Nuxt 3', level: 90 },
-      { name: 'Electron', level: 80 },
-      { name: 'PrimeVue / Quasar', level: 85 },
-      { name: 'Tailwind CSS', level: 85 },
-      { name: 'Pinia', level: 85 },
-      { name: 'TypeScript', level: 75 },
+      { name: 'Vue 3 / Nuxt 3', summary: 'AETEM·COP·Heidi 등 SPA, 본 포트폴리오 Nuxt 3 구축' },
+      { name: 'Electron', summary: 'Heidi 비식별화 데스크톱 클라이언트 패키징·배포' },
+      { name: 'PrimeVue / Quasar', summary: 'AETEM 지휘/관리 UI, Quasar 기반 멀티 클라이언트' },
+      { name: 'Tailwind CSS', summary: 'COP·관리 화면 위주 유틸리티 퍼스트 UI 스타일링' },
+      { name: 'Pinia', summary: '대규모 지도·실시간 상태 전역 스토어 설계' },
+      { name: 'TypeScript', summary: '컴포넌트·지도 모듈 타입 정의 및 유지보수성 강화' },
     ],
   },
   {
     title: 'Backend',
     icon: 'heroicons:server-20-solid',
     skills: [
-      { name: 'Spring Boot 3', level: 85 },
-      { name: 'Spring Security / JWT', level: 80 },
-      { name: 'MyBatis / JPA', level: 85 },
-      { name: 'REST API Design', level: 85 },
-      { name: 'RabbitMQ', level: 80 },
-      { name: 'WebSocket (STOMP)', level: 80 },
+      { name: 'Spring Boot 3', summary: 'Heidi·AETEM·RMS 멀티모듈 REST API·비즈니스 로직' },
+      { name: 'Spring Security / JWT', summary: 'SaaS·C4I 서비스 인증·인가·세션 정책' },
+      { name: 'MyBatis / JPA', summary: 'RMS·레거시 연동 구간 SQL 매핑 및 엔티티 설계' },
+      { name: 'REST API Design', summary: '프론트·AI·외부 시스템 연동용 API 계약 설계' },
+      { name: 'RabbitMQ', summary: 'Heidi AI 추론 큐, RMS 비동기 작업 파이프라인' },
+      { name: 'WebSocket (STOMP)', summary: 'AETEM 실시간 상황·알림 브로드캐스트' },
     ],
   },
   {
     title: 'GIS / Map',
     icon: 'heroicons:map-20-solid',
     skills: [
-      { name: 'OpenLayers', level: 85 },
-      { name: 'Cesium 3D', level: 80 },
-      { name: 'MIL-STD-2525D', level: 80 },
-      { name: 'MGRS / proj4', level: 75 },
-      { name: 'GeoTools / JTS', level: 70 },
-      { name: 'Turf.js', level: 75 },
+      { name: 'OpenLayers', summary: 'AETEM v2 COP 공통작전상황도 레이어·인터랙션' },
+      { name: 'Cesium 3D', summary: 'AETEM 3D 지형·자산 시각화 및 카메라 제어' },
+      { name: 'MIL-STD-2525D', summary: 'NATO 표준 군사 부호 렌더링·스타일 규칙 적용' },
+      { name: 'MGRS / proj4', summary: '작전 좌표 변환·그리드 오버레이' },
+      { name: 'GeoTools / JTS', summary: '서버 측 지오메트리·공간 연산 보조' },
+      { name: 'Turf.js', summary: 'COP 클라이언트 측 거리·범위 등 지리 분석' },
     ],
   },
   {
     title: 'AI / ML',
     icon: 'heroicons:cpu-chip-20-solid',
     skills: [
-      { name: 'Python', level: 85 },
-      { name: 'YOLOv8 / Object Detection', level: 75 },
-      { name: 'ONNX Runtime / TensorRT', level: 70 },
-      { name: 'Stable Diffusion', level: 70 },
-      { name: 'OpenCV', level: 80 },
-      { name: 'PyTorch', level: 65 },
+      { name: 'Python', summary: 'RMS 변환 플러그인, Heidi 모델 래퍼·배치 스크립트' },
+      { name: 'YOLOv8 / Object Detection', summary: 'Heidi 얼굴·번호판 등 탐지 파이프라인 연동' },
+      { name: 'ONNX Runtime / TensorRT', summary: '추론 지연 최적화·엣지 배포 검토' },
+      { name: 'Stable Diffusion', summary: 'Heidi 교체형 비식별화 추론 서비스 바인딩' },
+      { name: 'OpenCV', summary: '영상 전처리·프레임 단위 처리 유틸' },
+      { name: 'PyTorch', summary: '실험·모델 수정 시 프로토타이핑' },
     ],
   },
   {
     title: 'Database',
     icon: 'heroicons:circle-stack-20-solid',
     skills: [
-      { name: 'PostgreSQL', level: 85 },
-      { name: 'MariaDB / MySQL', level: 85 },
-      { name: 'Redis', level: 80 },
-      { name: 'MongoDB', level: 70 },
-      { name: 'SQLite', level: 75 },
-      { name: 'Ehcache / Caffeine', level: 70 },
+      { name: 'PostgreSQL', summary: 'AETEM 운영 데이터·공간 확장 활용' },
+      { name: 'MariaDB / MySQL', summary: 'RMS 정형 메타·트랜잭션 저장' },
+      { name: 'Redis', summary: 'Heidi Pub/Sub 실시간 작업 상태·캐시' },
+      { name: 'MongoDB', summary: 'RMS 비정형 Raw·대용량 메타 저장' },
+      { name: 'SQLite', summary: '로컬·엣지 경량 임베디드 저장' },
+      { name: 'Ehcache / Caffeine', summary: 'API 응답·도형 스타일 등 애플리케이션 캐시' },
     ],
   },
   {
     title: 'Infrastructure',
     icon: 'heroicons:cloud-20-solid',
     skills: [
-      { name: 'Docker', level: 80 },
-      { name: 'Linux / Shell', level: 75 },
-      { name: 'Git', level: 85 },
-      { name: 'Nginx', level: 75 },
-      { name: 'Prometheus', level: 65 },
-      { name: 'CI/CD', level: 70 },
+      { name: 'Docker', summary: '서비스·추론 워커 컨테이너화 및 배포' },
+      { name: 'Linux / Shell', summary: '서버 운영·배치·로그 점검 자동화' },
+      { name: 'Git', summary: '멀티 프로젝트 브랜치 전략·코드 리뷰' },
+      { name: 'Nginx', summary: '리버스 프록시·정적·업스트림 구성' },
+      { name: 'Prometheus', summary: '메트릭 수집·기본 대시보드 연동' },
+      { name: 'CI/CD', summary: '빌드·배포 파이프라인 유지' },
     ],
   },
 ]
@@ -191,7 +191,9 @@ const strengths = [
     <section class="py-14 sm:py-20 bg-surface-50">
       <div class="section-container">
         <h2 class="text-lg font-bold text-surface-800 mb-2 tracking-tight">기술 역량</h2>
-        <p class="text-sm text-surface-500 mb-8">각 영역에서의 실무 경험 기반 역량 수준입니다.</p>
+        <p class="text-sm text-surface-500 mb-8">
+          해당 스택으로 진행한 프로젝트·업무 맥락을 한 줄로 정리했습니다.
+        </p>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           <div
             v-for="cat in skillCategories"
@@ -204,18 +206,12 @@ const strengths = [
               </div>
               <h3 class="text-base font-bold text-surface-800">{{ cat.title }}</h3>
             </div>
-            <div class="space-y-3">
+            <div class="space-y-3.5">
               <div v-for="skill in cat.skills" :key="skill.name">
-                <div class="flex justify-between mb-1">
-                  <span class="text-sm font-medium text-surface-700">{{ skill.name }}</span>
-                  <span class="text-xs text-surface-400">{{ skill.level }}%</span>
-                </div>
-                <div class="h-1.5 bg-surface-100 rounded-full overflow-hidden">
-                  <div
-                    class="h-full bg-brand-500 rounded-full"
-                    :style="{ width: `${skill.level}%` }"
-                  ></div>
-                </div>
+                <div class="text-sm font-medium text-surface-700 mb-1">{{ skill.name }}</div>
+                <p v-if="skill.summary" class="text-xs text-surface-500 leading-snug">
+                  {{ skill.summary }}
+                </p>
               </div>
             </div>
           </div>
