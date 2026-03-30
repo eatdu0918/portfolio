@@ -133,6 +133,7 @@ const techStacks = {
             :tags="project.tags ?? []"
             :period="project.period"
             :featured="project.featured"
+            :thumbnail="project.thumbnail ?? project.gallery?.[0]?.src"
             :index="Number(idx) + 1"
           />
         </div>

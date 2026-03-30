@@ -135,6 +135,8 @@ const activeSubPage = computed(() => {
             <HighlightList :items="project.highlights" />
           </div>
 
+          <ProjectGallery v-if="project?.gallery?.length" :items="project.gallery" />
+
           <!-- Content Body -->
           <div class="prose-content">
             <ContentRenderer v-if="project" :value="project" />

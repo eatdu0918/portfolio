@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+
 interface Props {
   title: string
   summary: string
@@ -7,9 +9,19 @@ interface Props {
   period?: string
   featured?: boolean
   index?: number
+  thumbnail?: string
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const imgFailed = ref(false)
+
+watch(
+  () => props.thumbnail,
+  () => {
+    imgFailed.value = false
+  },
+)
 </script>
 
 <template>
@@ -17,11 +29,24 @@ defineProps<Props>()
     :to="`/projects/${slug}`"
     class="group bg-white border border-surface-200 rounded-2xl overflow-hidden hover:border-brand-300 hover:shadow-xl hover:shadow-brand-500/10 hover:-translate-y-1 transition-all duration-300 block"
   >
-    <!-- Card Image Placeholder -->
-    <div class="h-40 bg-gradient-to-br from-brand-50 to-accent-50 border-b border-surface-100 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-brand-400/10 to-accent-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" ></div>
-      <div class="absolute inset-0 flex items-center justify-center">
-        <Icon name="heroicons:photo-20-solid" class="w-10 h-10 text-brand-300" />
+    <div class="h-40 border-b border-surface-100 relative overflow-hidden bg-gradient-to-br from-brand-50 to-accent-50">
+      <img
+        v-if="thumbnail && !imgFailed"
+        :src="thumbnail"
+        :alt="title"
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
+        @error="imgFailed = true"
+      >
+      <div
+        v-else
+        class="absolute inset-0 bg-gradient-to-br from-brand-50 to-accent-50"
+      >
+        <div class="absolute inset-0 bg-gradient-to-br from-brand-400/10 to-accent-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div class="absolute inset-0 flex items-center justify-center">
+          <Icon name="heroicons:photo-20-solid" class="w-10 h-10 text-brand-300" />
+        </div>
       </div>
     </div>
 

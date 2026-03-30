@@ -12,6 +12,14 @@ export default defineContentConfig({
         period: z.string().optional(),
         role: z.string().optional(),
         thumbnail: z.string().optional(),
+        gallery: z
+          .array(
+            z.object({
+              src: z.string(),
+              alt: z.string().optional(),
+            }),
+          )
+          .optional(),
         tags: z.array(z.string()).optional(),
         techStack: z.record(z.string(), z.array(z.string())).optional(),
         highlights: z.array(z.string()).optional(),
