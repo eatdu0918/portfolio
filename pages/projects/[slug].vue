@@ -55,6 +55,14 @@ const activeSubPage = computed(() => {
   if (activeTab.value === 'overview') return null
   return subPages.value?.find(p => p.category === activeTab.value)
 })
+
+function selectTab(key: string) {
+  if (activeTab.value === key) return
+  activeTab.value = key
+  if (import.meta.client) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }
+}
 </script>
 
 <template>
@@ -109,7 +117,7 @@ const activeSubPage = computed(() => {
             :class="activeTab === tab.key
               ? 'bg-brand-50 text-brand-600'
               : 'text-surface-500 hover:text-brand-600 hover:bg-surface-50'"
-            @click="activeTab = tab.key"
+            @click="selectTab(tab.key)"
           >
             <Icon :name="tab.icon" class="w-4 h-4" />
             {{ tab.label }}
