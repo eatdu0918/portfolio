@@ -86,12 +86,17 @@
     @apply bg-brand-50 px-1.5 py-0.5 rounded text-sm font-mono text-brand-600;
   }
 
+  /* 카드형 테두리는 ProsePre/ProseCode 래퍼에만 적용 (이중 박스 방지) */
   .prose-content pre {
-    @apply bg-surface-800 rounded-xl p-4 mb-4 overflow-x-auto border border-surface-700;
+    @apply overflow-x-auto max-w-full;
+  }
+
+  .prose-content pre.shiki {
+    @apply m-0 border-0 shadow-none bg-transparent p-0 rounded-none;
   }
 
   .prose-content pre code {
-    @apply bg-transparent text-surface-100 p-0;
+    @apply bg-transparent text-surface-800 p-0;
   }
 
   .prose-content table {
