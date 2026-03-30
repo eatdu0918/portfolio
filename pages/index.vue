@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Portfolio | Full-Stack & AI Developer',
+  title: 'Portfolio | Full-Stack & AI Integration Developer',
 })
 
 const { data: projects } = await useAsyncData('featured-projects', () =>
