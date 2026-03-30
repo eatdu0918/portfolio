@@ -64,7 +64,11 @@ graph TD
 
 ## Provider/Manager 계층 아키텍처
 
-military-symbol 모듈의 핵심 설계입니다. **외부 코드는 Provider만 접근**하고, 내부 core는 직접 import하지 않습니다.
+**왜 계층을 나눴나**: 지도·심볼·전술 그래픽·캡처·전투편성표가 한 화면에 얽히면, 페이지와 레이아웃이 OpenLayers 상세와 MIL-STD 렌더러에 직접 의존하게 됩니다. 기능을 바꿀 때마다 여러 화면을 동시에 고쳐야 해 유지보수 비용이 커집니다.
+
+**선택**: **Provider(Facade)** 를 유일한 공개 진입점으로 두고, Manager·Renderer·Store는 모듈 내부에 캡슐화합니다. 화면은 “무엇을 할지”만 Provider에 요청하고, 좌표계·레이어·스타일·캐시 정책은 내부에서 일관되게 처리합니다.
+
+**결과**: 심볼 렌더러 교체나 레이어 규칙 변경이 한 축에 묶여, COP 화면(Screen1~3)을 반복 패턴으로 확장하기 쉽습니다. 아래 구조에서 **외부 코드는 Provider만 접근**하고, 내부 core는 직접 import하지 않습니다.
 
 ```mermaid
 graph TD

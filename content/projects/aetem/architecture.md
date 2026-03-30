@@ -97,61 +97,34 @@ sequenceDiagram
 
 ## WebSocket STOMP 통신
 
-| 메시지 유형 | 채널 | 발행자 | 내용 |
-|------------|------|--------|------|
-| `gpsInfo` | `/serverToClientAll` | main-api (Edge GPS 수신 시) | 드론/장비 실시간 GPS 위치 |
-| `deviceEdgeStatus` | `/serverToClientAll` | main-api | 엣지 장비 상태 변경 |
-| `moveRouteFile` | `/serverToClient/{socketId}` | main-api (AI 콜백) | 이동로 분석 결과 좌표 |
-| `strikeRangeFile` | `/serverToClient/{socketId}` | main-api (AI 콜백) | 타격범위 GeoTIFF |
+**요구**: 지휘 상황판은 엣지에서 올라오는 GPS·장비 상태를 지연 없이 보여야 하고, AI 분석은 수 초~수 분 걸려 HTTP 응답 하나에 담기 어렵습니다. 사용자별로 이동로·타격범위 결과를 나눠 푸시해야 합니다.
 
-- **엔드포인트**: `/stomp` (SockJS)
-- **브로커**: `/sub`, `/serverToClient`, `/serverToClientAll`
-- **인증**: `FilterChannelInterceptor`에서 CONNECT 시 JWT 검증
+**선택**: SockJS 기반 STOMP로 브라우저 호환성과 연결 유지를 맞추고, 전역 브로드캐스트(전 장비 위치 등)와 소켓 ID 기반 개인 채널(AI 결과)을 함께 씁니다. 연결 시 JWT를 검증해 구독 권한을 통일합니다.
+
+**과정·결과**: Edge가 REST로 올린 GPS는 전체 구독자에게, AI 콜백으로 들어온 경로·래스터는 요청을 낸 클라이언트에만 전달되어 Cesium 상황도가 실시간으로 갱신됩니다.
 
 ## 엣지 DB 동기화 (PostgreSQL → SQLite)
 
-Edge 장비가 오프라인 환경에서도 동작할 수 있도록 PostgreSQL 데이터를 SQLite로 변환하여 전달합니다.
+**요구**: 현장 엣지는 네트워크가 끊겨도 최소한의 부대·장비·코드 정보로 화면을 돌려야 합니다.
 
-- **동기화 테이블**: `user_user`, `unit_device`, `unit_force`, `common_group_code`, `common_detail_code`
-- **필터링**: 해당 `deviceId`의 `unit_device`만 포함
-- **전달 방식**: SQLite 파일을 바이트 배열로 API 응답에 포함
+**선택**: 서버의 정본(PostgreSQL)에서 엣지에 필요한 부분만 골라 SQLite 파일로 만들어 API 응답에 실어 보냅니다. 해당 장비에 매핑된 단위만 넣어 용량과 민감 범위를 줄입니다.
 
-## 데이터베이스 스키마 (PostgreSQL)
+**결과**: 온라인일 때는 중앙 데이터와 동기화하고, 오프라인에서도 읽기·보고 흐름이 끊기지 않습니다.
 
-| 도메인 | 테이블 | 용도 |
-|--------|--------|------|
-| **USER** | `user_user` | 사용자 (user_auth: M/E/A) |
-| **UNIT** | `unit_force` | 부대 (편제부호, 적아구분, 병과) |
-| | `unit_weapon`, `unit_weapon_detail` | 무기 및 부대별 무기 배치 |
-| | `unit_device`, `unit_device_detail` | 엣지 장비 및 배치 |
-| **SITUATION** | `situation_situation` | 작전 국면 |
-| | `situation_situation_detail` | 국면별 부대 배치 (편제부호, 좌표) |
-| | `situation_order` | 작전 지시 |
-| | `situation_report` | 보고 (적, 환경) |
-| | `situation_strategy` | 방책 |
-| **SETTING** | `setting_weather_set` | 기상셋 |
-| | `setting_environment` | 환경정보 (GeoTIFF) |
-| | `setting_template` | 맵 템플릿 |
-| | `setting_map_object` | 3D 지도 오브젝트 (경계, 영역, 포인트) |
-| | `setting_base_plan` | 기본 작전 계획 |
-| | `setting_operating_unit` | 운영 주체 |
-| **EDGE** | `edge_device_gps_info` | 장비 GPS 이력 (위경도, MGRS) |
-| **COMMON** | `common_group_code`, `common_detail_code` | 공통 코드 |
-| | `common_military_symbol` | 편제부호 아이콘 |
-| **SYSTEM** | `system_file` | 파일 메타 |
-| | `system_weather_info` | 기상 데이터 |
+## 영구 데이터(PostgreSQL)의 역할
+
+관계형 DB에는 **사용자·부대·장비·작전 국면·지시·보고·환경/기상·3D 맵 설정·파일 메타** 등 지휘 시스템의 정합성이 필요한 데이터가 모입니다. 도메인이 나뉘어 있지만 포트폴리오 아키텍처 설명에서는 “작전 상황을 뒷받침하는 단일 정본”으로 두고, 세부 테이블 목록은 생략합니다.
 
 ## 인증/보안
 
-- **JWT**: HS256, 유효기간 30일
-- **권한 체계**: `M`(Main 지휘관), `E`(Edge 현장), `A`(Admin 관리자)
-- **main-api**: `/aetem/main/**` → `hasAuthority("M")`, Edge API도 M 권한 필요
-- **admin-api**: `/aetem/admin/**` → `hasAuthority("A")`
-- **필터 체인**: `JwtAuthorizationFilter` → Bearer 토큰 파싱 → UserDetailsService 인증
+**요구**: 지휘(Main)·현장(Edge)·관리(Admin)가 같은 API를 쓰면 안 되므로 역할을 명확히 나눠야 합니다.
+
+**선택**: JWT로 무상태 인증을 유지하고, main-api와 admin-api 경로별로 권한을 분리했습니다. Edge API도 지휘 권한 체계 안에서만 동작하도록 묶었습니다.
+
+**결과**: UI 종류(메인/엣지/관리)에 맞는 최소 권한만 노출되어 운영·감사에 유리합니다.
 
 ## 배치 스케줄러
 
-| 작업 | 스케줄 | 내용 |
-|------|--------|------|
-| `dailyWeatherInsertScheduler` | 매일 01:00 | 전일 기상 API 조회 → `system_weather_info` 저장 |
-| `currentWeatherTaskScheduler` | 매 10분 (비활성) | 실시간 기상 조회 |
+**요구**: 작전 화면의 기상·환경 레이어는 매일 갱신된 값이 있어야 합니다.
+
+**선택·결과**: 정해진 시각에 기상 API를 조회해 DB에 적재하는 배치를 두어, 사용자가 수동으로 갱신하지 않아도 전일 기준 데이터가 준비됩니다. 실시간 기상은 필요 시 활성화할 수 있도록 별도 작업으로 두었습니다.
