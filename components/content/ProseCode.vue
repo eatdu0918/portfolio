@@ -1,4 +1,8 @@
 <script setup lang="ts">
+/**
+ * Nuxt Content: paragraph 안의 `인라인 코드` 전용.
+ * 블록/펜스 코드는 ProsePre.vue가 담당한다.
+ */
 interface Props {
   code?: string
   language?: string | null
@@ -7,17 +11,11 @@ interface Props {
   meta?: string | null
 }
 
-const props = defineProps<Props>()
-
-const isMermaid = computed(() => props.language === 'mermaid')
+defineProps<Props>()
 </script>
 
 <template>
-  <MermaidDiagram v-if="isMermaid" :code="code ?? ''" />
-  <div v-else class="relative group my-4 rounded-xl border border-surface-200/80 bg-surface-100/85 backdrop-blur-md shadow-sm overflow-hidden">
-    <div v-if="filename" class="px-4 py-2 bg-surface-200/55 backdrop-blur-sm border-b border-surface-200/70 text-xs font-mono text-surface-600">
-      {{ filename }}
-    </div>
-    <div class="overflow-x-auto p-4 text-sm leading-relaxed text-surface-800 font-mono"><slot /></div>
-  </div>
+  <code class="prose-inline-code">
+    <slot />
+  </code>
 </template>

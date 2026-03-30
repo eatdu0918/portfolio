@@ -82,8 +82,9 @@
     @apply mb-4 space-y-2 list-disc list-inside text-surface-600;
   }
 
-  .prose-content code {
-    @apply bg-brand-50 px-1.5 py-0.5 rounded text-sm font-mono text-brand-600;
+  /* 인라인 `코드` — ProseCode.vue; 문장 흐름을 끊지 않도록 인라인·강조 톤 */
+  .prose-content .prose-inline-code {
+    @apply inline rounded px-1.5 py-0.5 text-[0.92em] font-sans font-bold text-brand-700 bg-brand-50 align-baseline [overflow-wrap:anywhere];
   }
 
   /* 카드형 테두리는 ProsePre/ProseCode 래퍼에만 적용 (이중 박스 방지) */
@@ -96,7 +97,7 @@
   }
 
   .prose-content pre code {
-    @apply bg-transparent text-surface-800 p-0;
+    @apply bg-transparent text-surface-800 p-0 rounded-none font-mono font-normal text-sm;
   }
 
   .prose-content table {
