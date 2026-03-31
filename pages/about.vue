@@ -21,7 +21,7 @@ const experiences = [
     techs: ['Vue 3', 'Cesium', 'PrimeVue', 'Quasar', 'Spring Boot 3', 'PostgreSQL', 'WebSocket', 'HLS.js'],
   },
   {
-    period: '2024.01 - 현재',
+    period: '2024.01 - 2025.06',
     role: '풀스택 개발자 + AI 파이프라인 통합',
     company: 'AI Studio',
     project: 'Heidi',
