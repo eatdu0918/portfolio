@@ -2,6 +2,15 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
 
+  // Windows에서 fs.watch EPERM 회피 (백신·동기화 폴더 등)
+  vite: {
+    server: {
+      ...(process.platform === 'win32' && {
+        watch: { usePolling: true, interval: 300 },
+      }),
+    },
+  },
+
   experimental: {
     appManifest: false,
   },
