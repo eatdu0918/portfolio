@@ -31,6 +31,7 @@ const tabLabels: Record<string, { label: string; icon: string }> = {
   architecture: { label: '아키텍처', icon: 'heroicons:squares-2x2-20-solid' },
   frontend: { label: '프론트엔드', icon: 'heroicons:computer-desktop-20-solid' },
   backend: { label: '백엔드', icon: 'heroicons:server-20-solid' },
+  infrastructure: { label: '인프라', icon: 'heroicons:cloud-20-solid' },
   'ml-pipeline': { label: 'AI/ML', icon: 'heroicons:cpu-chip-20-solid' },
 }
 
@@ -102,6 +103,17 @@ function selectTab(key: string) {
           <p class="text-base text-surface-600 leading-relaxed">
             {{ project.summary }}
           </p>
+
+          <a
+            v-if="project.liveUrl"
+            :href="project.liveUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700 underline-offset-4 hover:underline"
+          >
+            <Icon name="heroicons:arrow-top-right-on-square-20-solid" class="w-4 h-4 flex-shrink-0" />
+            라이브 사이트에서 보기
+          </a>
         </div>
       </div>
     </section>
