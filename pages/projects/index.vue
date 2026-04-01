@@ -33,7 +33,9 @@ const filteredProjects = computed(() => {
       <div class="section-container">
         <p class="text-sm font-semibold text-brand-500 tracking-wide mb-3">Projects</p>
         <h1 class="text-2xl sm:text-3xl font-bold text-surface-800 tracking-tight mb-2">프로젝트</h1>
-        <p class="text-sm text-surface-500 mb-6">설계하고 구현한 프로젝트들입니다.</p>
+        <p class="text-sm text-surface-500 mb-6 max-w-2xl">
+          회사 제품과 개인 프로젝트(Next.js 기술 블로그, Sparta 이커머스 MSA)를 구분해 볼 수 있습니다.
+        </p>
 
         <div
           v-if="projects?.length"
