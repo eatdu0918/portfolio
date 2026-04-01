@@ -16,6 +16,9 @@ const categoryLabels: Record<string, { label: string; icon: string }> = {
   visualization: { label: 'Visualization', icon: 'heroicons:chart-bar-20-solid' },
   devops: { label: 'DevOps', icon: 'heroicons:wrench-screwdriver-20-solid' },
   tools: { label: 'Tools', icon: 'heroicons:cog-6-tooth-20-solid' },
+  deployment: { label: 'Deployment', icon: 'heroicons:rocket-launch-20-solid' },
+  content: { label: 'Content / MD', icon: 'heroicons:document-text-20-solid' },
+  quality: { label: 'Quality', icon: 'heroicons:beaker-20-solid' },
 }
 
 function getCategoryInfo(key: string) {
