@@ -26,6 +26,7 @@ export default defineContentConfig({
         order: z.number().optional(),
         featured: z.boolean().optional(),
         category: z.string().optional(),
+        liveUrl: z.string().url().optional(),
       }),
     }),
   },
