@@ -61,6 +61,7 @@ highlights:
   - "ngrok으로 로컬 게이트웨이를 공개해 결제 리다이렉트·웹훅 등 외부 콜백 플로우 검증"
 order: 5
 featured: true
+workType: personal
 category: "fullstack"
 ---
 

@@ -60,6 +60,7 @@ highlights:
   - "https://dev-blog-snowy-alpha.vercel.app/ 에 배포되어 실제 서비스 형태로 바로 확인 가능"
 order: 6
 featured: true
+workType: personal
 category: "fullstack"
 ---
 

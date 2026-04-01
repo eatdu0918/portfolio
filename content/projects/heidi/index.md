@@ -33,6 +33,7 @@ highlights:
   - "다국어 지원 (한국어, 영어, 일본어)"
 order: 1
 featured: true
+workType: company
 category: "fullstack"
 ---
 

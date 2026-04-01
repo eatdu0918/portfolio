@@ -33,6 +33,7 @@ highlights:
   - "지도 캡처 및 Excel 내보내기 기능"
 order: 4
 featured: true
+workType: company
 category: "fullstack"
 ---
 

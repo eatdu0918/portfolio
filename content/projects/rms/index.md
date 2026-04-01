@@ -33,6 +33,7 @@ highlights:
   - "Spring Boot 멀티 프로젝트 공통 라이브러리 설계 (rms_common_lib)"
 order: 2
 featured: true
+workType: company
 category: "fullstack"
 ---
 
