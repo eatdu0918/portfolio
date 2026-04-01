@@ -9,7 +9,7 @@
 
         <div class="flex items-center gap-2">
           <a
-            href="https://github.com"
+            href="https://github.com/eatdu0918"
             target="_blank"
             rel="noopener"
             class="p-2.5 rounded-xl text-surface-400 hover:text-brand-600 hover:bg-brand-50 transition-colors"
@@ -18,7 +18,7 @@
             <Icon name="mdi:github" class="w-5 h-5" />
           </a>
           <a
-            href="mailto:contact@example.com"
+            href="mailto:eatdu0918@gmail.com"
             class="p-2.5 rounded-xl text-surface-400 hover:text-brand-600 hover:bg-brand-50 transition-colors"
             aria-label="Email"
           >

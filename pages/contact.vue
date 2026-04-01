@@ -7,14 +7,14 @@ const contacts = [
   {
     icon: 'heroicons:envelope-20-solid',
     label: 'Email',
-    value: 'contact@example.com',
-    href: 'mailto:contact@example.com',
+    value: 'eatdu0918@gmail.com',
+    href: 'mailto:eatdu0918@gmail.com',
   },
   {
     icon: 'mdi:github',
     label: 'GitHub',
-    value: 'github.com/username',
-    href: 'https://github.com',
+    value: 'github.com/eatdu0918',
+    href: 'https://github.com/eatdu0918',
   },
 ]
 </script>
