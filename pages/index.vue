@@ -134,6 +134,7 @@ const techStacks = {
             :period="project.period"
             :featured="project.featured"
             :thumbnail="project.thumbnail ?? project.gallery?.[0]?.src"
+            :live-url="project.liveUrl"
             :index="Number(idx) + 1"
           />
         </div>
