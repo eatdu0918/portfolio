@@ -80,9 +80,25 @@ function selectTab(key: string) {
         </NuxtLink>
 
         <div v-if="project" class="w-full max-w-4xl">
-          <div v-if="project.featured" class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md mb-3">
-            <Icon name="heroicons:star-20-solid" class="w-3 h-3" />
-            Featured
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <div
+              v-if="project.workType === 'personal'"
+              class="inline-flex items-center gap-1 text-xs font-semibold text-violet-700 bg-violet-50 border border-violet-200 px-2 py-0.5 rounded-md"
+            >
+              <Icon name="heroicons:user-20-solid" class="w-3 h-3" />
+              개인 프로젝트
+            </div>
+            <div
+              v-else-if="project.workType === 'company'"
+              class="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md"
+            >
+              <Icon name="heroicons:building-office-2-20-solid" class="w-3 h-3" />
+              회사 작업
+            </div>
+            <div v-if="project.featured" class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">
+              <Icon name="heroicons:star-20-solid" class="w-3 h-3" />
+              Featured
+            </div>
           </div>
 
           <h1 class="text-2xl sm:text-3xl font-display font-bold text-surface-800 tracking-tight mb-2">

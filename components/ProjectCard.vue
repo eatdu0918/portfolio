@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
+type WorkType = 'personal' | 'company'
+
 interface Props {
   title: string
   summary: string
@@ -11,6 +13,17 @@ interface Props {
   index?: number
   thumbnail?: string
   liveUrl?: string
+  workType?: WorkType
+}
+
+const workTypeLabel: Record<WorkType, string> = {
+  personal: '개인 프로젝트',
+  company: '회사 작업',
+}
+
+const workTypeClass: Record<WorkType, string> = {
+  personal: 'bg-violet-50 border-violet-200 text-violet-700',
+  company: 'bg-slate-100 border-slate-200 text-slate-700',
 }
 
 const props = defineProps<Props>()
@@ -36,6 +49,13 @@ watch(
     />
     <div class="relative z-10 pointer-events-none">
       <div class="h-40 border-b border-surface-100 relative overflow-hidden bg-gradient-to-br from-brand-50 to-accent-50">
+        <span
+          v-if="workType"
+          class="absolute top-2 left-2 z-20 text-[10px] font-bold px-2 py-0.5 rounded-md border pointer-events-none"
+          :class="workTypeClass[workType]"
+        >
+          {{ workTypeLabel[workType] }}
+        </span>
         <img
           v-if="thumbnail && !imgFailed"
           :src="thumbnail"
