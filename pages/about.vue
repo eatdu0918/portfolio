@@ -5,6 +5,24 @@ useHead({
 
 const experiences = [
   {
+    period: '2024 - 현재',
+    role: '1인 풀스택',
+    company: '개인 프로젝트',
+    project: 'dev-blog (기술 블로그)',
+    description:
+      'Next.js App Router 기반 개인 기술 블로그. Markdown을 unified(remark/rehype)로 확장해 Sandpack·Mermaid·커스텀 컴포넌트를 본문에 삽입하고, Prisma·PostgreSQL·Server Actions로 댓글을 처리합니다. Vercel 배포.',
+    techs: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Vitest', 'Sandpack'],
+  },
+  {
+    period: '2025.01 - 2025.02',
+    role: '풀스택 (교육 과제)',
+    company: '개인 프로젝트',
+    project: 'Sparta e-commerce MSA',
+    description:
+      '이커머스 도메인 기준 MSA 학습·구현. Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션, React(Vite) 클라이언트, Docker/Kubernetes·GitHub Actions → GHCR 파이프라인까지 구성.',
+    techs: ['Spring Boot 3', 'Spring Cloud Gateway', 'Kafka', 'Redis', 'React 19', 'Kubernetes', 'Docker', 'GitHub Actions'],
+  },
+  {
     period: '2025.03 - 현재',
     role: '프론트엔드 개발자 (아키텍처 설계)',
     company: 'AI Studio',
@@ -34,7 +52,7 @@ const experiences = [
     company: 'AI Studio',
     project: 'RMS',
     description: 'AI 학습 데이터 관리 시스템(Raw Data Management System) 개발. Spring Boot + JSP 프론트엔드, REST API 백엔드, 플러그인 기반 비디오→이미지 변환 파이프라인, MongoDB + MariaDB 듀얼 DB 구조 설계.',
-    techs: ['Vue 3', 'Spring Boot', 'JSP', 'MyBatis', 'MariaDB', 'MongoDB', 'RabbitMQ', 'Python'],
+    techs: ['Spring Boot', 'JSP', 'jQuery', 'MyBatis', 'MariaDB', 'MongoDB', 'RabbitMQ', 'Python'],
   },
 ]
 
@@ -44,6 +62,7 @@ const skillCategories = [
     icon: 'heroicons:computer-desktop-20-solid',
     skills: [
       { name: 'Vue 3 / Nuxt 3', summary: 'AETEM·COP·Heidi 등 SPA, 본 포트폴리오 Nuxt 3 구축' },
+      { name: 'Next.js / React 19', summary: 'dev-blog(App Router·Server Actions), Sparta 쇼핑 클라이언트(Vite)' },
       { name: 'Electron', summary: 'Heidi 비식별화 데스크톱 클라이언트 패키징·배포' },
       { name: 'PrimeVue / Quasar', summary: 'AETEM 지휘/관리 UI, Quasar 기반 멀티 클라이언트' },
       { name: 'Tailwind CSS', summary: 'COP·관리 화면 위주 유틸리티 퍼스트 UI 스타일링' },
@@ -56,9 +75,11 @@ const skillCategories = [
     icon: 'heroicons:server-20-solid',
     skills: [
       { name: 'Spring Boot 3', summary: 'Heidi·AETEM·RMS 멀티모듈 REST API·비즈니스 로직' },
+      { name: 'Spring Cloud / MSA', summary: 'Sparta: Gateway·OpenFeign·서비스 분리·통합 테스트(TestContainers)' },
       { name: 'Spring Security / JWT', summary: 'SaaS·C4I 서비스 인증·인가·세션 정책' },
       { name: 'MyBatis / JPA', summary: 'RMS·레거시 연동 구간 SQL 매핑 및 엔티티 설계' },
       { name: 'REST API Design', summary: '프론트·AI·외부 시스템 연동용 API 계약 설계' },
+      { name: 'Kafka', summary: 'Sparta 서비스 간 이벤트·Saga 학습 범위' },
       { name: 'RabbitMQ', summary: 'Heidi AI 추론 큐, RMS 비동기 작업 파이프라인' },
       { name: 'WebSocket (STOMP)', summary: 'AETEM 실시간 상황·알림 브로드캐스트' },
     ],
@@ -91,8 +112,8 @@ const skillCategories = [
     title: 'Database',
     icon: 'heroicons:circle-stack-20-solid',
     skills: [
-      { name: 'PostgreSQL', summary: 'AETEM 운영 데이터·공간 확장 활용' },
-      { name: 'MariaDB / MySQL', summary: 'RMS 정형 메타·트랜잭션 저장' },
+      { name: 'PostgreSQL', summary: 'AETEM 운영 데이터·공간 확장, dev-blog 댓글·Prisma' },
+      { name: 'MariaDB / MySQL', summary: 'RMS 정형 메타·트랜잭션 저장, Sparta 서비스별 DB' },
       { name: 'Redis', summary: 'Heidi Pub/Sub 실시간 작업 상태·캐시' },
       { name: 'MongoDB', summary: 'RMS 비정형 Raw·대용량 메타 저장' },
       { name: 'SQLite', summary: '로컬·엣지 경량 임베디드 저장' },
@@ -104,11 +125,12 @@ const skillCategories = [
     icon: 'heroicons:cloud-20-solid',
     skills: [
       { name: 'Docker', summary: '서비스·추론 워커 컨테이너화 및 배포' },
+      { name: 'Kubernetes', summary: 'Sparta 매니페스트·로컬/클러스터 배포 구조' },
       { name: 'Linux / Shell', summary: '서버 운영·배치·로그 점검 자동화' },
       { name: 'Git', summary: '멀티 프로젝트 브랜치 전략·코드 리뷰' },
       { name: 'Nginx', summary: '리버스 프록시·정적·업스트림 구성' },
       { name: 'Prometheus', summary: '메트릭 수집·기본 대시보드 연동' },
-      { name: 'CI/CD', summary: '빌드·배포 파이프라인 유지' },
+      { name: 'CI/CD', summary: 'Sparta: GitHub Actions → GHCR, 기타 빌드·배포 파이프라인' },
     ],
   },
 ]
@@ -144,6 +166,11 @@ const strengths = [
     title: '멀티 클라이언트 개발',
     description: 'Electron 데스크톱 앱, Quasar 모바일 대응, PrimeVue 관리자 화면 동시 개발 경험.',
   },
+  {
+    icon: 'heroicons:academic-cap-20-solid',
+    title: '개인 프로젝트로 스택 확장',
+    description: '실무 외에 Next.js 콘텐츠 파이프라인·기술 블로그와 이커머스 MSA(게이트웨이·Kafka·K8s)를 끝까지 구축해 학습을 결과물로 남깁니다.',
+  },
 ]
 </script>
 
@@ -161,7 +188,7 @@ const strengths = [
             <span class="gradient-text">함께하는 개발자</span>
           </h1>
           <p class="text-base text-surface-600 leading-relaxed">
-            웹 프론트엔드와 백엔드, AI 모델 바인딩 및 추론 파이프라인까지 아우르는 풀스택 개발자입니다.
+            웹 프론트엔드와 백엔드, AI 모델 바인딩 및 추론 파이프라인까지 아우르는 풀스택 개발자입니다. 개인 프로젝트로 Next.js 기술 블로그와 Spring Cloud 기반 MSA를 병행해 확장합니다.
           </p>
         </div>
       </div>
