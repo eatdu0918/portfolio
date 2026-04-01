@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Portfolio | Full-Stack & AI Integration Developer',
+  title: 'Portfolio | Full-Stack — Vue/Spring & Next.js/MSA',
 })
 
 const { data: projects } = await useAsyncData('featured-projects', () =>
@@ -16,6 +16,7 @@ const techStacks = {
     items: [
       { name: 'Vue.js', icon: 'mdi:vuejs' },
       { name: 'React', icon: 'mdi:react' },
+      { name: 'Next.js', icon: 'simple-icons:nextdotjs' },
       { name: 'TypeScript', icon: 'mdi:language-typescript' },
       { name: 'Tailwind CSS', icon: 'mdi:tailwind' },
       { name: 'Nuxt', icon: 'mdi:nuxt' },
@@ -30,6 +31,7 @@ const techStacks = {
       { name: 'Python', icon: 'mdi:language-python' },
       { name: 'PostgreSQL', icon: 'mdi:database' },
       { name: 'Redis', icon: 'mdi:database-clock' },
+      { name: 'Kafka', icon: 'simple-icons:apachekafka' },
       { name: 'RabbitMQ', icon: 'mdi:rabbit' },
     ],
   },
@@ -37,6 +39,7 @@ const techStacks = {
     label: '데브옵스',
     items: [
       { name: 'Docker', icon: 'mdi:docker' },
+      { name: 'Kubernetes', icon: 'mdi:kubernetes' },
       { name: 'Linux', icon: 'mdi:linux' },
       { name: 'Nginx', icon: 'mdi:server' },
       { name: 'Git', icon: 'mdi:git' },
@@ -64,7 +67,7 @@ const techStacks = {
             <span class="gradient-text">이두현</span>입니다
           </h1>
           <p class="mt-6 text-lg sm:text-xl text-surface-600 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
-            사용자 경험을 중심으로 웹 서비스를 설계하고 구현합니다.
+            실무에서는 Vue·Spring 기반 SaaS·지도 시스템을, 개인 프로젝트에서는 Next.js 기술 블로그와 이커머스 MSA(Spring Cloud·Kafka·K8s)까지 끝까지 설계·구현합니다.
           </p>
           <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.4s">
             <NuxtLink
@@ -120,9 +123,14 @@ const techStacks = {
     <!-- Featured Projects -->
     <section class="py-16 sm:py-24 bg-surface-50">
       <div class="section-container">
-        <h2 class="text-lg sm:text-xl font-bold text-surface-800 mb-8 tracking-tight">
-          최근 프로젝트
-        </h2>
+        <div class="mb-8">
+          <h2 class="text-lg sm:text-xl font-bold text-surface-800 tracking-tight">
+            최근 프로젝트
+          </h2>
+          <p class="mt-2 text-sm text-surface-500 max-w-2xl">
+            회사 제품(Heidi·AETEM·RMS 등)과 개인 작업(기술 블로그·Sparta MSA)을 함께 정리했습니다.
+          </p>
+        </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <ProjectCard
             v-for="(project, idx) in projects"
