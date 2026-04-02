@@ -44,7 +44,7 @@ watch(() => route.path, () => {
 
       <div class="flex items-center gap-3">
         <NuxtLink
-          to="/about"
+          to="/resume"
           class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-brand-500 to-accent-500 text-white hover:shadow-lg hover:shadow-brand-500/25 hover:-translate-y-0.5 transition-all"
         >
           이력서
@@ -83,7 +83,7 @@ watch(() => route.path, () => {
             {{ link.label }}
           </NuxtLink>
           <NuxtLink
-            to="/about"
+            to="/resume"
             class="px-4 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-brand-500 to-accent-500 text-white text-center hover:shadow-lg transition-all mt-2"
           >
             이력서
