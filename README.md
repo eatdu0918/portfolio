@@ -33,7 +33,7 @@ pnpm generate
 title: "프로젝트 제목"
 slug: "project-name"
 summary: "프로젝트 한 줄 요약"
-period: "2024.01 - 현재"
+period: "2026.02 - 현재"
 role: "역할"
 tags: ["Vue 3", "Spring Boot"]
 techStack:
