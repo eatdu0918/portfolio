@@ -2,7 +2,7 @@
 title: "개인 개발 블로그 (dev-blog)"
 slug: "dev-blog"
 summary: "Next.js 기반 개인 기술 블로그입니다. Markdown을 unified(remark/rehype) 파이프라인으로 확장해 Sandpack 인라인 실행, Mermaid 다이어그램, 커스텀 React 컴포넌트를 글 본문에 삽입하고, PostgreSQL·Prisma·Server Actions로 댓글을 처리합니다. 백엔드·프론트·인프라·CS 주제의 글과 예제·Vitest 테스트를 함께 관리합니다. Vercel에 배포되어 누구나 접속해 글과 댓글 기능을 확인할 수 있습니다."
-period: "2024 - 현재"
+period: "2026.02 - 현재"
 liveUrl: "https://dev-blog-snowy-alpha.vercel.app/"
 role: "개인프로젝트"
 tags:

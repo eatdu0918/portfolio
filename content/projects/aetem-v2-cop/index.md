@@ -2,7 +2,7 @@
 title: "AETEM v2 COP - 공통작전상황도 시스템"
 slug: "aetem-v2-cop"
 summary: "OpenLayers + MIL-STD-2525D 기반의 공통작전상황도(COP) 시스템. NATO 표준 군사 부호 및 전술 그래픽을 3개 독립 맵 화면에 실시간 렌더링하며, Provider/Manager 아키텍처로 설계된 모듈화된 군사 지도 플랫폼입니다."
-period: "2025.03 - 현재"
+period: "2025.12 - 현재"
 role: "프론트엔드 개발 (아키텍처 설계)"
 thumbnail: "/images/projects/aetem-v2-cop/shared_cop.png"
 gallery:

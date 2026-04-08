@@ -2,7 +2,7 @@
 title: "RMS - Raw Data Management System"
 slug: "rms"
 summary: "AI 학습용 원천 데이터를 체계적으로 수집, 정제, 변환, 관리하는 데이터 파이프라인 플랫폼. 플러그인 기반 아키텍처로 SFTP, 비디오 변환, LLM 서비스 바인딩을 통한 텍스트 정제, 비식별화 등 다양한 데이터 처리를 자동화합니다."
-period: "2023.03 - 2024.01"
+period: "2023.04 - 2024.03"
 role: "풀스택 개발"
 thumbnail: "/images/projects/rms/pipeline_workflow.png"
 gallery:

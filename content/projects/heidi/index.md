@@ -2,7 +2,7 @@
 title: "Heidi - 영상/이미지 비식별화 SaaS"
 slug: "heidi"
 summary: "AI 기술을 접목한 얼굴/번호판 자동 탐지 및 비식별화 처리 플랫폼. 비디오와 이미지에서 개인정보를 자동으로 감지하고 블러/교체 처리하는 엔터프라이즈 SaaS 서비스입니다."
-period: "2024.01 - 2025.06"
+period: "2024.04 - 2025.05"
 role: "풀스택 개발 + AI 모델 바인딩 및 파이프라인 통합"
 thumbnail: "/images/projects/heidi/image_deident.png"
 gallery:

@@ -2,7 +2,7 @@
 title: "Sparta e-commerce MSA"
 slug: "sparta-ecommerce-msa"
 summary: "이커머스 도메인을 기준으로 한 마이크로서비스 아키텍처 학습·구현 프로젝트입니다. Spring Cloud Gateway를 단일 진입점으로 두고, 주문·결제·취소·환불 흐름과 Kafka 기반 이벤트·보상 트랜잭션을 다루며, 회사 업무에서는 접하기 어려웠던 MSA를 스스로 설계·구축했습니다."
-period: "2025.01 - 2025.02"
+period: "2026.01 - 현재"
 liveUrl: "https://gossipy-jeanetta-sulkier.ngrok-free.dev/"
 role: "풀스택 (개인 프로젝트)"
 tags:
@@ -52,7 +52,7 @@ techStack:
     ]
 highlights:
   - "개인 프로젝트로 서비스 경계·게이트웨이 라우팅·JWT 인증 흐름을 끝까지 설계·구현"
-  - "회사 업무 환경에서 MSA를 직접 다루기 어려워, 교육 과정 최종 과제를 통해 MSA를 체득"
+  - "회사 업무에서 MSA 기회가 제한적이라, 교육 과정에서 체득한 내용을 바탕으로 개인 레퍼런스를 구축·유지"
   - "Kafka 이벤트 기반 연동 및 보상 트랜잭션(Saga) 등 분산 환경 이슈 학습"
   - "Aggregation API 등 게이트웨이·서비스 간 조합 패턴 적용"
   - "TestContainers 기반 통합 테스트로 멀티 서비스·인프라 의존 검증"
@@ -67,9 +67,9 @@ category: "fullstack"
 
 ## 프로젝트 개요
 
-스파르타(내일배움단) 교육 과정 **최종 개인 프로젝트**로, 이커머스 시나리오를 바탕으로 **8개의 백엔드 마이크로서비스**(user, product, order, discount, payment, cancel, refund, gateway)와 **React(Vite) 클라이언트**, **Kafka**, **서비스별 MySQL**, **Kubernetes 매니페스트**, **GitHub Actions → GHCR**까지 한 흐름으로 구성했습니다.
+스파르타(내일배움단) 교육 과정 **최종 개인 프로젝트**에서 착수해, 이커머스 시나리오를 바탕으로 **8개의 백엔드 마이크로서비스**(user, product, order, discount, payment, cancel, refund, gateway)와 **React(Vite) 클라이언트**, **Kafka**, **서비스별 MySQL**, **Kubernetes 매니페스트**, **GitHub Actions → GHCR**까지 한 흐름으로 구성했습니다.
 
-현재 소속에서는 **MSA 환경에서 개발할 기회가 없어**, 실무와 별도로 이 프로젝트를 통해 서비스 분리, API 게이트웨이, 이벤트 기반 연동, 배포·관측까지 **MSA를 직접 적용하며 학습**하는 것을 목표로 했습니다.
+교육 이후에도 실무와 별도로 이 프로젝트를 **개인 레퍼런스**로 두고, 서비스 분리·API 게이트웨이·이벤트 기반 연동·배포·관측까지 **MSA를 직접 적용하며 보완**하는 것을 목표로 합니다.
 
 **웹 데모(ngrok)**: 터널이 동작 중일 때 클라이언트는 [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/) 로 접속할 수 있습니다. (URL은 터널 설정에 따라 변경될 수 있으며, 상세는 **인프라** 탭을 참고하세요.)
 

@@ -2,7 +2,7 @@
 title: "AETEM - AI 기술 접목 군사 지휘통제 시스템"
 slug: "aetem"
 summary: "Cesium 3D 지도 기반의 군사 작전 지휘통제 플랫폼. 국면/부대/무기/환경 관리, AI 모델 바인딩을 통한 이동로/타격범위 분석, 엣지 장비(드론/LiDAR) 연동, 실시간 WebSocket 상황 공유까지 지원하는 C4I 시스템입니다."
-period: "2024.06 - 2025.03"
+period: "2025.06 - 2025.11"
 role: "풀스택 개발"
 thumbnail: "/images/projects/aetem/battlefield_overview.png"
 gallery:
