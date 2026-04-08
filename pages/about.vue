@@ -5,7 +5,7 @@ useHead({
 
 const experiences = [
   {
-    period: '2024 - 현재',
+    period: '2026.02 - 현재',
     role: '1인 풀스택',
     company: '개인 프로젝트',
     project: 'dev-blog (기술 블로그)',
@@ -14,8 +14,8 @@ const experiences = [
     techs: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Vitest', 'Sandpack'],
   },
   {
-    period: '2025.01 - 2025.02',
-    role: '풀스택 (교육 과제)',
+    period: '2026.01 - 현재',
+    role: '풀스택 (개인 프로젝트)',
     company: '개인 프로젝트',
     project: 'Sparta e-commerce MSA',
     description:
@@ -23,7 +23,7 @@ const experiences = [
     techs: ['Spring Boot 3', 'Spring Cloud Gateway', 'Kafka', 'Redis', 'React 19', 'Kubernetes', 'Docker', 'GitHub Actions'],
   },
   {
-    period: '2025.03 - 현재',
+    period: '2025.12 - 현재',
     role: '프론트엔드 개발자 (아키텍처 설계)',
     company: 'AI Studio',
     project: 'AETEM v2 COP',
@@ -31,7 +31,7 @@ const experiences = [
     techs: ['Vue 3', 'OpenLayers', 'MIL-STD-2525D', 'Tailwind CSS', 'Pinia', 'Vue Flow', 'Turf.js'],
   },
   {
-    period: '2024.06 - 2025.03',
+    period: '2025.06 - 2025.11',
     role: '풀스택 개발자',
     company: 'AI Studio',
     project: 'AETEM',
@@ -39,7 +39,7 @@ const experiences = [
     techs: ['Vue 3', 'Cesium', 'PrimeVue', 'Quasar', 'Spring Boot 3', 'PostgreSQL', 'WebSocket', 'HLS.js'],
   },
   {
-    period: '2024.01 - 2025.06',
+    period: '2024.04 - 2025.05',
     role: '풀스택 개발자 + AI 파이프라인 통합',
     company: 'AI Studio',
     project: 'Heidi',
@@ -47,7 +47,7 @@ const experiences = [
     techs: ['Vue 3', 'Electron', 'Spring Boot 3', 'Python', 'RabbitMQ', 'Redis', 'YOLOv8', 'Docker'],
   },
   {
-    period: '2023.03 - 2024.01',
+    period: '2023.04 - 2024.03',
     role: '풀스택 개발자',
     company: 'AI Studio',
     project: 'RMS',
