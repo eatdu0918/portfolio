@@ -171,7 +171,11 @@ function selectTab(key: string) {
             <HighlightList :items="project.highlights" />
           </div>
 
-          <ProjectGallery v-if="project?.gallery?.length" :items="project.gallery" />
+          <ProjectGallery
+            v-if="project?.gallery?.length"
+            :items="project.gallery"
+            :ai-generated-images="project.workType === 'company'"
+          />
 
           <!-- Content Body -->
           <div class="prose-content">

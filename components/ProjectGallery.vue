@@ -6,9 +6,14 @@ export interface GalleryItem {
   alt?: string
 }
 
-const props = defineProps<{
-  items: GalleryItem[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    items: GalleryItem[]
+    /** 회사 프로젝트: 실제 캡처 대신 내부 정보 보호용 AI 예시 이미지 안내 */
+    aiGeneratedImages?: boolean
+  }>(),
+  { aiGeneratedImages: false },
+)
 
 const lightboxIndex = ref<number | null>(null)
 
@@ -70,6 +75,12 @@ onUnmounted(() => {
     <h2 class="text-lg font-bold text-surface-800 mb-4 tracking-tight">
       화면 예시
     </h2>
+    <p
+      v-if="aiGeneratedImages"
+      class="mb-4 text-xs text-surface-500 leading-relaxed max-w-3xl"
+    >
+      회사 내부 정보 유출 방지를 위해 실제 화면 대신 <strong class="font-semibold text-surface-600">AI로 생성한 예시 이미지</strong>를 사용했습니다.
+    </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <button
         v-for="(item, idx) in items"
@@ -140,6 +151,12 @@ onUnmounted(() => {
               class="text-center text-sm font-medium text-white px-2 drop-shadow-md"
             >
               {{ currentItem.alt }}
+            </p>
+            <p
+              v-if="aiGeneratedImages"
+              class="text-center text-[11px] text-white/85 px-2 drop-shadow-sm"
+            >
+              내부 정보 보호를 위한 AI 생성 예시
             </p>
             <p
               v-if="items.length > 1"
