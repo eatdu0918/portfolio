@@ -64,7 +64,7 @@ watch(
           decoding="async"
           class="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500"
           @error="imgFailed = true"
-        >
+        />
         <p
           v-if="workType === 'company' && thumbnail && !imgFailed"
           class="absolute bottom-0 left-0 right-0 z-20 px-2 py-1 text-[9px] leading-snug font-medium text-white bg-surface-900/60 backdrop-blur-sm text-center pointer-events-none border-t border-white/10"
@@ -75,7 +75,7 @@ watch(
           v-if="!thumbnail || imgFailed"
           class="absolute inset-0 bg-gradient-to-br from-brand-50 to-accent-50"
         >
-          <div class="absolute inset-0 bg-gradient-to-br from-brand-400/10 to-accent-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div class="absolute inset-0 bg-gradient-to-br from-brand-400/10 to-accent-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div class="absolute inset-0 flex items-center justify-center">
             <Icon name="heroicons:photo-20-solid" class="w-10 h-10 text-brand-300" />
           </div>

@@ -96,7 +96,7 @@ onUnmounted(() => {
             loading="lazy"
             decoding="async"
             class="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-300"
-          >
+          />
         </div>
         <p
           v-if="item.alt"
@@ -144,7 +144,7 @@ onUnmounted(() => {
                 :src="currentItem.src"
                 :alt="currentItem.alt ?? ''"
                 class="max-h-[85vh] w-auto max-w-full object-contain block"
-              >
+              />
             </div>
             <p
               v-if="currentItem.alt"

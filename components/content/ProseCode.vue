@@ -16,6 +16,6 @@ defineProps<Props>()
 
 <template>
   <code class="prose-inline-code">
-    <slot />
+    <slot></slot>
   </code>
 </template>

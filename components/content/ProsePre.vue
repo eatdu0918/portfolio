@@ -18,6 +18,6 @@ const isMermaid = computed(() => props.language === 'mermaid')
     <div v-if="filename" class="px-4 py-2 bg-surface-200/55 backdrop-blur-sm border-b border-surface-200/70 text-xs font-mono text-surface-600">
       {{ filename }}
     </div>
-    <div class="overflow-x-auto p-4 text-sm leading-relaxed text-surface-800 font-mono"><slot /></div>
+    <div class="overflow-x-auto p-4 text-sm leading-relaxed text-surface-800 font-mono"><slot></slot></div>
   </div>
 </template>
