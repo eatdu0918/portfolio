@@ -69,7 +69,7 @@ watch(
           v-if="workType === 'company' && thumbnail && !imgFailed"
           class="absolute bottom-0 left-0 right-0 z-20 px-2 py-1 text-[9px] leading-snug font-medium text-white bg-surface-900/60 backdrop-blur-sm text-center pointer-events-none border-t border-white/10"
         >
-          내부 정보 유출 방지를 위해 AI로 생성한 예시 이미지입니다
+          실제 개발한 내용을 기반으로 생성한 AI 이미지입니다
         </p>
         <div
           v-if="!thumbnail || imgFailed"

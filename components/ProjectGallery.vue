@@ -9,7 +9,7 @@ export interface GalleryItem {
 const props = withDefaults(
   defineProps<{
     items: GalleryItem[]
-    /** 회사 프로젝트: 실제 캡처 대신 내부 정보 보호용 AI 예시 이미지 안내 */
+    /** 회사 프로젝트: 실제 작업 내용 기반 AI 생성 이미지 안내 */
     aiGeneratedImages?: boolean
   }>(),
   { aiGeneratedImages: false },
@@ -79,7 +79,7 @@ onUnmounted(() => {
       v-if="aiGeneratedImages"
       class="mb-4 text-xs text-surface-500 leading-relaxed max-w-3xl"
     >
-      회사 내부 정보 유출 방지를 위해 실제 화면 대신 <strong class="font-semibold text-surface-600">AI로 생성한 예시 이미지</strong>를 사용했습니다.
+      아래 이미지는 <strong class="font-semibold text-surface-600">실제 작업한 내용을 기반으로 생성한 AI 이미지</strong>입니다.
     </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <button
@@ -156,7 +156,7 @@ onUnmounted(() => {
               v-if="aiGeneratedImages"
               class="text-center text-[11px] text-white/85 px-2 drop-shadow-sm"
             >
-              내부 정보 보호를 위한 AI 생성 예시
+              실제 작업 내용 기반 AI 생성 이미지
             </p>
             <p
               v-if="items.length > 1"
