@@ -17,30 +17,30 @@ Vue 3·React/Next.js **프론트엔드**와 Spring Boot 3 **백엔드**, **Postg
 
 ## 경력 (풀스택 대칭 bullet 패턴)
 
-### AI Studio — 2023.03 ~ 현재
+### AI Studio — 2023.04 ~ 현재
 
 각 프로젝트마다 **(1) 클라이언트 (2) API·도메인·데이터 (3) 비동기·실시간 (4) 배포·연동** 중 해당하는 것을 균형 있게 배치합니다.
 
-#### 지도 기반 공통 상황도 클라이언트 (2025.03 ~ 현재)
+#### 지도 기반 공통 상황도 클라이언트 (2025.12 ~ 현재)
 
 - **FE:** OpenLayers·전술 심볼 렌더링, Provider/Manager 아키텍처, Vue Flow·Pinia·Tailwind.
 - **연동:** 지도 타일·WMS 등 서버/외부 소스와의 계약 및 오류 처리.
 - **공간:** Turf.js 클라이언트 분석, 좌표·스타일 규칙과의 정합.
 
-#### 지휘·상황 인지 플랫폼 (2024.06 ~ 2025.03)
+#### 지휘·상황 인지 플랫폼 (2025.06 ~ 2025.11)
 
 - **FE:** Cesium 3D, 3종 Vue 클라이언트, HLS, PrimeVue·Quasar.
 - **BE:** Spring Boot 3·PostgreSQL, REST 설계, WebSocket(STOMP) 브로드캐스트.
 - **연동:** 외부 분석 서비스 바인딩, 엣지 네트워크 제약 하 스트리밍.
 
-#### 영상·이미지 비식별화 SaaS (2024.01 ~ 2025.06)
+#### 영상·이미지 비식별화 SaaS (2024.04 ~ 2025.05)
 
 - **FE:** Vue 3, Electron 패키징·배포, Redis Pub/Sub 구독 기반 실시간 UI.
 - **BE:** Spring Boot 3 멀티모듈, REST, 도메인·트랜잭션 경계.
 - **파이프라인:** RabbitMQ 큐, Python·다중 AI 모델 바인딩(YOLO, SD 등), Docker 컨테이너.
 - **Data:** Redis 상태, 저장소 연동 협업.
 
-#### AI 학습 데이터 관리 시스템 (2023.03 ~ 2024.01)
+#### AI 학습 데이터 관리 시스템 (2023.04 ~ 2024.03)
 
 - **FE:** JSP·jQuery, 관리 UI·플러그인 파이프라인 트리거.
 - **BE:** Spring Boot, REST, MyBatis.
@@ -50,8 +50,8 @@ Vue 3·React/Next.js **프론트엔드**와 Spring Boot 3 **백엔드**, **Postg
 
 ## 개인 프로젝트 (E2E 강조)
 
-- **dev-blog:** Next.js 풀스택(Server Actions, Prisma, PostgreSQL), 콘텐츠 파이프라인, Vercel 배포.
-- **Sparta MSA:** Gateway, Kafka, 서비스별 DB, React 클라이언트, K8s·GitHub Actions.
+- **dev-blog (2026.02 ~ 현재):** Next.js 풀스택(Server Actions, Prisma, PostgreSQL), 콘텐츠 파이프라인, Vercel 배포.
+- **Sparta MSA (2026.01 ~ 현재):** Gateway, Kafka, 서비스별 DB, React 클라이언트, K8s·GitHub Actions.
 
 ---
 

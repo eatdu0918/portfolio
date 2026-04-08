@@ -18,11 +18,11 @@ order: 3
 
 ## 경력 (프론트 bullet 우선 순서)
 
-### AI Studio — 2023.03 ~ 현재
+### AI Studio — 2023.04 ~ 현재
 
 아래 각 프로젝트에서 **프론트 관련 bullet을 상단에 유지**하고, 백엔드·인프라 bullet은 짧게 줄였습니다.
 
-#### 지도 기반 공통 상황도 클라이언트 (2025.03 ~ 현재)
+#### 지도 기반 공통 상황도 클라이언트 (2025.12 ~ 현재)
 
 1. OpenLayers 지도 레이어·인터랙션, 전술 심볼 스타일·렌더링 파이프라인 구현.
 2. Provider/Manager 패턴으로 지도·심볼 모듈 분리, 상태·확장 구조 설계.
@@ -30,7 +30,7 @@ order: 3
 4. Pinia·Tailwind CSS로 UI 상태·스타일 체계화.
 5. *(짧게)* 백엔드·지도 타일/API 연동 협업.
 
-#### 지도 기반 지휘·상황 인지 플랫폼 (2024.06 ~ 2025.03)
+#### 지도 기반 지휘·상황 인지 플랫폼 (2025.06 ~ 2025.11)
 
 1. Cesium 3D 씬·카메라·자산 시각화, 3종 Vue 3 SPA(지휘·관리·엣지) 개발.
 2. 외부 분석 API 데이터 바인딩·화면 반영, HLS 스트리밍 클라이언트.
@@ -38,13 +38,13 @@ order: 3
 4. PrimeVue·Quasar 등 UI 프레임워크 활용.
 5. *(짧게)* Spring Boot·PostgreSQL 연동 REST 소비.
 
-#### 영상·이미지 비식별화 SaaS (2024.01 ~ 2025.06)
+#### 영상·이미지 비식별화 SaaS (2024.04 ~ 2025.05)
 
 1. Vue 3 SPA·Electron 데스크톱 UX, Redis Pub/Sub 기반 실시간 작업 상태 UI.
 2. 추론 진행·결과 표시 흐름, 다중 모델 작업 큐와 화면 동기화.
 3. *(짧게)* Spring REST API 연동, RabbitMQ 클라이언트 측 트리거·폴링/푸시 설계 협업.
 
-#### AI 학습 데이터 관리 시스템 (2023.03 ~ 2024.01)
+#### AI 학습 데이터 관리 시스템 (2023.04 ~ 2024.03)
 
 1. JSP·jQuery 레거시 웹 UI 및 사용자 워크플로우.
 2. *(짧게)* REST API 소비, 변환 파이프라인 UI 트리거.
@@ -53,8 +53,8 @@ order: 3
 
 ## 개인 프로젝트 (프론트 강조 한 줄)
 
-- **dev-blog:** Next.js App Router, React 19, MDX급 확장 컴포넌트, Server Actions.
-- **Sparta:** React(Vite) 이커머스 UI, MSA 백엔드 연동.
+- **dev-blog (2026.02 ~ 현재):** Next.js App Router, React 19, MDX급 확장 컴포넌트, Server Actions.
+- **Sparta (2026.01 ~ 현재):** React(Vite) 이커머스 UI, MSA 백엔드 연동.
 
 ---
 

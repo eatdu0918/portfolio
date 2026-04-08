@@ -28,10 +28,10 @@ order: 2
 
 ### AI Studio
 
-**기간:** 2023.03 ~ 현재  
+**기간:** 2023.04 ~ 현재  
 **소속:** 풀스택 개발자 → 풀스택·AI 파이프라인 (Heidi) → 풀스택 (AETEM) → 프론트엔드 개발·아키텍처 설계 (AETEM v2 COP) *(실제 직함은 회사 기준으로 수정)*  
 
-#### AETEM v2 — 공통작전상황도(COP) (2025.03 ~ 현재)
+#### AETEM v2 — 공통작전상황도(COP) (2025.12 ~ 현재)
 
 - OpenLayers와 MIL-STD-2525D 기반 공통작전상황도 프론트엔드 개발 및 지도 레이어·인터랙션 구현.
 - Provider/Manager 계층 구조로 지도·심볼·상태 모듈을 분리해 확장 가능한 클라이언트 아키텍처 설계.
@@ -39,7 +39,7 @@ order: 2
 - Vue Flow 기반 전투편성표(ORBAT) 다이어그램 UI 구현, Turf.js로 클라이언트 측 지리 분석 보조.
 - **기술:** Vue 3, OpenLayers, MIL-STD-2525D, Tailwind CSS, Pinia, Vue Flow, Turf.js.
 
-#### AETEM — 군사 작전 지휘통제(C4I) (2024.06 ~ 2025.03)
+#### AETEM — 군사 작전 지휘통제(C4I) (2025.06 ~ 2025.11)
 
 - Cesium 3D 지도 기반 지휘통제 클라이언트 및 운영·엣지 화면 개발, 3개 Vue 3 클라이언트(지휘 Main, 관리 Admin, 현장 Edge) 동시 유지보수.
 - 외부 AI 분석 모델(이동로, 타격범위 등) API·데이터 바인딩 및 프론트–백엔드 연동.
@@ -47,7 +47,7 @@ order: 2
 - Spring Boot 3, PostgreSQL, WebSocket(STOMP) 기반 실시간 상황·알림 등 백엔드·실시간 통신과 협업.
 - **기술:** Vue 3, Cesium, PrimeVue, Quasar, Spring Boot 3, PostgreSQL, WebSocket, HLS.js.
 
-#### Heidi — 영상·이미지 비식별화 SaaS (2024.01 ~ 2025.06)
+#### Heidi — 영상·이미지 비식별화 SaaS (2024.04 ~ 2025.05)
 
 - Vue 3 및 Electron 기반 데스크톱 클라이언트 개발·배포, Spring Boot 3 멀티모듈 REST API·비즈니스 로직 구현.
 - RabbitMQ 기반 비동기 큐로 YOLOv8, Stable Diffusion 등 5개 AI 추론 모델 바인딩 및 추론 파이프라인 설계·구현.
@@ -55,7 +55,7 @@ order: 2
 - Python 연동(RMS·추론 워커), Docker 기반 서비스·워커 컨테이너화.
 - **기술:** Vue 3, Electron, Spring Boot 3, Python, RabbitMQ, Redis, YOLOv8, Docker.
 
-#### RMS — AI 학습 데이터 관리 시스템 (2023.03 ~ 2024.01)
+#### RMS — AI 학습 데이터 관리 시스템 (2023.04 ~ 2024.03)
 
 - Spring Boot REST API 및 JSP·jQuery 기반 웹 UI 개발, 플러그인 구조의 비디오→이미지 변환 파이프라인 설계.
 - MongoDB(MariaDB와 병행) 듀얼 DB 구조로 비정형 Raw와 정형 메타데이터 분리 저장.
@@ -66,16 +66,16 @@ order: 2
 
 ## 개인 프로젝트
 
-### dev-blog — 기술 블로그 (2024 ~ 현재)
+### dev-blog — 기술 블로그 (2026.02 ~ 현재)
 
 - Next.js App Router, React 19, TypeScript로 개인 기술 블로그 구축·Vercel 배포.
 - Markdown 파이프라인을 unified(remark/rehype)로 확장해 Sandpack, Mermaid, 커스텀 컴포넌트를 본문에 삽입.
 - Prisma, PostgreSQL, Server Actions로 댓글 처리, Vitest로 테스트.
 - **기술:** Next.js, React 19, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Vitest, Sandpack.
 
-### Sparta e-commerce MSA — 교육 과제 (2025.01 ~ 2025.02)
+### Sparta e-commerce MSA — 개인 프로젝트 (2026.01 ~ 현재)
 
-- 이커머스 도메인 기준 MSA 학습 및 구현: Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션(Saga 범위).
+- 이커머스 도메인 기준 MSA 학습·구현 및 레퍼런스 유지: Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션(Saga 범위).
 - React(Vite) 주문·상품 클라이언트, Docker·Kubernetes, GitHub Actions → GHCR CI/CD 파이프라인 구성.
 - **기술:** Spring Boot 3, Spring Cloud Gateway, Kafka, Redis, React 19, Kubernetes, Docker, GitHub Actions.
 

@@ -28,9 +28,9 @@ order: 1
 
 ### AI Studio
 
-**기간:** 2023.03 ~ 현재  
+**기간:** 2023.04 ~ 현재  
 
-#### 지도 기반 공통 상황도(COP 클래스) 클라이언트 (2025.03 ~ 현재)
+#### 지도 기반 공통 상황도(COP 클래스) 클라이언트 (2025.12 ~ 현재)
 
 - OpenLayers 기반 2D 지도 및 전술 심볼 렌더링, 레이어·사용자 인터랙션 구현.
 - Provider/Manager 계층으로 지도·심볼·상태 모듈 분리, 확장 가능한 프론트엔드 아키텍처 설계.
@@ -38,7 +38,7 @@ order: 1
 - Vue Flow 기반 **조직·편성(ORBAT) 다이어그램** UI, Turf.js로 클라이언트 측 지리 연산 보조.
 - **기술:** Vue 3, OpenLayers, MIL-STD-2525D, Tailwind CSS, Pinia, Vue Flow, Turf.js.
 
-#### 지도 기반 지휘·상황 인지 플랫폼 (2024.06 ~ 2025.03)
+#### 지도 기반 지휘·상황 인지 플랫폼 (2025.06 ~ 2025.11)
 
 - Cesium 3D로 지형·자산 시각화 및 카메라·씬 제어, **지휘·관리·현장(엣지)** 3종 Vue 3 클라이언트 동시 개발·유지보수.
 - 외부 **분석·시뮬레이션 서비스** API 연동 및 데이터 바인딩.
@@ -46,7 +46,7 @@ order: 1
 - Spring Boot 3, PostgreSQL, WebSocket(STOMP)와 협업해 실시간 알림·상태 반영.
 - **기술:** Vue 3, Cesium, PrimeVue, Quasar, Spring Boot 3, PostgreSQL, WebSocket, HLS.js.
 
-#### 영상·이미지 비식별화 SaaS (2024.01 ~ 2025.06)
+#### 영상·이미지 비식별화 SaaS (2024.04 ~ 2025.05)
 
 - Vue 3·Electron 데스크톱 앱 및 Spring Boot 3 멀티모듈 API·도메인 로직 구현.
 - RabbitMQ 기반 큐로 객체 탐지·생성형 등 **다중 AI 추론 워커** 연동 및 파이프라인 설계.
@@ -54,7 +54,7 @@ order: 1
 - Python 연동, Docker로 서비스·워커 패키징.
 - **기술:** Vue 3, Electron, Spring Boot 3, Python, RabbitMQ, Redis, YOLOv8, Docker.
 
-#### AI 학습 데이터 관리 시스템 (2023.03 ~ 2024.01)
+#### AI 학습 데이터 관리 시스템 (2023.04 ~ 2024.03)
 
 - Spring Boot REST API, JSP·jQuery 웹 UI, 플러그인형 **비디오→이미지 변환** 파이프라인.
 - MongoDB + MariaDB 듀얼 저장 처리 비정형·정형 데이터.
@@ -65,16 +65,16 @@ order: 1
 
 ## 개인 프로젝트
 
-### dev-blog — 기술 블로그 (2024 ~ 현재)
+### dev-blog — 기술 블로그 (2026.02 ~ 현재)
 
 - Next.js App Router, React 19, TypeScript, Vercel 배포.
 - unified(remark/rehype)로 Markdown 확장(Sandpack, Mermaid, 커스텀 컴포넌트).
 - Prisma·PostgreSQL·Server Actions 댓글, Vitest.
 - **기술:** Next.js, React 19, TypeScript, Tailwind CSS, Prisma, PostgreSQL, Vitest, Sandpack.
 
-### Sparta e-commerce MSA — 교육 과제 (2025.01 ~ 2025.02)
+### Sparta e-commerce MSA — 개인 프로젝트 (2026.01 ~ 현재)
 
-- Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션, React(Vite) 클라이언트.
+- Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션, React(Vite) 클라이언트(교육 과정 착수 후 레퍼런스로 유지·보완).
 - Docker·Kubernetes, GitHub Actions → GHCR.
 - **기술:** Spring Boot 3, Spring Cloud Gateway, Kafka, Redis, React 19, Kubernetes, Docker, GitHub Actions.
 

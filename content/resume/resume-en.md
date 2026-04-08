@@ -19,25 +19,25 @@ Full-stack engineer focused on **Vue 3 and React/Next.js** frontends, **Spring B
 ## Experience
 
 ### AI Studio — *[Full-time, City — optional]*  
-**Mar 2023 – Present**
+**Apr 2023 – Present**
 
-**Geospatial COP-style client** *(Mar 2025 – Present)*  
+**Geospatial COP-style client** *(Dec 2025 – Present)*  
 - Implemented OpenLayers-based mapping, tactical symbology/styling, and interaction layers using a **Provider/Manager** client architecture.  
 - Built **ORBAT-style** diagrams with Vue Flow; client-side geospatial helpers with Turf.js.  
 - *Stack:* Vue 3, OpenLayers, MIL-STD-2525D, Pinia, Vue Flow, Tailwind CSS, Turf.js.
 
-**Command & situational-awareness platform (3D)** *(Jun 2024 – Mar 2025)*  
+**Command & situational-awareness platform (3D)** *(Jun 2025 – Nov 2025)*  
 - Developed **Cesium** 3D features and maintained **three Vue 3 SPAs** (command, admin, edge).  
 - Integrated external **analytics APIs**; **HLS** playback for edge deployments.  
 - Collaborated on **Spring Boot 3**, **PostgreSQL**, and **WebSocket (STOMP)** for live updates.  
 - *Stack:* Vue 3, Cesium, PrimeVue, Quasar, Spring Boot 3, PostgreSQL, WebSocket, HLS.js.
 
-**Video/image de-identification SaaS** *(Jan 2024 – Jun 2025)*  
+**Video/image de-identification SaaS** *(Apr 2024 – May 2025)*  
 - Delivered **Vue 3** web UI and **Electron** desktop client; **Spring Boot 3** multi-module APIs.  
 - Designed **RabbitMQ**-based async inference for **multiple AI models** (e.g. detection, generative); **Redis Pub/Sub** for live job status.  
 - *Stack:* Vue 3, Electron, Spring Boot 3, Python, RabbitMQ, Redis, Docker, YOLOv8.
 
-**AI training data management (RMS)** *(Mar 2023 – Jan 2024)*  
+**AI training data management (RMS)** *(Apr 2023 – Mar 2024)*  
 - Built **Spring Boot** REST services and **JSP/jQuery** admin UI; plugin-style **video→image** conversion pipeline.  
 - **Dual-database** design: MariaDB + MongoDB; async work via RabbitMQ and Python.  
 - *Stack:* Spring Boot, JSP, jQuery, MyBatis, MariaDB, MongoDB, RabbitMQ, Python.
@@ -46,9 +46,9 @@ Full-stack engineer focused on **Vue 3 and React/Next.js** frontends, **Spring B
 
 ## Personal Projects
 
-**dev-blog** *(2024 – present)* — Next.js (App Router), React 19, TypeScript, unified/remark/rehype extensions (Sandpack, Mermaid), Prisma, PostgreSQL, Server Actions, Vitest, Vercel.
+**dev-blog** *(Feb 2026 – present)* — Next.js (App Router), React 19, TypeScript, unified/remark/rehype extensions (Sandpack, Mermaid), Prisma, PostgreSQL, Server Actions, Vitest, Vercel.
 
-**Sparta e-commerce MSA** *(Jan – Feb 2025, training)* — Spring Cloud Gateway, Kafka (events/saga-style patterns), React (Vite) storefront, Docker/Kubernetes, GitHub Actions → GHCR.
+**Sparta e-commerce MSA** *(Jan 2026 – present)* — Spring Cloud Gateway, Kafka (events/saga-style patterns), React (Vite) storefront, Docker/Kubernetes, GitHub Actions → GHCR.
 
 ---
 
