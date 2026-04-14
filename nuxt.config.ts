@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: process.env.NODE_ENV === 'production' ? '/portfolio/' : '/',
+    baseURL: '/',
     head: {
       title: 'Portfolio | Full-Stack — Vue/Spring & Next.js/MSA',
       htmlAttrs: { lang: 'ko' },
