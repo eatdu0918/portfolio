@@ -13,7 +13,7 @@ const isMermaid = computed(() => props.language === 'mermaid')
 </script>
 
 <template>
-  <MermaidDiagram v-if="isMermaid" :code="code ?? ''" />
+  <MermaidDiagram v-if="isMermaid" :key="code ?? ''" :code="code ?? ''" />
   <div v-else class="relative group my-4 rounded-xl border border-surface-200/80 bg-surface-100/85 backdrop-blur-md shadow-sm overflow-hidden">
     <div v-if="filename" class="px-4 py-2 bg-surface-200/55 backdrop-blur-sm border-b border-surface-200/70 text-xs font-mono text-surface-600">
       {{ filename }}

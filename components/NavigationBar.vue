@@ -4,15 +4,14 @@ const mobileOpen = ref(false)
 
 const links = [
   { to: '/about', label: '자기소개' },
-  { to: '/#skills', label: '기술 스택' },
+  { to: '/skills', label: '기술 스택' },
   { to: '/projects', label: '프로젝트' },
   { to: '/contact', label: '연락처' },
 ]
 
 function isActive(path: string) {
-  if (path.startsWith('/#')) return false
   if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
+  return route.path === path || route.path.startsWith(`${path}/`)
 }
 
 watch(() => route.path, () => {

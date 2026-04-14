@@ -7,6 +7,8 @@ interface Props {
   title: string
   summary: string
   slug: string
+  /** Nuxt Content 문서 `path`가 있으면 상세 링크로 우선 사용 (예: `/projects/heidi`) */
+  detailPath?: string
   tags?: string[]
   period?: string
   featured?: boolean
@@ -28,6 +30,8 @@ const workTypeClass: Record<WorkType, string> = {
 
 const props = defineProps<Props>()
 
+const detailTo = computed(() => props.detailPath?.trim() || `/projects/${props.slug}`)
+
 const imgFailed = ref(false)
 
 watch(
@@ -43,7 +47,7 @@ watch(
     class="relative group bg-white border border-surface-200 rounded-2xl overflow-hidden hover:border-brand-300 hover:shadow-xl hover:shadow-brand-500/10 hover:-translate-y-1 transition-all duration-300"
   >
     <NuxtLink
-      :to="`/projects/${slug}`"
+      :to="detailTo"
       class="absolute inset-0 z-0"
       :aria-label="`${title} 상세 페이지`"
     />

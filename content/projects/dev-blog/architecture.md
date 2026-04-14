@@ -5,57 +5,59 @@ category: "architecture"
 order: 1
 ---
 
-## 전체 구성
+## 핵심 기술 (한 줄 요약)
 
-블로그는 **Next.js App Router** 한 앱 안에서 **정적 포스트 렌더링**과 **댓글용 동적 데이터 접근**을 나눕니다. 포스트 본문 HTML은 빌드·요청 시 서버에서 unified 파이프라인으로 생성되고, Sandpack·Mermaid 등은 클라이언트에서 마운트됩니다.
+**Next.js App Router** 한 앱에서 **파일 시스템 Markdown → unified(remark/rehype) 파이프라인**으로 HTML을 만들고, **Sandpack·Mermaid·커스텀 컴포넌트**는 클라이언트에서 하이드레이션합니다. 댓글은 **PostgreSQL + Prisma + Server Actions**입니다.
+
+## 기술적 도전과 해결
+
+### Challenge: MD 작성 경험을 유지하면서 인터랙티브 블록을 끼워 넣기
+
+**상황** — 글은 Git으로 관리하고 싶지만 Sandpack·Mermaid·캔버스도 쓰고 싶었습니다.
+
+**문제** — MDX로 전면 전환하면 기존 글 자산·툴링이 바뀝니다.
+
+**접근** — **코드 샌드박스·다이어그램·삽입 컴포넌트용 확장 블록**을 **추출 → 토큰 치환 → HTML 생성 → 플레이스홀더 재주입** 순으로 처리했습니다.
+
+**해결** — 서버에서는 HTML 문자열만 만들고, 클라이언트의 **인터랙티브 렌더러**가 플레이스홀더를 실제 위젯으로 바꿉니다.
+
+**성과** — **작성자는 여전히 Markdown**을 쓰면서도 독자는 실행·다이어그램을 볼 수 있습니다.
+
+### Challenge: 정적 글과 동적 댓글의 데이터 경계
+
+**상황** — 포스트는 빌드/ISR 친화적으로 두고, 댓글은 항상 최신이어야 합니다.
+
+**문제** — 전 페이지를 클라이언트로 가져가면 SEO·TTFB가 나빠집니다.
+
+**접근** — 글 본문은 **Server Component**에서 Prisma로 필요한 데이터만 읽고, 댓글 폼은 Server Action으로 처리했습니다.
+
+**해결** — **해당 경로의 서버 캐시 무효화**로 제출 직후 목록이 어긋나지 않게 했습니다.
+
+**성과** — **첫 페인트 품질**과 **데이터 정합성**을 동시에 맞췄습니다.
+
+### Challenge: 프로덕션 노출 vs 로컬 초안
+
+**상황** — 작성 중 글은 로컬에서 전부 보고, 프로덕션에는 **발행 완료 플래그가 켜진 글만** 노출해야 합니다.
+
+**문제** — 플래그 실수로 초안이 나가면 곤란합니다.
+
+**접근** — **실행 환경(개발·프로덕션)**과 **발행 플래그**를 쿼리 계층에서 함께 필터했습니다.
+
+**해결** — 목록·상세가 같은 규칙을 쓰도록 맞췄습니다.
+
+**성과** — 배포 전 **검증 루프**를 단순화했습니다.
+
+## 아키텍처 한눈에
 
 ```mermaid
 graph LR
-  subgraph content [콘텐츠]
-    MD["src/posts/*.md"]
-    Parser["parsePostContent\nremark → rehype → Shiki"]
-    HTML["contentHtml + placeholders"]
-  end
-
-  subgraph next [Next.js]
-    SSG["generateStaticParams\n/posts/slug"]
-    Page["Post 페이지\nServer Component"]
-    SA["Server Actions\nsubmitComment"]
-  end
-
-  subgraph client [클라이언트]
-    SP["SandpackRenderer\nSandpack / Mermaid / Canvas"]
-  end
-
-  subgraph data [데이터]
-    PG[(PostgreSQL)]
-    Prisma["Prisma Client"]
-  end
-
-  MD --> Parser --> HTML
-  HTML --> Page
-  Page --> SP
-  SA --> Prisma --> PG
-  Page --> Prisma
+    MD[원본 마크다운] --> Parser[unified pipeline]
+    Parser --> HTML[HTML + placeholders]
+    HTML --> Page[Server Component]
+    Page --> Client[Client widgets]
+    SA[Server Actions] --> DB[(PostgreSQL)]
 ```
 
-## Markdown 처리 흐름
+## 설계 메모
 
-1. **gray-matter**로 메타데이터와 본문을 분리합니다.
-2. 본문에서 `:::sandpack`, ` ```mermaid` `, `:::component` 블록을 추출하고 임시 토큰으로 치환합니다.
-3. **remark → remark-rehype → rehype-pretty-code → rehype-stringify**로 HTML을 만듭니다.
-4. 토큰 위치에 **base64 인코딩된 플레이스홀더 div**를 다시 넣습니다.
-5. **SandpackRenderer**가 HTML을 순회하며 Sandpack·Mermaid·등록된 React 컴포넌트로 분할 렌더링합니다.
-
-이 방식 덕분에 MD 소스는 여전히 Git으로 버전 관리하기 쉽고, 확장 문법만 추가하면 새로운 임베드 타입을 붙일 수 있습니다.
-
-## 댓글·데이터 계층
-
-- **Comment** 모델: `slug`, `nickname`, `content`, `ip`, `createdAt`, 슬라이스 인덱스.
-- **Server Action**에서 폼 데이터 검증 후 `addComment`, 성공 시 **`revalidatePath(`/posts/${slug}`)** 로 목록 갱신.
-- 배포 환경(Vercel 등)에서는 **`x-real-ip` / `x-forwarded-for`** 를 우선해 방문자 IP를 기록합니다.
-
-## 품질·운영
-
-- 글에서 다루는 패턴(멱등성, 테스트 더블, MFE 이벤트 버스 등)마다 **`src/examples` + `test/`** 에 예제와 Vitest 스펙을 두어 문서와 코드가 어긋나지 않게 합니다.
-- `NODE_ENV`와 `published` 필드로 **프로덕션 노출 글만 필터**하는 정책을 적용했습니다.
+- 글 주제별 예제·Vitest는 **예제 소스 폴더**와 테스트를 **짝지어** 문서-코드 드리프트를 줄였습니다.

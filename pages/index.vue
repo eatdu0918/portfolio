@@ -91,9 +91,13 @@ const techStacks = {
     <!-- Tech Stack -->
     <section id="skills" class="py-16 sm:py-24 bg-white">
       <div class="section-container">
-        <h2 class="text-lg sm:text-xl font-bold text-surface-800 mb-10 text-center tracking-tight">
+        <h2 class="text-lg sm:text-xl font-bold text-surface-800 mb-3 text-center tracking-tight">
           기술 스택
         </h2>
+        <p class="text-center text-sm text-surface-500 mb-8 max-w-xl mx-auto">
+          대표 스택 요약입니다. 실무·개인 프로젝트에서의 활용은
+          <NuxtLink to="/skills" class="text-brand-600 font-semibold hover:underline">기술 스택</NuxtLink> 페이지를 참고해 주세요.
+        </p>
         <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
           <div
             v-for="(stack, key) in techStacks"
@@ -117,6 +121,15 @@ const techStacks = {
             </div>
           </div>
         </div>
+        <div class="mt-10 text-center">
+          <NuxtLink
+            to="/skills"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-surface-200 text-surface-600 hover:border-brand-400 hover:text-brand-600 font-medium transition-all"
+          >
+            기술 스택 자세히 보기
+            <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
+          </NuxtLink>
+        </div>
       </div>
     </section>
 
@@ -137,7 +150,8 @@ const techStacks = {
             :key="project.path"
             :title="project.title"
             :summary="project.summary ?? ''"
-            :slug="project.slug ?? project.path.split('/').pop() ?? ''"
+            :slug="projectRouteSlug(project)"
+            :detail-path="project.path"
             :tags="project.tags ?? []"
             :period="project.period"
             :featured="project.featured"

@@ -5,240 +5,72 @@ category: "backend"
 order: 3
 ---
 
-## Spring Boot 3 멀티모듈 구조
+## 핵심 기술 (한 줄 요약)
 
-```mermaid
-graph TD
-    subgraph project ["aetem-api-web (Maven)"]
-        MainAPI["main-api\nWAR • Port 8081\n지휘·작전 API"]
-        AdminAPI["admin-api\nWAR • Port 8080\n관리 CRUD API"]
-        Common["common\nJAR • 공통 라이브러리"]
-    end
+**Spring Boot 3.3 · Java 17 · MyBatis · MapStruct · Spring Security(JWT)** 멀티모듈이며, **WebSocket STOMP**, **Ehcache**, **GeoTools/JTS** 좌표 처리, 외부 **AI 모델 HTTP 콜백**을 사용합니다.
 
-    MainAPI -->|"dependency"| Common
-    AdminAPI -->|"dependency"| Common
-    Common --> MyBatis["MyBatis\nMapper XML"]
-    Common --> MapStruct["MapStruct\nDTO ↔ VO"]
-    Common --> Security["Spring Security\nJWT Filter"]
-    Common --> Services["Domain Services"]
-```
+## 기술적 도전과 해결
 
-- **common**: 모든 도메인(User, Unit, Situation, Setting, System, Edge)의 Mapper, Service, DTO/VO, MapStruct 인터페이스 포함
-- **main-api**: 지휘·작전용 REST API + WebSocket STOMP + 배치 스케줄러 + AI 모델 연동
-- **admin-api**: 관리 CRUD REST API + `AetemInitializeFilter`
+### Challenge: 멀티모듈에서 도메인 공유와 배포 분리
 
-## 주요 REST API
+**상황** — 지훈 API와 관리 API는 **배포 단위·포트**가 달라야 하지만 Mapper·DTO는 같아야 합니다.
 
-### Main API (`/aetem/main`)
+**문제** — 코드 복사로 나누면 버그가 두 배로 갑니다.
 
-| 도메인 | 엔드포인트 | Method | 설명 |
-|--------|-----------|--------|------|
-| **인증** | `/auth/login` | POST | JWT 로그인 |
-| **국면** | `/situations` | POST, GET | 국면 생성, 목록 조회 |
-| | `/situations/{id}` | GET, PATCH, DELETE | 국면 상세, 수정, 삭제 |
-| | `/situations/{id}/apply` | PATCH | 국면 적용 (지도에 반영) |
-| | `/situations/apply` | GET | 현재 적용 국면 조회 |
-| **보고** | `/emergencies/reports` | GET, POST | 보고 목록, 생성 (MultipartFile 첨부) |
-| | `/emergencies/reports/{id}` | GET | 보고 상세 |
-| **지시** | `/emergencies/orders` | GET | 지시 목록 |
-| | `/emergencies/orders/{id}` | GET | 지시 상세 |
-| **AI 분석** | `/modelApi/moveRoute/forward` | POST | 이동로 분석 요청 |
-| | `/modelApi/moveRoute/receive` | POST | 이동로 분석 결과 수신 (콜백) |
-| | `/modelApi/strikeRange/forward` | POST | 타격범위 분석 요청 |
-| | `/modelApi/strikeRange/receive` | POST | 타격범위 분석 결과 수신 (콜백) |
-| **엣지** | `/edge/createEdgeDeviceGps` | POST | GPS 저장 + WebSocket 전송 |
-| | `/edge/copyDataBase` | POST | PG→SQLite 변환 전달 |
-| | `/edge/getDeviceEdgeInfo` | GET | 엣지 장비 목록 |
-| | `/edge/checkDeviceEdgeStatus` | PATCH | 장비 상태 갱신 |
-| **부대** | `/units/forces/{id}/essential` | GET | 부대 상세 |
-| | `/units/forces/{id}/weapons` | GET | 부대 무기 목록 |
-| **설정** | `/setting/template` | GET | 맵 템플릿 |
-| | `/setting/map/object` | GET | 지도 오브젝트 |
-| | `/setting/weapons` | GET | 무기 목록 |
-| | `/setting/devices` | GET | 장비 목록 |
-| | `/setting/keyTerrain` | GET | 핵심 지형 |
-| | `/setting/weather-set` | GET | 기상셋 |
-| **환경** | `/environment/weathers/{month}` | GET | 월별 기상 평균 |
+**접근** — **공유 라이브러리(JAR)**에 Mapper XML·서비스·DTO 매핑·보안 기본을 두고, **지휘용·관리용 애플리케이션**은 얇은 진입점만 유지했습니다.
 
-### Admin API (`/aetem/admin`)
+**해결** — WAR 두 개로 올려 운영에서 스케일·재시작을 분리했습니다.
 
-| 도메인 | 주요 기능 | Method |
-|--------|-----------|--------|
-| **사용자** | CRUD, 중복체크, 비밀번호 초기화, Edge 권한 | GET, POST, PATCH, DELETE |
-| **부대** | 부대 CRUD | GET, POST, PATCH, DELETE |
-| **무기** | 무기 CRUD, 부대별 무기 배치 | GET, POST, PATCH, DELETE |
-| **장비** | 엣지 장비 CRUD, 보고/GPS 이력 | GET, POST, PATCH, DELETE |
-| **국면** | 국면 목록, 사용여부 변경 | GET, PATCH, DELETE |
-| **기상** | 기상셋 CRUD, 기상코드 CRUD | GET, POST, PATCH, DELETE |
-| **환경** | 환경정보 CRUD (GeoTIFF 첨부) | GET, POST, PATCH, DELETE |
-| **템플릿** | 맵 템플릿 CRUD | GET, POST, PATCH, DELETE |
-| **지도 오브젝트** | 맵 오브젝트 저장/조회 | GET, POST |
-| **기본 계획** | 작전 기본계획 CRUD, 적용 | GET, POST, PATCH, DELETE |
-| **운영주체** | 운영주체 CRUD | GET, POST, PATCH |
-| **편제부호** | 군사 부호 아이콘 CRUD | GET, POST, PATCH, DELETE |
-| **공통코드** | 그룹코드, 상세코드 CRUD | GET, POST, PATCH, DELETE |
-| **보고/지시** | 보고 CRUD (MultipartFile), 지시 CRUD | GET, POST, PATCH, DELETE |
+**성과** — 한 번 고친 도메인 로직이 **두 API에 동시에 반영**되어 유지보수 비용이 줄었습니다.
 
-## AI 모델 API 연동
+### Challenge: AI 모델 연동에서 좌표계·결과 형식 불일치
 
-### 이동로 분석 (moveRoute)
+**상황** — 이동로는 WKB polyline, 타격범위는 **Base64 GeoTIFF**로 돌아옵니다.
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant M as main-api
-    participant AI as AI 모델 서버
+**문제** — 클라이언트에 raw를 그대로 넘기면 파싱·좌표 오류가 잦습니다.
 
-    C->>M: POST /modelApi/moveRoute/forward
-    Note right of M: startPoint, endPoint\nsocketId
-    M->>M: WGS84 → EPSG:5186\n(GeoTools CRS 변환)
-    M->>AI: POST /async/007\n(변환 좌표 + callbackUrl)
-    M-->>C: 200 OK
+**접근** — 서버에서 **CRS 변환·WKB 파싱·파일 저장**을 끝낸 뒤, WebSocket 메시지는 “이미 Cesium이 쓸 수 있는 형태”로만 보냅니다.
 
-    AI->>M: POST /modelApi/moveRoute/receive
-    Note right of M: result.optimalpath (WKB)\ndistance, duration
-    M->>M: WKB 파싱 → 좌표 리스트
-    M->>M: WebSocket /serverToClient/{socketId}
-```
+**해결** — 전달 시 **콜백 주소·클라이언트 세션 키**를 계약으로 고정해 비동기 추적을 단순화했습니다.
 
-### 타격범위 분석 (strikeRange)
+**성과** — 프론트는 **“구독만 하면 된다”**는 단순 계약으로 복잡도를 낮췄습니다.
 
-```mermaid
-sequenceDiagram
-    participant C as 클라이언트
-    participant M as main-api
-    participant AI as AI 모델 서버
+### Challenge: MapStruct + MyBatis로 대규모 도메인을 안전하게
 
-    C->>M: POST /modelApi/strikeRange/forward
-    Note right of M: 환경정보(참호) 목록\nsocketId
-    M->>M: 환경별 TransferStrikeRangeDto 생성
-    M->>AI: POST /async/006\n(참호 좌표 + callbackUrl)
-    M-->>C: 200 OK
+**상황** — CRUD DTO가 수십 종이라 수동 매핑은 실수가 나기 쉽습니다.
 
-    AI->>M: POST /modelApi/strikeRange/receive
-    Note right of M: result (Base64)\nenvironmentId, type
-    M->>M: Base64 디코딩 → TIF 파일 저장
-    M->>M: WebSocket /serverToClient/{socketId}
-    Note right of M: strikeRangeFile 메시지
-```
+**문제** — 필드 하나 어긋나면 운영 데이터가 깨집니다.
 
-## 인증/보안
+**접근** — **MapStruct 인터페이스**로 DTO↔VO 변환을 컴파일 타임에 생성하고, SQL은 XML Mapper로 명시했습니다.
 
-### Spring Security 설정
+**해결** — 도메인 폴더를 **사용자·부대·국면·설정** 등으로 나눠 탐색 비용을 줄였습니다.
 
-```mermaid
-graph LR
-    subgraph mainSecurity ["main-api Security"]
-        M1["/auth/** → permitAll"]
-        M2["/modelApi/** → permitAll"]
-        M3["/stomp/** → permitAll"]
-        M4["/edge/** → hasAuth('M')"]
-        M5["/aetem/main/** → hasAuth('M')"]
-    end
+**성과** — 리팩터링 시 **컴파일러가 매핑 깨짐을 잡아** 회귀를 줄였습니다.
 
-    subgraph adminSecurity ["admin-api Security"]
-        A1["/auth/** → permitAll"]
-        A2["/stomp/** → permitAll"]
-        A3["/aetem/admin/** → hasAuth('A')"]
-    end
-```
+### Challenge: WebSocket 브로드캐스트 vs 개인 채널
 
-### JWT 처리 흐름
+**상황** — GPS는 전 지휘판이 봐야 하고, AI 결과는 **요청한 클라이언트만** 봐야 합니다.
 
-1. 로그인 → `AuthService.login()` → JWT 발급 (HS256, 유효기간 30일)
-2. 요청 시 → `JwtAuthorizationFilter` → `Authorization: Bearer {token}` 파싱
-3. 토큰 검증 → `JwtService.getSubject()` → `UserDetailsService` 인증 객체 설정
-4. 만료/유효하지 않음 → 401 JSON 응답
+**문제** — 한 채널에 몰면 정보 유출·노이즈가 생깁니다.
 
-### 권한 체계
+**접근** — **전체 브로드캐스트 토픽**과 **세션별 개인 토픽**을 **메시지 성격별로 분리**했습니다.
 
-| 권한 코드 | 역할 | 접근 범위 |
-|----------|------|-----------|
-| `M` | Main (지휘관) | 지휘 API + Edge API |
-| `E` | Edge (현장) | 엣지 전용 기능 |
-| `A` | Admin (관리자) | 관리 CRUD API |
+**해결** — CONNECT 시 JWT 검증으로 구독 권한을 통일했습니다.
 
-## 데이터 접근 계층
+**성과** — 실시간 기능을 **보안 모델과 같이** 설명할 수 있게 되었습니다.
 
-### MapStruct DTO-VO 변환
+### Challenge: 반복 조회 부하(Ehcache)
 
-계층 간 타입 안전한 데이터 변환을 MapStruct로 자동 생성합니다:
+**상황** — 공통코드·부대 목록 등 읽기 쿼리가 매우 잦습니다.
 
-| MapStruct | 변환 대상 |
-|-----------|----------|
-| UserMapstruct | 사용자 CRUD DTO ↔ VO |
-| UnitMapstruct | 부대 CRUD DTO ↔ VO |
-| SituationMapstruct | 국면 CRUD DTO ↔ VO |
-| ReportMapstruct | 보고 DTO ↔ VO |
-| OrderMapstruct | 지시 DTO ↔ VO |
-| WeatherSetMapstruct | 기상셋 DTO ↔ VO |
-| MapObjectMapstruct | 지도 오브젝트 DTO ↔ VO |
-| GpsMapstruct | GPS DTO ↔ VO |
-| EnvironmentMapstruct | 환경 DTO ↔ VO |
-| ... (20+ Mappers) | 전체 도메인 커버 |
+**문제** — DB 커넥션이 병목이 됩니다.
 
-### MyBatis Mapper
+**접근** — **Ehcache 3**로 열역학적으로 자주 읽히는 데이터를 캐시했습니다.
 
-도메인별 XML Mapper로 SQL을 관리합니다:
-- `resources/mybatis/mapper/domain/user/` - 사용자
-- `resources/mybatis/mapper/domain/unit/` - 부대, 무기, 장비
-- `resources/mybatis/mapper/domain/situation/` - 국면, 보고, 지시, 방책
-- `resources/mybatis/mapper/domain/setting/` - 기상, 환경, 템플릿, 지도, 계획
-- `resources/mybatis/mapper/domain/system/` - 파일, 기상정보
+**해결** — 캐시 키·TTL을 운영 피드백에 맞춰 조정할 수 있게 했습니다.
 
-## 엣지 DB 동기화
+**성과** — 피크 시간 **응답 지연을 완화**했습니다.
 
-PostgreSQL → SQLite 변환 로직:
+## 설계 메모
 
-```mermaid
-graph LR
-    PG["PostgreSQL\n(운영 DB)"] -->|"copyDataBase()"| Convert["Java SQLite JDBC\n테이블 생성 + 데이터 복사"]
-    Convert --> SQLite["SQLite 파일\n(바이트 배열)"]
-    SQLite -->|"API 응답"| Edge["Edge 장비\n(오프라인 DB)"]
-```
-
-**변환 대상 테이블:**
-- `user_user`: 사용자 정보
-- `unit_device`: 장비 정보 (해당 deviceId만 필터링)
-- `unit_force`: 부대 정보
-- `common_group_code`, `common_detail_code`: 공통 코드
-
-## WebSocket STOMP
-
-### 설정
-
-- **엔드포인트**: `/stomp` (SockJS 폴백)
-- **메시지 크기**: 최대 50MB
-- **브로커 채널**: `/sub`, `/serverToClient`, `/serverToClientAll`
-- **인증**: `FilterChannelInterceptor` → CONNECT 시 JWT 검증
-
-### GPS 전송 흐름
-
-1. Edge 장비 → `POST /edge/createEdgeDeviceGps` (위경도)
-2. `GpsService` → 위경도를 MGRS 좌표로 변환
-3. `edge_device_gps_info` 테이블에 저장
-4. `/serverToClientAll`로 `gpsInfo` 메시지 브로드캐스트
-5. Main 클라이언트 → Cesium 3D 지도에 드론 위치 업데이트
-
-## 배치 스케줄러
-
-| 작업 | Cron | 스레드 풀 | 프로파일 |
-|------|------|-----------|---------|
-| `dailyWeatherInsert` | 매일 01:00 | 1 | `!local` |
-| `currentWeatherTask` | 매 10분 (비활성) | 2 | `!local` |
-
-- **기상 데이터 수집**: 외부 기상 API 호출 → `system_weather_info` 저장
-- **지역**: 운영 지역 기상 (풍속, 기온, 습도 등)
-
-## 캐시 (Ehcache)
-
-Ehcache 3.10.8로 반복 조회 데이터를 캐싱합니다:
-- 공통 코드 (그룹코드, 상세코드)
-- 부대 목록
-- 기상 데이터
-
-## API 문서 (SpringDoc OpenAPI)
-
-- **main-api**: `http://localhost:8081/swagger-ui.html`
-- **admin-api**: `http://localhost:8080/swagger-ui.html`
-- Swagger YAML은 `document/swagger/` 디렉터리에서 관리
+- REST 엔드포인트 전체 표는 제거했습니다. **OpenAPI 문서**와 **매핑 인터페이스 목록**은 레포/문서에서 확인하는 편이 이직용 설명에 더 적합합니다.

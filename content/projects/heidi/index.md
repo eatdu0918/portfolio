@@ -18,16 +18,16 @@ gallery:
     alt: "타임라인 추적"
 tags: ["Vue 3", "Spring Boot 3", "Python", "YOLOv8", "RabbitMQ", "Redis", "Electron", "Docker"]
 techStack:
-  frontend: ["Vue 3", "Electron 30", "PrimeVue 4", "Tailwind CSS", "Pinia", "SockJS/STOMP", "vue-i18n"]
-  backend: ["Spring Boot 3.2", "Spring Security", "JWT (HS512)", "MyBatis", "JPA", "WebSocket STOMP"]
+  frontend: ["Vue 3", "Electron 30", "PrimeVue 4", "Tailwind CSS", "Pinia", "웹소켓 메시징", "vue-i18n"]
+  backend: ["Spring Boot 3.2", "Spring Security", "JWT (HS512)", "MyBatis", "JPA", "실시간 웹소켓"]
   infrastructure: ["RabbitMQ", "Redis", "MariaDB", "Docker", "Prometheus/Micrometer"]
   ai: ["YOLOv8 (바인딩)", "BYTETracker (연동)", "ONNX Runtime", "TensorRT", "Stable Diffusion 1.5 (바인딩)", "ControlNet", "IP-Adapter-FaceID", "ODTrack", "SPIGA"]
 highlights:
   - "마이크로서비스 기반 5개 AI 추론 모델 바인딩 및 Consumer 파이프라인 설계/구현"
   - "RabbitMQ + Redis Pub/Sub 이벤트 드리븐 아키텍처로 실시간 처리 상태 관리"
-  - "WebSocket STOMP 기반 실시간 처리 진행률 및 완료 알림 시스템"
+  - "웹소켓 기반 실시간 처리 진행률 및 완료 알림 시스템"
   - "Electron + Vue 3 크로스플랫폼 데스크톱 앱 (SFTP 파일 전송, SQLite 로컬 DB)"
-  - "Spring Boot 3 멀티모듈 아키텍처 (front_api / back_api / common)"
+  - "Spring Boot 3 멀티모듈(사용자 API·관리 API·공통 모듈)"
   - "ONNX Runtime + TensorRT 추론 최적화를 통한 GPU 가속 서비스 구축"
   - "수동 비식별화 편집 기능 (이미지/비디오 캔버스 기반 영역 선택)"
   - "다국어 지원 (한국어, 영어, 일본어)"
@@ -37,23 +37,34 @@ workType: company
 category: "fullstack"
 ---
 
-## 프로젝트 개요
+## 왜 이 프로젝트인가
 
-Heidi는 영상 및 이미지에서 개인정보(얼굴, 번호판)를 AI 모델로 자동 탐지하고 비식별화(블러/교체) 처리하는 엔터프라이즈 SaaS 플랫폼입니다.
+엔터프라이즈 비식별화는 **정확도**와 **처리 시간(수 분~수십 분)**, **테넌트 격리**가 동시에 걸린다. 브라우저만으로는 대용량·SFTP·로컬 편집까지 커버하기 어렵기 때문에 **Electron + 이벤트 파이프라인**을 전제로 제품을 설계했다.
 
-사용자가 파일을 업로드하면 연동된 **AI 추론 파이프라인**이 자동으로 객체를 탐지하고, 선택한 방식(블러 또는 합성 교체)으로 비식별화를 수행합니다. 전체 과정은 WebSocket을 통해 실시간으로 진행률이 전달됩니다.
+## 내가 풀려던 문제
 
-### 주요 기능
+1. GPU 추론은 **API 응답 시간과 분리**되어야 한다 — 동기 HTTP로 워커를 붙잡으면 전부가 느려진다.
+2. Python 워커가 늘어날수록 **콜백 엔드포인트 난립**이 생기므로, 실시간 UI로 가는 길을 단순화해야 한다.
+3. “완전 자동”과 “사람이 보정”을 **같은 제품**에서 전환할 수 있어야 한다.
 
-- **자동 비식별화**: YOLOv8 기반 얼굴/번호판 탐지 및 블러/AI 합성 교체 바인딩
-- **수동 비식별화**: 사용자가 캔버스에서 직접 영역을 지정하여 블러 처리
-- **비디오 트래킹**: 제로샷 객체 트래킹 모델 연동을 통한 프레임 간 일관성 유지
-- **배치 처리**: 대량 파일 일괄 업로드 및 처리
-- **실시간 모니터링**: WebSocket 기반 처리 진행률 실시간 표시
-- **다국어 지원**: 한국어, 영어, 일본어
-- **크로스플랫폼**: Electron 기반 데스크톱 앱 + 웹 백오피스
+## 접근과 결과 (요약)
 
-### 나의 역할
+- **RabbitMQ로 단계형 파이프라인**을 만들고, API는 작업을 큐에 넣는 데서 빠르게 끝낸다.
+- 워커 → **Redis Pub/Sub** → Spring → **실시간 메시지**로 진행률을 푸시해 폴링 없이 신뢰를 만든다.
+- **Electron 메인 프로세스**에서 SFTP·SQLite·FFmpeg를 처리하고, 백오피스는 가벼운 웹으로 분리했다.
 
-프론트엔드(Vue 3 + Electron), 백엔드(Spring Boot 3), 그리고 AI 모델 바인딩을 위한 Python Consumer 영역까지 전 영역에 걸친 풀스택 개발을 담당했습니다. 오픈소스 AI 모델들을 실제 서비스 환경에 맞게 통합하고, 안정적인 추론 파이프라인 아키텍처를 설계하여 배포했습니다.
+## 제품 관점에서의 가치
+
+고객사는 **배치 처리와 실시간 진행률**을 동시에 원하고, 운영팀은 **웹 백오피스**로 테넌트를 관리한다. 개발팀은 언어·프로세스가 다른 구성요소를 **메시지 계약**으로 묶어 확장할 수 있다.
+
+## 상세는 탭에서
+
+- **아키텍처**: REST / 실시간 메시징 / RabbitMQ / Redis의 역할 분담
+- **프론트엔드**: Electron IPC, 실시간 구독, 수동 편집 UX
+- **백엔드**: 멀티모듈 API, 인증·테넌트, 메시징 연계
+- **AI/ML**: Consumer별 목적·GPU/CPU 분리
+
+## 나의 역할
+
+**Vue 3 + Electron, Spring Boot 3, Python Consumer**까지 포함한 풀스택으로 파이프라인을 설계·구현했다. 오픈소스 모델을 **운영 가능한 형태**로 묶는 데 집중했다.
 

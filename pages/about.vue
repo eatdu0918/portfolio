@@ -10,7 +10,7 @@ const experiences = [
     company: '개인 프로젝트',
     project: 'dev-blog (기술 블로그)',
     description:
-      'Next.js App Router 기반 개인 기술 블로그. Markdown을 unified(remark/rehype)로 확장해 Sandpack·Mermaid·커스텀 컴포넌트를 본문에 삽입하고, Prisma·PostgreSQL·Server Actions로 댓글을 처리합니다. Vercel 배포.',
+      '콘텐츠 파이프라인(remark/rehype 확장)과 본문 임베딩(Sandpack·Mermaid) 설계를 주도했고, 댓글 도메인은 Prisma·Server Actions로 서버 측에서 일관되게 처리하도록 맡았습니다. 배포·품질은 Vercel·Vitest로 끝까지 책임졌습니다.',
     techs: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Vitest', 'Sandpack'],
   },
   {
@@ -19,7 +19,7 @@ const experiences = [
     company: '개인 프로젝트',
     project: 'Sparta e-commerce MSA',
     description:
-      '이커머스 도메인 기준 MSA 학습·구현. Spring Cloud Gateway, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션, React(Vite) 클라이언트, Docker/Kubernetes·GitHub Actions → GHCR 파이프라인까지 구성.',
+      '도메인을 기준으로 서비스 경계를 나누고 Gateway·이벤트 흐름을 직접 연결해 “끊기지 않는” 주문·재고 시나리오를 검증했습니다. 클라이언트·인프라(K8s, GHCR)까지 한 사람이 맥락을 유지하도록 구성했습니다.',
     techs: ['Spring Boot 3', 'Spring Cloud Gateway', 'Kafka', 'Redis', 'React 19', 'Kubernetes', 'Docker', 'GitHub Actions'],
   },
   {
@@ -27,7 +27,8 @@ const experiences = [
     role: '프론트엔드 개발자 (아키텍처 설계)',
     company: 'AI Studio',
     project: 'AETEM v2 COP',
-    description: 'OpenLayers + MIL-STD-2525D 기반 공통작전상황도(COP) 시스템 개발. Provider/Manager 계층 아키텍처 설계, NATO 표준 군사 부호 렌더링 시스템 구현, Vue Flow 기반 전투편성표(ORBAT) 다이어그램 개발.',
+    description:
+      '지도 모듈을 Provider/Manager 패턴으로 쪼개 팀이 동시에 손댈 수 있는 뼈대를 잡았고, MIL-STD-2525D 부호·ORBAT 다이어그램처럼 요구가 무거운 UI를 Vue 쪽에서 끝까지 밀어 넣었습니다. 상세 지도·부호 스펙은 프로젝트 탭을 참고해 주세요.',
     techs: ['Vue 3', 'OpenLayers', 'MIL-STD-2525D', 'Tailwind CSS', 'Pinia', 'Vue Flow', 'Turf.js'],
   },
   {
@@ -35,7 +36,8 @@ const experiences = [
     role: '풀스택 개발자',
     company: 'AI Studio',
     project: 'AETEM',
-    description: 'Cesium 3D 지도 기반 군사 작전 지휘통제(C4I) 시스템 개발. 3개 Vue 3 클라이언트(지휘 Main, 관리 Admin, 현장 Edge) 동시 개발, 외부 AI 분석 모델(이동로/타격범위) 서비스 바인딩 및 데이터 연동, 엣지 장비 HLS 스트리밍 구현.',
+    description:
+      '지휘·관리·엣지 3클라이언트를 동시에 맡아 화면·API 계약을 맞췄고, 외부 분석 모델·HLS 스트리밍처럼 “연결만 어렵다”는 구간을 직접 이어 붙였습니다. 시스템이 무엇을 하는지는 프로젝트 상세에서 다룹니다.',
     techs: ['Vue 3', 'Cesium', 'PrimeVue', 'Quasar', 'Spring Boot 3', 'PostgreSQL', 'WebSocket', 'HLS.js'],
   },
   {
@@ -43,7 +45,8 @@ const experiences = [
     role: '풀스택 개발자 + AI 파이프라인 통합',
     company: 'AI Studio',
     project: 'Heidi',
-    description: '영상/이미지 비식별화 SaaS 서비스 풀스택 개발. Vue 3 + Electron 데스크톱 앱, Spring Boot 3 멀티모듈 백엔드, RabbitMQ 기반 5개 AI 추론 모델(YOLO, SD 등) 바인딩 및 파이프라인 설계/구현. Redis Pub/Sub 실시간 상태 관리.',
+    description:
+      'Electron·SFTP·로컬 SQLite와 Spring API·큐·Redis를 한 흐름으로 엮는 데 집중했습니다. 다단계 AI 워커와 수동 비식별 분기에서 메시지·상태 이벤트가 끊기지 않게 설계·디버깅을 반복했고, 기술별로 무엇을 했는지는 기술 스택 탭에 정리했습니다.',
     techs: ['Vue 3', 'Electron', 'Spring Boot 3', 'Python', 'RabbitMQ', 'Redis', 'YOLOv8', 'Docker'],
   },
   {
@@ -51,87 +54,9 @@ const experiences = [
     role: '풀스택 개발자',
     company: 'AI Studio',
     project: 'RMS',
-    description: 'AI 학습 데이터 관리 시스템(Raw Data Management System) 개발. Spring Boot + JSP 프론트엔드, REST API 백엔드, 플러그인 기반 비디오→이미지 변환 파이프라인, MongoDB + MariaDB 듀얼 DB 구조 설계.',
+    description:
+      '공통 라이브러리·프론트·API·컨슈머가 같은 도메인 규칙을 쓰도록 모듈 경계를 정리하고, JSP 레거시와 REST·큐 기반 신규 기능이 공존하도록 이관 구간을 맡았습니다. 듀얼 DB·플러그인 파이프라인의 책임 분리를 설계에 반영했습니다.',
     techs: ['Spring Boot', 'JSP', 'jQuery', 'MyBatis', 'MariaDB', 'MongoDB', 'RabbitMQ', 'Python'],
-  },
-]
-
-const skillCategories = [
-  {
-    title: 'Frontend',
-    icon: 'heroicons:computer-desktop-20-solid',
-    skills: [
-      { name: 'Vue 3 / Nuxt 3', summary: 'AETEM·COP·Heidi 등 SPA, 본 포트폴리오 Nuxt 3 구축' },
-      { name: 'Next.js / React 19', summary: 'dev-blog(App Router·Server Actions), Sparta 쇼핑 클라이언트(Vite)' },
-      { name: 'Electron', summary: 'Heidi 비식별화 데스크톱 클라이언트 패키징·배포' },
-      { name: 'PrimeVue / Quasar', summary: 'AETEM 지휘/관리 UI, Quasar 기반 멀티 클라이언트' },
-      { name: 'Tailwind CSS', summary: 'COP·관리 화면 위주 유틸리티 퍼스트 UI 스타일링' },
-      { name: 'Pinia', summary: '대규모 지도·실시간 상태 전역 스토어 설계' },
-      { name: 'TypeScript', summary: '컴포넌트·지도 모듈 타입 정의 및 유지보수성 강화' },
-    ],
-  },
-  {
-    title: 'Backend',
-    icon: 'heroicons:server-20-solid',
-    skills: [
-      { name: 'Spring Boot 3', summary: 'Heidi·AETEM·RMS 멀티모듈 REST API·비즈니스 로직' },
-      { name: 'Spring Cloud / MSA', summary: 'Sparta: Gateway·OpenFeign·서비스 분리·통합 테스트(TestContainers)' },
-      { name: 'Spring Security / JWT', summary: 'SaaS·C4I 서비스 인증·인가·세션 정책' },
-      { name: 'MyBatis / JPA', summary: 'RMS·레거시 연동 구간 SQL 매핑 및 엔티티 설계' },
-      { name: 'REST API Design', summary: '프론트·AI·외부 시스템 연동용 API 계약 설계' },
-      { name: 'Kafka', summary: 'Sparta 서비스 간 이벤트·Saga 학습 범위' },
-      { name: 'RabbitMQ', summary: 'Heidi AI 추론 큐, RMS 비동기 작업 파이프라인' },
-      { name: 'WebSocket (STOMP)', summary: 'AETEM 실시간 상황·알림 브로드캐스트' },
-    ],
-  },
-  {
-    title: 'GIS / Map',
-    icon: 'heroicons:map-20-solid',
-    skills: [
-      { name: 'OpenLayers', summary: 'AETEM v2 COP 공통작전상황도 레이어·인터랙션' },
-      { name: 'Cesium 3D', summary: 'AETEM 3D 지형·자산 시각화 및 카메라 제어' },
-      { name: 'MIL-STD-2525D', summary: 'NATO 표준 군사 부호 렌더링·스타일 규칙 적용' },
-      { name: 'MGRS / proj4', summary: '작전 좌표 변환·그리드 오버레이' },
-      { name: 'GeoTools / JTS', summary: '서버 측 지오메트리·공간 연산 보조' },
-      { name: 'Turf.js', summary: 'COP 클라이언트 측 거리·범위 등 지리 분석' },
-    ],
-  },
-  {
-    title: 'AI / ML',
-    icon: 'heroicons:cpu-chip-20-solid',
-    skills: [
-      { name: 'Python', summary: 'RMS 변환 플러그인, Heidi 모델 래퍼·배치 스크립트' },
-      { name: 'YOLOv8 / Object Detection', summary: 'Heidi 얼굴·번호판 등 탐지 파이프라인 연동' },
-      { name: 'ONNX Runtime / TensorRT', summary: '추론 지연 최적화·엣지 배포 검토' },
-      { name: 'Stable Diffusion', summary: 'Heidi 교체형 비식별화 추론 서비스 바인딩' },
-      { name: 'OpenCV', summary: '영상 전처리·프레임 단위 처리 유틸' },
-      { name: 'PyTorch', summary: '실험·모델 수정 시 프로토타이핑' },
-    ],
-  },
-  {
-    title: 'Database',
-    icon: 'heroicons:circle-stack-20-solid',
-    skills: [
-      { name: 'PostgreSQL', summary: 'AETEM 운영 데이터·공간 확장, dev-blog 댓글·Prisma' },
-      { name: 'MariaDB / MySQL', summary: 'RMS 정형 메타·트랜잭션 저장, Sparta 서비스별 DB' },
-      { name: 'Redis', summary: 'Heidi Pub/Sub 실시간 작업 상태·캐시' },
-      { name: 'MongoDB', summary: 'RMS 비정형 Raw·대용량 메타 저장' },
-      { name: 'SQLite', summary: '로컬·엣지 경량 임베디드 저장' },
-      { name: 'Ehcache / Caffeine', summary: 'API 응답·도형 스타일 등 애플리케이션 캐시' },
-    ],
-  },
-  {
-    title: 'Infrastructure',
-    icon: 'heroicons:cloud-20-solid',
-    skills: [
-      { name: 'Docker', summary: '서비스·추론 워커 컨테이너화 및 배포' },
-      { name: 'Kubernetes', summary: 'Sparta 매니페스트·로컬/클러스터 배포 구조' },
-      { name: 'Linux / Shell', summary: '서버 운영·배치·로그 점검 자동화' },
-      { name: 'Git', summary: '멀티 프로젝트 브랜치 전략·코드 리뷰' },
-      { name: 'Nginx', summary: '리버스 프록시·정적·업스트림 구성' },
-      { name: 'Prometheus', summary: '메트릭 수집·기본 대시보드 연동' },
-      { name: 'CI/CD', summary: 'Sparta: GitHub Actions → GHCR, 기타 빌드·배포 파이프라인' },
-    ],
   },
 ]
 
@@ -190,6 +115,13 @@ const strengths = [
           <p class="text-base text-surface-600 leading-relaxed">
             웹 프론트엔드와 백엔드, AI 모델 바인딩 및 추론 파이프라인까지 아우르는 풀스택 개발자입니다. 개인 프로젝트로 Next.js 기술 블로그와 Spring Cloud 기반 MSA를 병행해 확장합니다.
           </p>
+          <p class="mt-4 text-sm text-surface-500 leading-relaxed">
+            기술별 활용 내역은
+            <NuxtLink to="/skills" class="text-brand-600 font-semibold hover:underline">기술 스택</NuxtLink>,
+            제품·시스템 설명은
+            <NuxtLink to="/projects" class="text-brand-600 font-semibold hover:underline">프로젝트</NuxtLink>
+            탭에서 확인할 수 있습니다.
+          </p>
         </div>
       </div>
     </section>
@@ -214,40 +146,8 @@ const strengths = [
       </div>
     </section>
 
-    <!-- Skills -->
-    <section class="py-14 sm:py-20 bg-surface-50">
-      <div class="section-container">
-        <h2 class="text-lg font-bold text-surface-800 mb-2 tracking-tight">기술 역량</h2>
-        <p class="text-sm text-surface-500 mb-8">
-          해당 스택으로 진행한 프로젝트·업무 맥락을 한 줄로 정리했습니다.
-        </p>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <div
-            v-for="cat in skillCategories"
-            :key="cat.title"
-            class="p-5 rounded-xl bg-white border border-surface-100"
-          >
-            <div class="flex items-center gap-2.5 mb-5">
-              <div class="w-8 h-8 rounded-lg bg-surface-50 border border-surface-200 flex items-center justify-center">
-                <Icon :name="cat.icon" class="w-4 h-4 text-brand-500" />
-              </div>
-              <h3 class="text-base font-bold text-surface-800">{{ cat.title }}</h3>
-            </div>
-            <div class="space-y-3.5">
-              <div v-for="skill in cat.skills" :key="skill.name">
-                <div class="text-sm font-medium text-surface-700 mb-1">{{ skill.name }}</div>
-                <p v-if="skill.summary" class="text-xs text-surface-500 leading-snug">
-                  {{ skill.summary }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Experience -->
-    <section class="py-14 sm:py-20 bg-white">
+    <section class="py-14 sm:py-20 bg-surface-50">
       <div class="section-container">
         <h2 class="text-lg font-bold text-surface-800 mb-8 tracking-tight">경력</h2>
         <div class="space-y-4">

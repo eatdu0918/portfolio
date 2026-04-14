@@ -79,7 +79,7 @@ onUnmounted(() => {
       v-if="aiGeneratedImages"
       class="mb-4 text-xs text-surface-500 leading-relaxed max-w-3xl"
     >
-      아래 이미지는 <strong class="font-semibold text-surface-600">실제 작업한 내용을 기반으로 생성한 AI 이미지</strong>입니다.
+      아래 이미지는 <strong class="font-semibold text-surface-600">실제 개발한 내용을 기반으로 생성한 AI 이미지</strong>입니다.
     </p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <button

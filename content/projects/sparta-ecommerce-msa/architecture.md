@@ -5,76 +5,47 @@ category: "architecture"
 order: 1
 ---
 
-## 전체 구성
+## 핵심 기술 (한 줄 요약)
 
-클라이언트(React + Vite)는 **Spring Cloud Gateway**를 통해 각 마이크로서비스에 접근합니다. 도메인별로 **독립 MySQL**을 두고, 세션·캐시 등에는 **Redis**, 서비스 간 이벤트에는 **Kafka**(Zookeeper 연동)를 사용하는 형태입니다.
+**React(Vite) 클라이언트 → Spring Cloud Gateway → 도메인별 Spring Boot 서비스**이며, 데이터는 **서비스별 MySQL**, 세션·횡단 관심사는 **Redis**, 서비스 간 이벤트는 **Kafka(Zookeeper)**로 흐릅니다.
+
+## 기술적 도전과 해결
+
+### Challenge: MSA에서 “지금 당장 맞아야 하는 것”과 “나중에 맞아도 되는 것”
+
+**상황** — 주문·결제·할인 조합은 사용자가 즉시 결과를 봐야 합니다.
+
+**문제** — 전부 이벤트만 쓰면 UX가 복잡해지고, 전부 동기만 쓰면 결합도가 높아집니다.
+
+**접근** — **OpenFeign 동기 호출**로 즉시 일관성이 필요한 흐름을 처리하고, 취소·환불 등 후속 단계는 **Kafka 이벤트 + 보상(Saga) 학습 범위**로 나눴습니다.
+
+**해결** — 게이트웨이를 단일 진입점으로 두어 클라이언트가 서비스마다 호스트를 알 필요 없게 했습니다.
+
+**성과** — “실무에서 흔한 타협”을 **의도적으로 선택**한 레퍼런스가 되었습니다.
+
+### Challenge: 데이터 소유권을 DB까지 분리
+
+**상황** — 모놀리식 스키마를 나누면 마이그레이션·조인 전략이 바뀝니다.
+
+**문제** — 한 DB를 공유하면 MSA 이점이 줄어듭니다.
+
+**접근** — **서비스별 MySQL**을 두고, 조합이 필요하면 API/게이트웨이 aggregation 패턴을 씁니다.
+
+**해결** — 도메인 경계를 user/product/order/discount/payment/cancel/refund로 고정했습니다.
+
+**성과** — 장애·스케일을 **서비스 단위로 격리**해 실험하기 쉬워졌습니다.
+
+## 구성 한눈에
 
 ```mermaid
 graph TD
-    subgraph clients [Client]
-        WebApp["React 19 + Vite\nTypeScript, Tailwind"]
-    end
-
-    subgraph gatewayLayer [API Gateway]
-        GW["Spring Cloud Gateway\nJWT, Redis, 라우팅"]
-    end
-
-    subgraph services [Microservices]
-        UserSvc["user-service"]
-        ProductSvc["product-service"]
-        OrderSvc["order-service"]
-        DiscountSvc["discount-service"]
-        PaymentSvc["payment-service"]
-        CancelSvc["cancel-service"]
-        RefundSvc["refund-service"]
-    end
-
-    subgraph datastores [Data]
-        MySQLUser["MySQL\nuser DB"]
-        MySQLProduct["MySQL\nproduct DB"]
-        MySQLOrder["MySQL\norder DB"]
-        MySQLDiscount["MySQL\ndiscount DB"]
-        MySQLPayment["MySQL\npayment DB"]
-        MySQLCancel["MySQL\ncancel DB"]
-        MySQLRefund["MySQL\nrefund DB"]
-        RedisStore["Redis\n세션·캐시 등"]
-    end
-
-    subgraph messaging [Messaging]
-        KafkaBus["Apache Kafka"]
-        ZK["Zookeeper\nKafka 연동"]
-    end
-
-    WebApp -->|"HTTPS / REST"| GW
-    GW --> UserSvc
-    GW --> ProductSvc
-    GW --> OrderSvc
-    GW --> DiscountSvc
-    GW --> PaymentSvc
-    GW --> CancelSvc
-    GW --> RefundSvc
-    GW --> RedisStore
-
-    UserSvc --> MySQLUser
-    ProductSvc --> MySQLProduct
-    OrderSvc --> MySQLOrder
-    DiscountSvc --> MySQLDiscount
-    PaymentSvc --> MySQLPayment
-    CancelSvc --> MySQLCancel
-    RefundSvc --> MySQLRefund
-
-    OrderSvc -->|"이벤트 발행/구독"| KafkaBus
-    PaymentSvc --> KafkaBus
-    CancelSvc --> KafkaBus
-    RefundSvc --> KafkaBus
-    DiscountSvc --> KafkaBus
-    KafkaBus --> ZK
+    Web[React SPA] --> GW[Spring Cloud Gateway]
+    GW --> SVC[Domain services]
+    SVC --> DB[(Per-service MySQL)]
+    SVC --> Kafka[Apache Kafka]
+    GW --> Redis[(Redis)]
 ```
 
-## 주문·결제·취소·환불 흐름
+## 설계 메모
 
-주문 생성 이후 결제가 이어지고, 취소·환불 시나리오에서는 **도메인 서비스 간 동기 API(Feign 등)**와 **Kafka 이벤트**가 함께 쓰일 수 있습니다. 실패 시 **보상 트랜잭션(Saga)** 관점으로 상태를 맞추는 패턴을 학습·적용하는 것이 이 프로젝트의 핵심 중 하나입니다. 상세 시퀀스는 서비스별 구현과 이벤트 설계에 따라 달라질 수 있으므로, 게이트웨이 진입 → 주문/결제 서비스 → 메시지 브로커 → 후속 서비스 순으로 추적하면 전체 흐름을 파악하기 쉽습니다.
-
-## 인프라·배포
-
-컨테이너 이미지, Kubernetes, CI/CD(GitHub Actions → GHCR), 관측(Prometheus 등)에 대한 구체적인 구성은 **인프라** 탭에서 다룹니다.
+- 인프라·CI/CD·관측 세부는 **인프라** 탭에 두고, 여기서는 **비즈니스 흐름과 경계 선택**만 다룹니다.

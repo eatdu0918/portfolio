@@ -38,7 +38,7 @@ techStack:
       "Vite 7",
       "TypeScript",
       "Tailwind CSS 4",
-      "TanStack Query",
+      "비동기 서버 상태 동기화(React Query 계열)",
       "Zustand",
       "PortOne / Toss Payments SDK",
     ]
@@ -65,18 +65,35 @@ workType: personal
 category: "fullstack"
 ---
 
-## 프로젝트 개요
+## 왜 이 프로젝트인가
 
-스파르타(내일배움단) 교육 과정 **최종 개인 프로젝트**에서 착수해, 이커머스 시나리오를 바탕으로 **8개의 백엔드 마이크로서비스**(user, product, order, discount, payment, cancel, refund, gateway)와 **React(Vite) 클라이언트**, **Kafka**, **서비스별 MySQL**, **Kubernetes 매니페스트**, **GitHub Actions → GHCR**까지 한 흐름으로 구성했습니다.
+회사 업무에서 MSA를 끝까지 설계·운영할 기회는 흔치 않다. 교육 **최종 개인 프로젝트**에서 착수한 뒤에도, **게이트웨이·도메인 분리·이벤트·배포·관측**을 스스로 반복할 수 있는 **개인 레퍼런스**로 유지하고 있다.
 
-교육 이후에도 실무와 별도로 이 프로젝트를 **개인 레퍼런스**로 두고, 서비스 분리·API 게이트웨이·이벤트 기반 연동·배포·관측까지 **MSA를 직접 적용하며 보완**하는 것을 목표로 합니다.
+**웹 데모(ngrok, 터널 켤 때만):** [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/) — URL은 터널마다 달라질 수 있다.
 
-**웹 데모(ngrok)**: 터널이 동작 중일 때 클라이언트는 [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/) 로 접속할 수 있습니다. (URL은 터널 설정에 따라 변경될 수 있으며, 상세는 **인프라** 탭을 참고하세요.)
+## 내가 풀려던 문제
 
-### 핵심 기능(MVP)
+1. 클라이언트가 서비스마다 다른 호스트를 알면 **CORS·토큰·운영**이 지옥이 된다.
+2. 주문·결제는 **즉시 일관성**, 취소·환불은 **느슨한 결합**이 필요해 동기/비동기를 섞어야 한다.
+3. “로컬에서만 되는 MSA”는 의미가 없어 **CI·컨테이너·관측**까지 같은 전제로 두고 싶었다.
 
-- 사용자·상품·주문·할인 등 도메인별 서비스 분리 및 API 제공
-- 게이트웨이를 통한 라우팅·인증(JWT)·Redis 등 공통 관심사 처리
-- 주문·결제·취소·환불 등 이커머스 핵심 시나리오
-- Kafka를 활용한 서비스 간 비동기 연동 및 분산 트랜잭션 대응(보상 트랜잭션/Saga 등 학습 범위)
-- Docker/Kubernetes 기반 배포 구조 및 CI/CD
+## 접근과 결과 (요약)
+
+- **Spring Cloud Gateway**를 단일 진입점으로 두고 JWT·Redis 같은 횡단 관심사를 모았다.
+- **Feign + Kafka**로 즉시 응답이 필요한 흐름과 이벤트 기반 후속 처리를 나누고, Saga/보상은 학습 목표로 명시했다.
+- **Docker/K8s + GitHub Actions → GHCR + TestContainers**로 배포와 테스트 전제를 맞췄다.
+
+## 제품 관점에서의 가치
+
+이커머스 MVP는 “장바구니가 된다”보다 **서비스 경계를 잘못 나눴을 때 비용이 어디로 튀는지**를 체감하게 해준다. 게이트웨이·DB 분리·이벤트를 손으로 만지며 **운영 가능한 MSA 감각**을 쌓는 것이 목표다.
+
+## 상세는 탭에서
+
+- **아키텍처**: 경계 선택·동기/비동기 혼합
+- **프론트엔드**: 서버 상태 캐시·결제·ngrok 검증
+- **백엔드**: 게이트웨이·Feign·Kafka·관측·테스트
+- **인프라**: K8s·CI·Prometheus·터널
+
+## 나의 역할
+
+**풀스택(개인)**으로 서비스·클라이언트·인프라 스크립트를 설계·구현하고, 교육 이후에도 스스로 보완하는 **레퍼런스 아키텍처**로 가꾸고 있다.

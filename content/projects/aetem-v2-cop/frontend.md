@@ -5,240 +5,65 @@ category: "frontend"
 order: 2
 ---
 
-## Vue 3 + OpenLayers 기반 COP
+## 핵심 기술 (한 줄 요약)
 
-### 기술 스택
+**Vue 3 · Vite 7 · Pinia · Tailwind 4 · OpenLayers 10** 위에 **MIL-STD-2525D**(milsymbol / mil-sym-ts-web)·**Vue Flow**·**Turf.js**를 올렸고, 지도 캡처·Excel 보내기는 **html-to-image**, 표 데이터는 **xlsx**로 처리합니다. 3개 맵은 **라우터 keep-alive**로 컴포넌트를 유지합니다.
 
-| 분류 | 기술 | 버전 |
-|------|------|------|
-| **프레임워크** | Vue 3, Vite | 3.5, 7.2 |
-| **상태 관리** | Pinia | 3.0 |
-| **스타일** | Tailwind CSS | 4.1 |
-| **지도** | OpenLayers | 10.7 |
-| **군사 심볼** | milsymbol, mil-sym-ts-web, milgraphics | 3.0, 2.6, 0.0.2 |
-| **공간 연산** | Turf.js, MGRS | 7.3, 2.1 |
-| **다이어그램** | Vue Flow | 1.48 |
-| **유틸** | D3.js, xlsx, html-to-image, Ramda | - |
+## 기술적 도전과 해결
 
----
+### Challenge: SIDC 기반 심볼을 대량으로 올릴 때 SVG 생성 폭주
 
-## 멀티 맵 화면 구조
+**상황** — 같은 부대 심볼을 드래그·복제·재배치하는 구간이 잦아, **SIDC + 스타일 조합**마다 SVG를 새로 그리면 CPU와 GC 압력이 커집니다.
 
-3개의 독립 맵 화면을 `keep-alive`로 캐싱하여 화면 전환 시 상태를 유지합니다.
+**문제** — 단일 렌더러만 두면 “규격에 맞는 출력”과 “빠른 반복”을 동시에 맞추기 어렵고, 캐시 없이는 스크롤·줌 시에도 재생성이 반복됩니다.
 
-```mermaid
-graph LR
-    subgraph router ["Vue Router"]
-        S1["/screen1\n읽기 전용"]
-        S2["/screen2\n편집 가능"]
-        S3["/screen3"]
-        ST["/settings"]
-    end
+**접근** — **mil-sym-ts-web / milsymbol 이중 렌더러**를 설정으로 고르고, **LRU(최대 120)**로 최근 사용 SVG를 재사용했습니다. 화면은 좌표·SIDC만 넘기고, 벡터 레이어 갱신은 퍼사드 한곳에서 묶었습니다.
 
-    subgraph mapStore ["mapStore"]
-        MI["mapInstancesByContainerId\n{containerId: Map}"]
-        CR["currentRoutePath"]
-        SS["symbolSizeByContainerId"]
-    end
+**성과** — 반복 배치·줌 구간에서 **체감 지연과 메모리 스파이크**를 줄이고, 렌더러 교체 시에도 호출부 변경을 최소화했습니다.
 
-    S1 -->|"keep-alive"| MI
-    S2 -->|"keep-alive"| MI
-    S3 -->|"keep-alive"| MI
-```
+### Challenge: Screen 1~3마다 OpenLayers Map 인스턴스를 어디에 붙잡을지
 
-각 화면은 `MapScreen.vue`를 사용하며, `containerId`로 OpenLayers Map 인스턴스를 독립 관리합니다.
+**상황** — 화면마다 **다른 컨테이너 id**와 읽기 전용/편집 권한이 있어, 라우트 전환 후에도 **타일·벡터 상태**를 유지해야 했습니다.
 
-## OpenLayers 지도 모듈
+**문제** — 매 전환마다 `new Map()`을 하면 타일 재요청·심볼 재주입 비용이 크고, 하나의 Map을 공유하면 레이어·뷰포트가 섞입니다.
 
-### 맵 생성
+**접근** — **컨테이너 id별로 Map 인스턴스를 클라이언트 상태에 보관**하고, **Vue Router keep-alive**로 맵을 들고 있는 화면 컴포넌트 생명주기를 맞췄습니다.
 
-- **타일**: XYZ 타일 서버 (`VITE_TILE_LAYER_URL`), OSM OpenMapTiles
-- **좌표계**: EPSG:3857
-- **줌 범위**: 1~20
-- **초기 중심**: `VITE_CENTER_COORDINATE` (환경 변수)
-- **인터랙션**: DragRotate (Shift+드래그 회전), 기본 인터랙션
+**성과** — 탭·화면 이동 후에도 **맵 스코프가 분리된 채 상태가 유지**되어 운용 반복 입력이 줄었습니다.
 
-### 맵 컨트롤
+### Challenge: ol Draw와 미리보기 레이어가 뒤섞이면 잔상·이중 등록이 남는다
 
-- 줌 인/아웃
-- 회전 초기화 (0도 복귀)
-- 초기 위치 복귀
+**상황** — 전술 그래픽은 그리는 동안 **스케치·미리보기**가 분리되어 있어야 하고, 취소 시 임시 Feature가 남지 않아야 합니다.
 
----
+**문제** — Draw interaction 종료와 최종 스타일·GeoJSON 반영이 한 함수에 섞이면, 완료/취소/에러 경로마다 버그가 새로 생깁니다.
 
-## MIL-STD-2525D 군사 부호 시스템
+**접근** — **임시 스케치 레이어**와 **미리보기 레이어**를 분리하고, 완료 시에만 **기하 복원 → 규격 2D 심볼 → GeoJSON·영구 레이어 등록** 순으로 단방향 처리했습니다. 그래픽 유형별로 Draw 전략만 갈아끼우도록 **서브시스템**으로 묶었습니다.
 
-### SIDC(Symbol Identification Code) 체계
+**성과** — QA 시 “어디까지가 임시인지”가 고정되어 **취소·재시도 시나리오**를 안정적으로 맞출 수 있었습니다.
 
-NATO MIL-STD-2525D 표준의 20~30자리 코드로 군사 부호를 식별합니다:
+### Challenge: Vue Flow ORBAT와 지도 배치 모드의 타이밍
 
-| 위치 | 의미 | 예시 |
-|------|------|------|
-| 1-2 | Version | 10 (2525D) |
-| 3-4 | Standard Identity | 03 (아군) |
-| 5-6 | Symbol Set | 10 (부대), 25 (전술 그래픽) |
-| 7-8 | Status | 00 (현재) |
-| 9-10 | HQ/Task Force/Dummy | - |
-| 11-16 | Entity/Type/Subtype | - |
-| 17-18 | Echelon | 12 (대대) |
-| 19-20 | ... | - |
+**상황** — 편성표에서 노드를 끌어 **지도에 부대 심볼을 놓는** 흐름이 필요했습니다.
 
-### 렌더러 이중 지원
+**문제** — 다이어그램 상태와 지도 Feature 상태를 항상 동기화하면 불필요한 왕복이 생기고, 배치 모드가 켜진 채로 일반 선택이 되면 인터랙션이 충돌합니다.
 
-두 가지 렌더링 엔진을 런타임에 교체할 수 있습니다:
+**접근** — 노드·엣지 생성은 **편성표 전용 컴포지션**에 모으고, **드래그 시작~드롭** 구간에만 지도 쪽 배치 모드를 켠 뒤, 종료 시 선택/인터랙션 상태로 되돌렸습니다.
 
-| 렌더러 | 특징 | 용도 |
-|--------|------|------|
-| **mil-sym-ts-web** | 정밀 MIL-STD 규격, 미국 육군 C5ISR 공식 | 기본 렌더러, 전술 그래픽 전용 |
-| **milsymbol** | 경량, 빠른 SVG 생성 | 대안 렌더러 (부대 심볼만) |
+**성과** — “표에서 구성 → 지도에 반영” 동선이 짧고, **모드 누수 없이** 일상 편집과 공존합니다.
 
-**SVG 캐시**: LRU 방식 최대 120개 캐싱으로 동일 부호 반복 렌더링 성능 최적화.
+### Challenge: 구현 디테일이 PR·이슈에만 남으면 재발한다
 
-### 전술 그래픽 유형
+**상황** — LRU 키 조합, keep-alive와 맵 인스턴스 해제 타이밍, Draw 취소 시 레이어 정리 순서는 **한 줄짜리 버그 수정**로는 맥락이 사라집니다.
 
-| 카테고리 | 그래픽 | 그리기 타입 |
-|---------|--------|-----------|
-| **선형** | Boundary, Phase Line, FEBA | LineString (2+ points) |
-| **영역** | Area of Operations, Engagement Area | Polygon (3+ points) |
-| **포인트** | Fire Reference Point, Observation Post | Point |
-| **원형** | Circular Target | Circle (center + radius) |
-| **사각** | Rectangular Target | Rectangle (4 vertices) |
+**문제** — 코드 주석만으로는 “왜 이 순서인지”가 검색되지 않고, 유사 버그가 다른 그래픽 유형에서 반복됩니다.
 
----
+**접근** — 퍼사드 **공개 메서드에 JSDoc**으로 전제·부작용(예: “확정 전까지 영구 레이어에 쓰지 말 것”)을 적고, Draw 파이프라인은 **시퀀스 다이어그램 + 완료/취소/에러 표**를 Markdown으로 유지했습니다. Screen 추가 시에는 **체크리스트 PR 템플릿**에 컨테이너 id·라우트 메타·레이어 등록 항목을 넣었습니다.
 
-## 상태 관리 (Pinia)
+**해결** — 이슈 번호와 문서 섹션을 **교차 링크**(이슈 → 문서 보강, 문서 → 관련 커밋)해 두었습니다.
 
-```mermaid
-graph TD
-    subgraph stores ["Stores"]
-        MS["mapStore\n지도 인스턴스\ncontainerId별 관리"]
-        MDS["militaryDataStore\n심볼·그래픽 메타데이터\nExcel 내보내기"]
-        LS["layerStore\nmapKey별 레이어\n가시성·편집·필터"]
-        SRS["symbolRendererStore\n렌더러 선택\n이름 표시 설정"]
-        CS["captureStore\n캡처 이미지 목록"]
-        SBS["sidebarStore\n스코프·검색·핀"]
-        BSM["battleScheduleModeStore\n스크린별 모드"]
-    end
+**성과** — QA·백엔드 동료와 **같은 다이어그램**을 기준으로 재현 단계를 맞출 수 있었고, 회귀 시 문서만 고쳐도 다음 투입자에게 전달됩니다.
 
-    MS --> LS
-    MS --> SRS
-    MDS --> SBS
-    LS --> SRS
-```
+## 설계 메모
 
-### layerStore 상세
-
-mapKey(route.path 또는 containerId)별로 독립적인 레이어 컨텍스트를 관리합니다:
-
-- **layers**: 레이어 목록 (id, name, color)
-- **layerVisibility / layerEditable**: 레이어별 가시성/편집 토글
-- **itemVisibility / itemEditable**: 개별 아이템별 오버라이드
-- **assignments**: featureId → layerIds 매핑 (assignment 모드)
-- **enabledSymbols**: symbolset+code 패턴 (rule 모드)
-
----
-
-## 사이드바 & 스코프 시스템
-
-```mermaid
-graph TD
-    subgraph sidebar ["Sidebar Scopes"]
-        Pins["Pins\n핀 고정 심볼 목록"]
-        Symbolic["Symbolic\nMIL-STD-2525D\n부대 심볼 카탈로그"]
-        Graphic["Graphic\n전술 그래픽 카탈로그"]
-        Layer["Layer\n레이어 관리\n가시성·편집"]
-        BS["Battle Schedule\n미배치 심볼"]
-    end
-
-    Symbolic -->|"클릭"| Place["지도에 배치\nactivateSymbolMode"]
-    Graphic -->|"클릭"| Draw["지도에 그리기\nactivateGraphicMode"]
-    BS -->|"드래그"| Diagram["편성표 추가"]
-```
-
-**ScopeSwitcher**: 5개 스코프(pins/symbolic/graphic/layer/battleSchedule) 전환
-**검색**: 한글/영문 심볼명 검색
-**핀 고정**: 자주 쓰는 심볼을 핀에 등록
-
----
-
-## 인터랙션 시스템
-
-### 지도 인터랙션
-
-| 모드 | 동작 | 트리거 |
-|------|------|--------|
-| **Select** | 심볼/그래픽 선택, 정보 패널 표시 | 클릭 |
-| **Draw (Point)** | 부대 심볼 배치 | 심볼 선택 후 맵 클릭 |
-| **Draw (Line/Polygon)** | 전술 그래픽 그리기 + 실시간 미리보기 | 그래픽 선택 후 맵 클릭 |
-| **Translate** | 선택된 심볼 드래그 이동 | 드래그 |
-| **Modify** | 그래픽 꼭짓점 편집 | 선택 후 드래그 |
-
-### 키보드 단축키
-
-| 키 | 동작 |
-|----|------|
-| **Delete** | 선택된 아이템 삭제 |
-| **ESC** | 현재 모드 취소 |
-| **Shift + 드래그** | 지도 회전 |
-
----
-
-## 전투편성표 (ORBAT) 모듈
-
-Vue Flow 기반의 부대 편성표(Order of Battle) 다이어그램입니다.
-
-```mermaid
-graph TD
-    subgraph battleSchedule ["전투편성표 모듈"]
-        Modal["BattleScheduleModal\nVue Flow 다이어그램"]
-        Compose["useBattleScheduleDiagram\n노드/엣지 생성"]
-        Layout["orbatLayout\n계층 배치 알고리즘"]
-    end
-
-    subgraph features ["기능"]
-        Gen["generateElements\n데이터 → 노드+엣지"]
-        Add["addNodeToDiagram\n부대 추가"]
-        Remove["removeNodeFromDiagram\n부대 제거"]
-        Collapse["toggleNodeCollapse\n접기/펼치기"]
-        DnD["onDropOnPane/Node\n드래그 앤 드롭"]
-    end
-
-    Modal --> Compose
-    Compose --> Layout
-    Compose --> Gen
-    Compose --> Add
-    Compose --> Remove
-    Compose --> Collapse
-    Compose --> DnD
-```
-
-- **커스텀 노드**: `#node-unit` 슬롯으로 군사 부호 SVG가 포함된 노드
-- **커스텀 엣지**: `CenterStepEdge` (계단형 연결선)
-- **계층 배치**: `layoutTree` 알고리즘으로 부모-자식 자동 정렬
-- **팔레트**: 미배치 심볼을 사이드바에서 다이어그램으로 드래그 앤 드롭
-- **지도 연동**: 편성표에서 심볼 클릭 시 지도에 배치 모드 활성화
-
----
-
-## 지도 캡처 기능
-
-```mermaid
-graph LR
-    Map["OpenLayers Map\n현재 뷰포트"] -->|"html-to-image"| Capture["이미지 생성\n(PNG)"]
-    Capture --> Store["captureStore\n이미지 목록"]
-    Store --> Viewer["캡처 뷰어\n목록·삭제·전체삭제"]
-```
-
-- **Extent 캡처**: 현재 뷰포트 전체 또는 지정 영역
-- **회전 스냅**: 회전된 맵도 정확하게 캡처
-- **캡처 관리**: 여러 캡처를 리스트로 관리, 삭제, 전체 삭제
-
----
-
-## 환경 변수 설정
-
-| 변수 | 용도 | 예시 |
-|------|------|------|
-| `VITE_TILE_LAYER_URL` | 타일 서버 URL | `http://host:8001/styles/OSM/{z}/{x}/{y}.png` |
-| `VITE_CENTER_COORDINATE` | 지도 초기 중심 좌표 | `[128.3881, 37.58]` |
-| `VITE_SYMBOL_USAGE_INFO` | 심볼 표시 옵션 (echelon, taskForce 등) | JSON 문자열 |
+- 사이드바 스코프(핀·심볼·그래픽·레이어·편성표)는 **동일 퍼사드 축**과 맞물리게 두어, 신규 스코프는 UI만 추가하고 패턴을 복제하기 쉽게 했습니다.
+- **스토리북·컴포넌트 데모**가 없는 맵 도메인은, 대신 **“상태만 주입한 최소 예제” 스니펫**을 README에 넣어 퍼사드 사용법을 고정했습니다.

@@ -1,12 +1,25 @@
 <script setup lang="ts">
 const route = useRoute()
-const slug = route.params.slug as string
+const raw = route.params.slug
+const slug = decodeURIComponent(String(Array.isArray(raw) ? raw[0] : raw ?? '')).trim()
 
-const { data: project } = await useAsyncData(`project-${slug}`, () =>
-  queryCollection('projects')
-    .where('slug', '=', slug)
-    .first(),
-)
+async function fetchMainProject(s: string) {
+  if (!s)
+    return null
+  const withSlash = `/projects/${s}`
+  const noSlash = `projects/${s}`
+  for (const p of [withSlash, noSlash]) {
+    const byPath = await queryCollection('projects').path(p).first()
+    if (byPath?.category === 'fullstack')
+      return byPath
+  }
+  return queryCollection('projects')
+    .where('slug', '=', s)
+    .where('category', '=', 'fullstack')
+    .first()
+}
+
+const { data: project } = await useAsyncData(`project-${slug}`, () => fetchMainProject(slug))
 
 if (!project.value) {
   throw createError({ statusCode: 404, statusMessage: 'Project not found' })
@@ -18,7 +31,7 @@ useHead({
 
 const { data: subPages } = await useAsyncData(`project-${slug}-pages`, () =>
   queryCollection('projects')
-    .where('path', 'LIKE', `/projects/${slug}/%`)
+    .where('path', 'LIKE', `${`/projects/${slug}`}/%`)
     .where('category', '<>', 'fullstack')
     .order('order', 'ASC')
     .all(),

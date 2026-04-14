@@ -5,102 +5,48 @@ category: "frontend"
 order: 2
 ---
 
-## Spring Boot + JSP 웹 애플리케이션
+## 핵심 기술 (한 줄 요약)
 
-RMS 프론트엔드는 Spring Boot 2.7 + JSP + Apache Tiles 기반의 서버 사이드 렌더링 웹 애플리케이션입니다.
+**Spring Boot 2.7 + JSP/JSTL + Apache Tiles + jQuery** 기반의 **서버 사이드 렌더링** 관리 콘솔입니다. 세션은 **Spring Session JDBC**, API 호출은 **JWT Bearer**를 병행합니다.
 
-### 기술 스택
+## 기술적 도전과 해결
 
-- **서버**: Spring Boot 2.7.4 (WAR 패키징)
-- **뷰**: JSP/JSTL + Apache Tiles 3.0.8
-- **JavaScript**: jQuery 3.6.0, jQuery UI 1.13.0
-- **비디오**: Plyr.js (비디오 정제 도구)
-- **유틸**: Moment.js (날짜/시간), LocalForage (로컬 스토리지)
-- **인증**: Spring Session JDBC
-- **스타일**: 커스텀 CSS (도메인별 분리)
+### Challenge: 관리자·작업자 UI 요구가 완전히 다름
 
-### Apache Tiles 레이아웃
+**상황** — 관리자는 전체 데이터셋·플러그인·통계를 봐야 하고, 작업자는 배정된 작업만 빠르게 처리해야 합니다.
 
-```mermaid
-graph TD
-    subgraph layouts [레이아웃 종류]
-        Default["default\ntilesLayout.jsp\n(Left + Body + Footer)"]
-        Worker["worker\nworkerLayout.jsp\n(Header + Body)"]
-        None["none\nnone.jsp\n(Body Only)"]
-    end
-    
-    subgraph pages [페이지 매핑]
-        RawSet["rawSet/*\n→ default"]
-        Manage["manage/*\n→ default"]
-        Stats["stats/*\n→ default"]
-        Monitoring["monitoring/*\n→ default"]
-        WorkerPages["worker/*\n→ worker"]
-        Plugin["plugin/*\n→ none"]
-        Login["login/*\n→ none"]
-    end
-```
+**문제** — 한 레이아웃에 몰면 작업자 UX가 무거워집니다.
 
-- **default**: 관리자용 레이아웃 (좌측 사이드바 + 본문 + 푸터)
-- **worker**: 작업자용 레이아웃 (상단 헤더 + 본문)
-- **none**: 독립 페이지 (플러그인 도구, 로그인 등)
+**접근** — **Tiles 레이아웃을 기본·작업자·레이아웃 없음**으로 나누고 라우트 매핑을 분리했습니다.
 
-### 페이지 구조
+**해결** — 작업자 레이아웃은 헤더+본문 중심으로 시야를 넓혔습니다.
 
-| 도메인 | 주요 페이지 | 기능 |
-|--------|------------|------|
-| **로그인** | login.jsp | Session 기반 인증 |
-| **RawSet 관리** | rawSetList, rawSetDetail, createRawSet | RawSet CRUD, 플러그인 실행, 마스터 키 관리 |
-| **플러그인 도구** | imageRefineTool | 이미지 정제 (캔버스 기반) |
-| | videoRefine | 비디오 정제 (Plyr.js 플레이어) |
-| | textRefine, textRefineTool | LLM 텍스트 정제 |
-| | textRefineByJsonTool | JSON 기반 텍스트 정제 |
-| | importFileTool, importExcelTool | 파일/Excel Import |
-| | exportExcelTool, exportJsonTool, exportZipFile | Excel/JSON/ZIP Export |
-| | searchHistoryTool | 검색 이력 도구 |
-| | refineDataView, refineDataByJsonView | 정제 완료 데이터 뷰어 |
-| | pluginDetail | 플러그인 실행 상세 |
-| **사용자 관리** | userList, userDetail | 사용자 CRUD, 권한 관리 |
-| **카테고리 관리** | rawSetCategoryList, createRawSetCategory | RawSet 카테고리 CRUD |
-| **플러그인 관리** | pluginList, managePlugin | 플러그인 등록/관리 |
-| **프리셋** | createPreset, listPreset, listAddonPreset | 메타/Addon 프리셋 관리 |
-| **Model API** | modelApiList, manageModelApi, modelAnalytics | AI 모델 API 관리, 분석 |
-| **통계** | llmSetStats, workerStats, workerStatsDetail | 셋 통계, 작업자 통계 |
-| **모니터링** | monitoring, recordedVideo | CCTV 수집 현황, 녹화 영상 |
-| **작업자** | myWork, myPage | 배정된 작업, 개인 설정 |
-| **Addon** | fileImage | 이미지 파일 Addon |
+**성과** — 역할별 **인지 부하를 줄이고** 교육 비용을 낮췄습니다.
 
-### JavaScript 구조
+### Challenge: 플러그인 도구(이미지·비디오·LLM 정제)를 JSP 안에서 안전하게
 
-```
-static/
-├── js/
-│   ├── common.js              # 공통 유틸, 로그인 체크, 템플릿 엔진
-│   ├── aistudio.flowchart.v1.js  # 플러그인 플로우차트 시각화
-│   ├── rawSet/                 # RawSet 도메인 JS
-│   ├── plugin/                 # 플러그인 도메인 JS
-│   ├── manage/                 # 관리 도메인 JS
-│   ├── stats/                  # 통계 도메인 JS
-│   ├── worker/                 # 작업자 도메인 JS
-│   ├── addon/                  # Addon 도메인 JS
-│   ├── modelApi/               # Model API 도메인 JS
-│   └── preset/                 # 프리셋 도메인 JS
-├── css/                        # 도메인별 스타일시트
-└── lib/
-    ├── jquery-3.6.0.min.js
-    ├── jquery-ui.min.js
-    ├── jquery.slimscroll.min.js
-    ├── plyr.js                 # 비디오 플레이어
-    ├── moment.min.js           # 날짜/시간
-    └── localforage.js          # 로컬 스토리지
-```
+**상황** — 정제 도구는 캔버스·비디오 플레이어·대용량 JSON 편집이 필요합니다.
 
-### 인증 방식
+**문제** — 전역 스크립트가 비대해지면 충돌·메모리 누수가 납니다.
 
-- **프론트엔드(웹)**: Spring Session JDBC 기반 세션 인증
-- **API 호출**: jQuery AJAX로 rms_api에 JWT Bearer 토큰 전송
-- 로그인 시 세션 생성 + JWT 토큰 발급 → API 호출 시 토큰 사용
+**접근** — **정적 스크립트 폴더**를 도메인별(데이터셋·플러그인·작업자 등)로 나누고, 공통은 **공용 스크립트**에만 두었습니다.
 
-### 역할 기반 UI 분리
+**해결** — 비디오 플레이어 등 도구 라이브러리를 플러그인 페이지에만 로드했습니다.
 
-- **관리자(Admin)**: 좌측 사이드바 레이아웃, RawSet/사용자/플러그인/통계 전체 관리
-- **작업자(Worker)**: 상단 헤더 레이아웃, 배정된 작업만 표시 (myWork, myPage)
+**성과** — 신규 도구 추가 시 **번들 충돌 없이** 페이지 단위로 확장했습니다.
+
+### Challenge: 웹 세션 + API JWT 이중 인증 모델
+
+**상황** — 브라우저는 세션으로 로그인하지만, 백그라운드 작업 호출은 JWT가 필요했습니다.
+
+**문제** — 두 토큰이 어긋나면 403 루프가 납니다.
+
+**접근** — 로그인 시 **세션 생성 + JWT 발급**을 함께 하고, AJAX 레이어에서 Bearer를 주입했습니다.
+
+**해결** — 만료·거부 시 공통 핸들러로 사용자에게 안내했습니다.
+
+**성과** — **레거시 친화적 SSR**과 현대적 API를 동시에 유지했습니다.
+
+## 설계 메모
+
+- 플로우차트 시각화 라이브러리로 파이프라인 구성을 **눈으로 검증**할 수 있게 한 것은 운영자 온보딩에 큰 도움이 되었습니다.

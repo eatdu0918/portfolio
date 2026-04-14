@@ -5,149 +5,60 @@ category: "backend"
 order: 3
 ---
 
-## Spring Boot 2.7 REST API
+## 핵심 기술 (한 줄 요약)
 
-### JWT 인증
+**Spring Boot 2.7 REST API 프로세스**, **RabbitMQ 메시지 소비자**, **공용 라이브러리 모듈**, **MyBatis(MariaDB)**, **Spring Data MongoDB**, **Docker 원격 제어**입니다.
 
-- **알고리즘**: HS256
-- **시크릿**: Base64 인코딩
-- **토큰 만료**: 7일
-- **Claims**: `sub`("RMS"), `id`(userId), `exp`(만료시각), `sessionId`(선택)
+## 기술적 도전과 해결
 
-```mermaid
-sequenceDiagram
-    participant Client as 클라이언트
-    participant Filter as JwtFilter
-    participant Auth as LoginService
-    participant DB as MariaDB
-    
-    Client->>Filter: Authorization: Bearer token
-    Filter->>Filter: /api/**, /apis/** 경로 매칭
-    Filter->>Auth: authenticate(token)
-    Auth->>Auth: JWT 토큰 검증 (HS256)
-    
-    alt 토큰 유효
-        Auth->>Auth: getUserId() 추출
-        Auth->>DB: 사용자 조회
-        Auth-->>Filter: 인증 성공
-        Filter-->>Client: 200 OK + 응답
-    else 토큰 만료
-        Auth->>DB: DB 저장 토큰과 비교
-        alt DB 토큰 일치
-            Auth-->>Filter: 인증 성공 (갱신)
-        else 불일치
-            Auth-->>Filter: 인증 실패
-            Filter-->>Client: 403 Access Denied
-        end
-    end
-```
+### Challenge: 플러그인 실행·상태·다음 단계 결정 로직의 응집도
 
-### REST API 엔드포인트
+**상황** — 데이터셋마다 다른 플러그인 조합과 상태 전이가 있습니다.
 
-| 컨트롤러 | Base Path | 주요 기능 |
-|----------|-----------|-----------|
-| **RawFileController** | `/api/rawFile` | RawFile 목록/조회, LLM 정제 파일, 메타 조회, 배정 데이터, 필터/태그 메타 (20+ 엔드포인트) |
-| **PluginController** | `/api/plugin` | 플러그인 시작/완료/상태, LLM 정제 저장, 파일 Import, SFTP 테스트, MQ 발행 (25+ 엔드포인트) |
-| **RawSetController** | `/api/rawSet` | RawSet 조회, 플러그인 실행, SFTP 수동 실행, 통계, 그룹 (10+ 엔드포인트) |
-| **ManageController** | `/api/manage` | 사용자 CRUD, Raw 그룹 CRUD, 배정 관리, 카테고리 (15+ 엔드포인트) |
-| **ModelApiController** | `/api/modelApi` | Model API 호출, 피드백, AI 정제, 이력 (12+ 엔드포인트) |
-| **FileDownLoadController** | `/download` | 단일 파일, 목록 ZIP, 전체 ZIP 다운로드 |
-| **PresetController** | `/api/preset` | 메타 프리셋 저장, Addon 프리셋 CRUD |
-| **AddonController** | `/api/addon` | Addon 메타 목록 |
-| **MonitoringController** | `/api/monitoring` | CCTV 모니터링, 수집기 상태, 수집 차트, 녹화 영상 |
-| **ContainerController** | `/apis/container` | Docker 컨테이너 실행/중지/재시작/삭제/조회 |
+**문제** — 컨트롤러에 비즈니스를 몰면 테스트·재사용이 어렵습니다.
 
-### 서비스 레이어 (rms_common_lib)
+**접근** — **플러그인 오케스트레이션·데이터셋 서비스** 등 **서비스 계층에 오케스트레이션**을 모으고, MQ 발행도 여기서 일관되게 호출했습니다.
 
-| 서비스 | 역할 |
-|--------|------|
-| **RawFileService** | RawFile CRUD, 플러그인 연결 파일 조회, 정제 데이터, 메타 관리, 배정 |
-| **RawSetService** | RawSet CRUD, 플러그인 실행, 이력 관리, MQ 메시지 발행, 배정 |
-| **PluginService** | 플러그인 CRUD, 실행/완료 처리, 다음 RawSet 결정 로직 |
-| **UserService** | 사용자 CRUD, 배정, 권한 관리 |
-| **ModelApiService** | 외부 AI Model API 호출, 이력 저장, 피드백, 정제 |
-| **TextRawFileDataService** | MongoDB 텍스트 데이터 CRUD |
-| **ContainerService** | Docker 컨테이너 원격 관리 (SSH 기반) |
-| **LoginService** | JWT 인증, 토큰 검증, 사용자 조회 |
-| **CodeService** | 공통 코드 조회 |
+**해결** — 리스너는 얇게 유지하고 공통 라이브러리 서비스만 호출했습니다.
 
-### 플러그인 서비스
+**성과** — 새 플러그인 추가 시 **큐 바인딩 + 서비스 메서드**만 늘리면 되는 패턴을 확보했습니다.
 
-| 플러그인 서비스 | 역할 |
-|----------------|------|
-| **PluginSFTPService** | SFTP Import/Export, 연결 테스트 (JSch) |
-| **PluginDeIdentificationService** | 이미지/비디오 비식별화 (블러) |
-| **PluginLLMService** | LLM 연동 텍스트 정제, 텍스트 수집 |
-| **PluginImportFileService** | API 통한 파일 Import |
-| **PluginImportExcelService** | Excel 파일 Import, JSON→텍스트 변환 |
-| **PluginJsonlToTextService** | JSONL→텍스트 변환 |
-| **PluginRTSPService** | RTSP 수집기 Docker 컨테이너 실행 |
-| **PluginProfileVideoBasicMeta** | FFprobe 기반 비디오 메타 추출 |
-| **TransformVideoRefineService** | 비디오 정제 처리 |
-| **ExportTextToExcelService** | 텍스트 데이터 Excel Export |
-| **ExportTextToJsonService** | 텍스트 데이터 JSON Export |
-| **ExportFileToZipService** | 파일 ZIP 압축 Export |
+### Challenge: SFTP·RTSP·비식별화 등 I/O 집약 작업을 API 스레드에서 분리
 
-## RabbitMQ Consumer (rms_consumer)
+**상황** — 파일 다운로드·업로드·OpenCV 처리는 수 초~수 분 걸립니다.
 
-각 리스너는 `@RabbitListener`로 큐를 구독하고, 메시지 수신 시 해당 플러그인 서비스를 호출합니다.
+**문제** — API 스레드에서 직접 하면 워커 전체가 멈춥니다.
 
-| Listener | 큐 | 처리 |
-|----------|-----|------|
-| **PluginImportSFTPListener** | `import.sftp-request` | SFTP Import → 파일 다운로드 → RawFile 생성 |
-| **PluginExportSFTPListener** | `export.sftp-request` | SFTP Export → 파일 업로드 → 상태 done |
-| **PluginImportRTSPListener** | `import.cctv-rtsp` | RTSP 수집기 Docker 컨테이너 실행 |
-| **PluginProfileVideoBasicMetaListener** | `profile.videoBasicMeta` | 비디오 메타 추출 → 완료 처리 |
-| **PluginTransformJsonlToTextListener** | `transform.jsonl-to-text` | JSONL→텍스트 변환 → 상태 done |
-| **PluginDeIdentificationListener** | `transform.de_identification` | 비식별화 처리 → 상태 progress |
+**접근** — **큐 메시지 + 전용 리스너**로 I/O를 밀어냈습니다.
 
-**메시지 포맷 (PluginParameterVo)**:
-```json
-{
-  "rawSetId": "RS001",
-  "masterRawSetKey": "MK001",
-  "userId": "admin",
-  "parameters": {
-    "host": "sftp.example.com",
-    "port": 22,
-    "username": "user",
-    "password": "pass",
-    "remotePath": "/data/input"
-  }
-}
-```
+**해결** — 환경별 큐 prefix로 안전하게 분리했습니다.
 
-## 데이터 액세스
+**성과** — API는 **짧은 응답**을 유지하고 소비자만 스케일할 수 있었습니다.
 
-### MyBatis (MariaDB)
+### Challenge: MongoDB 텍스트 데이터와 MariaDB 메타의 트랜잭션 경계
 
-- **Mapper**: 12개 인터페이스 (RawFile, RawSet, Plugin, User, Addon, Preset, ModelApi, AdditionalData, Container, Code, RawGroup, Login)
-- **XML Mapper**: `resources/mybatis/mapper/` 디렉터리에 12개 XML
-- **RawFileMapper** 단독으로 100개 이상의 SQL 메서드 보유
+**상황** — LLM 정제 결과는 문서형, 파일 메타는 관계형입니다.
 
-### Spring Data MongoDB
+**문제** — 분산 트랜잭션을 과도하게 기대하면 운영이 어렵습니다.
 
-- **TextRawFileDataRepository**: LLM 정제 텍스트 데이터 CRUD
-- **ModelApiDataRepository**: Model API 호출 이력/응답 데이터
-- **MongoConfig**: 커스텀 MongoDB 설정
+**접근** — “최종 일관성”을 전제로 **ID·상태 플래그**를 MariaDB에 두고, 본문 블록은 Mongo에 저장했습니다.
 
-## Python 플러그인 (plugin_video_to_image)
+**해결** — 실패 시 재처리 큐를 같은 패턴으로 태웠습니다.
 
-- **RabbitMQ Consumer**: pika 라이브러리로 `video2image-request` 큐 구독
-- **처리 흐름**:
-  1. API 호출로 RawFile 목록 조회 (Before 상태)
-  2. OpenCV로 비디오 프레임 추출 (FPS, 해상도 커스텀 가능)
-  3. JSON 센서 데이터 보간 및 프레임별 메타 매핑
-  4. SFTP로 이미지 파일 업로드 (SSHManager)
-  5. API 호출로 플러그인 완료 처리
-- **Docker**: `python:3.10` 기반, 볼륨 마운트로 파일 공유
+**성과** — 스키마 유연성과 **운영 감사 가능성**을 동시에 가져갔습니다.
 
-## 환경별 설정
+### Challenge: Docker 기반 RTSP 수집기 원격 실행
 
-| 항목 | local | dev | prd |
-|------|-------|-----|-----|
-| rms_front_web | 7881 | 8881 | - |
-| rms_api | 7883 | 8883 | - |
-| rms_consumer | 7882 | 8882 | - |
-| RabbitMQ 큐 prefix | `q.local.` | `q.dev.` | `q.prd.` |
-| 파일 스토리지 | UNC 경로 | `/mnt/data/service_rms` | `/mnt/data/prd_service_rms` |
+**상황** — CCTV 수집은 별도 컨테이너가 떠 있어야 합니다.
+
+**문제** — 운영자가 SSH로 직접 들어가면 실수가 큽니다.
+
+**접근** — **컨테이너 제어 서비스**로 **원격 Docker API/SSH**를 감싸 UI에서 시작·중지했습니다.
+
+**해결** — 모니터링 화면과 연결해 상태를 한눈에 보이게 했습니다.
+
+**성과** — 수집기 운용을 **제품 기능 안으로** 가져왔습니다.
+
+## 설계 메모
+
+- 대용량 파일용 MyBatis 매퍼는 **성능 튜닝 포인트**이기도 해서, 포트폴리오에는 “SQL을 직접 다루는 레이어를 유지했다”는 메시지로만 남깁니다.
