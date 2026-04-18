@@ -28,11 +28,11 @@ highlights:
   - "웹소켓 기반 실시간 처리 진행률 및 완료 알림 시스템"
   - "Electron + Vue 3 크로스플랫폼 데스크톱 앱 (SFTP 파일 전송, SQLite 로컬 DB)"
   - "Spring Boot 3 멀티모듈(사용자 API·관리 API·공통 모듈)"
-  - "ONNX Runtime + TensorRT 추론 최적화를 통한 GPU 가속 서비스 구축"
   - "수동 비식별화 편집 기능 (이미지/비디오 캔버스 기반 영역 선택)"
   - "다국어 지원 (한국어, 영어, 일본어)"
-order: 1
+order: 2
 featured: true
+aiGenerated: true
 workType: company
 category: "fullstack"
 ---
