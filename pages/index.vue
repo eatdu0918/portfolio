@@ -59,15 +59,15 @@ const techStacks = {
       <div class="absolute bottom-10 left-[10%] w-[250px] h-[250px] bg-accent-200/25 rounded-full blur-[60px] pointer-events-none"></div>
 
       <div class="section-container relative">
-        <div class="max-w-2xl">
+        <div class="max-w-4xl">
           <p class="text-sm font-semibold text-brand-500 tracking-wide mb-4 animate-fade-in">
             Full-Stack Developer
           </p>
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-surface-800 leading-tight tracking-tight animate-slide-up">
             <span class="gradient-text">이두현</span>입니다
           </h1>
-          <p class="mt-6 text-lg sm:text-xl text-surface-600 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
-            실무에서는 Vue·Spring 기반 SaaS·지도 시스템을, 개인 프로젝트에서는 Next.js 기술 블로그와 이커머스 MSA(Spring Cloud·Kafka·K8s)까지 끝까지 설계·구현합니다.
+          <p class="mt-6 text-lg sm:text-xl text-surface-800 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
+            Vue 3·Spring Boot 기반으로 GIS·3D 전장(Cesium)과 AI 추론 파이프라인(RabbitMQ·Python)을 설계하며, Electron 데스크톱과 REST·WebSocket 실시간 연동 등 복잡한 도메인의 비동기 처리에 강점이 있습니다. Next.js와 K8s 기반 MSA로 기술 영역을 넓히고 있습니다.
           </p>
           <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.4s">
             <NuxtLink
@@ -158,6 +158,7 @@ const techStacks = {
             :thumbnail="project.thumbnail ?? project.gallery?.[0]?.src"
             :live-url="project.liveUrl"
             :work-type="project.workType"
+            :ai-generated="project.aiGenerated"
             :index="Number(idx) + 1"
           />
         </div>
@@ -206,7 +207,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>Vue·Spring 기반 SaaS·GIS 제품을 실서비스 수준까지 다뤘습니다.</span>
+                  <span>Vue 3·Spring Boot 기반의 Cesium 3D 전장 GIS와 MIL-STD-2525D 도메인을 심도 있게 다뤘습니다.</span>
                 </li>
                 <li class="flex gap-3">
                   <Icon
@@ -214,7 +215,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>Next.js·Kafka·Kubernetes 등으로 개인 프로젝트에서도 엔드투엔드 흐름을 구성했습니다.</span>
+                  <span>RabbitMQ·Redis 기반의 AI 추론 배치를 비동기로 설계하고, Electron·WebSocket으로 다중 클라이언트를 실시간 연동했습니다.</span>
                 </li>
                 <li class="flex gap-3">
                   <Icon
@@ -222,7 +223,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>프로젝트별 배경과 스택은 상세 페이지에 정리해 두었습니다.</span>
+                  <span>Next.js 기술 블로그와 Spring Cloud·Kafka·Kubernetes 기반 MSA로 클라우드 네이티브 역량을 확장 중입니다.</span>
                 </li>
               </ul>
             </div>

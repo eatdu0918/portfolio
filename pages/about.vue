@@ -3,8 +3,11 @@ useHead({
   title: 'About | Portfolio',
 })
 
+import { ref, computed } from 'vue'
+
 const experiences = [
   {
+    type: 'personal',
     period: '2026.02 - 현재',
     role: '풀스택 (개인 프로젝트)',
     company: '개인 프로젝트',
@@ -14,6 +17,7 @@ const experiences = [
     techs: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'Prisma', 'PostgreSQL', 'Vitest', 'Sandpack'],
   },
   {
+    type: 'personal',
     period: '2026.01 - 현재',
     role: '풀스택 (개인 프로젝트)',
     company: '개인 프로젝트',
@@ -23,6 +27,7 @@ const experiences = [
     techs: ['Spring Boot 3', 'Spring Cloud Gateway', 'Kafka', 'Redis', 'React 19', 'Kubernetes', 'Docker', 'GitHub Actions'],
   },
   {
+    type: 'work',
     period: '2025.12 - 현재',
     role: '프론트엔드 개발자 (아키텍처 설계)',
     company: 'AI/GIS 솔루션즈',
@@ -32,6 +37,7 @@ const experiences = [
     techs: ['Vue 3', 'OpenLayers', 'MIL-STD-2525D', 'Tailwind CSS', 'Pinia', 'Vue Flow', 'Turf.js'],
   },
   {
+    type: 'work',
     period: '2025.06 - 2025.11',
     role: '풀스택 개발자',
     company: 'AI/GIS 솔루션즈',
@@ -41,6 +47,7 @@ const experiences = [
     techs: ['Vue 3', 'Cesium', 'PrimeVue', 'Quasar', 'Spring Boot 3', 'PostgreSQL', 'WebSocket', 'HLS.js'],
   },
   {
+    type: 'work',
     period: '2024.04 - 2025.05',
     role: '풀스택 개발자 + AI 파이프라인 통합',
     company: 'AI/GIS 솔루션즈',
@@ -50,6 +57,7 @@ const experiences = [
     techs: ['Vue 3', 'Electron', 'Spring Boot 3', 'Python', 'RabbitMQ', 'Redis', 'YOLOv8', 'Docker'],
   },
   {
+    type: 'work',
     period: '2023.04 - 2024.03',
     role: '풀스택 개발자',
     company: 'AI/GIS 솔루션즈',
@@ -97,6 +105,18 @@ const strengths = [
     description: '실무 외에 Next.js 콘텐츠 파이프라인·기술 블로그와 이커머스 MSA(게이트웨이·Kafka·K8s)를 끝까지 구축해 학습을 결과물로 남깁니다.',
   },
 ]
+
+const activeCategory = ref('all')
+const categories = [
+  { id: 'all', label: '전체' },
+  { id: 'work', label: '회사 프로젝트' },
+  { id: 'personal', label: '개인 프로젝트' },
+]
+
+const filteredExperiences = computed(() => {
+  if (activeCategory.value === 'all') return experiences
+  return experiences.filter((exp) => exp.type === activeCategory.value)
+})
 </script>
 
 <template>
@@ -104,17 +124,34 @@ const strengths = [
     <!-- Hero -->
     <section class="py-14 sm:py-20 bg-surface-50">
       <div class="section-container">
-        <div class="max-w-2xl">
+        <div class="max-w-4xl">
           <p class="text-sm font-semibold text-brand-500 tracking-wide mb-3">
             About Me
           </p>
           <h1 class="text-3xl sm:text-4xl font-display font-bold text-surface-800 leading-tight tracking-tight mb-4">
             서비스의 처음부터 끝까지
-            <span class="gradient-text">함께하는 개발자</span>
+            <span class="gradient-text">관여하는 개발자</span>
           </h1>
           <p class="text-base text-surface-600 leading-relaxed">
-            웹 프론트엔드와 백엔드, AI 모델 바인딩 및 추론 파이프라인까지 아우르는 풀스택 개발자입니다. 개인 프로젝트로 Next.js 기술 블로그와 Spring Cloud 기반 MSA를 병행해 확장합니다.
+            안녕하세요, 복잡한 도메인 요구사항을 아키텍처 수준에서 해석하고, 서비스의 엔드투엔드 흐름을 직접 설계·구축하는 것에 즐거움을 느끼는 풀스택 개발자 이두현입니다.
           </p>
+          <div class="mt-6 space-y-4 text-base text-surface-600 leading-relaxed">
+            <p>
+              실무에서는 주로 <strong>GIS 기반 군사 지휘통제 시스템(C4I)</strong>과 <strong>지능형 영상 비식별화 플랫폼</strong>을 개발해 왔습니다. 
+              Cesium 3D 환경에서 NATO 표준 군사 기호(MIL-STD-2525D)를 대량으로 렌더링하기 위한 최적화 파이프라인을 구축하고, 
+              다단계 AI 모델의 추론 데이터를 RabbitMQ와 Redis를 활용해 실시간으로 처리하는 이벤트 드리븐 시스템을 설계했습니다.
+            </p>
+            <p>
+              단순한 기능 구현을 넘어, <strong>Electron 데스크톱 앱</strong>부터 <strong>WebSocket 기반의 실시간 다중 클라이언트 연동</strong>까지 
+              복잡한 비즈니스 로직을 구조적으로 나누고 비동기 처리를 통해 사용자 경험을 개선하는 데 강점이 있습니다. 
+              기획 및 AI 연구팀과 긴밀히 소통하며 기술적 제약을 함께 풀어나가는 과정을 소중히 여깁니다.
+            </p>
+            <p>
+              현재는 서비스 전체를 조망하는 시야를 넓히기 위해 <strong>Spring Cloud와 Kubernetes 기반의 MSA</strong> 환경을 구축하며 
+              분산 시스템의 정합성과 배포 자동화를 탐구하고 있습니다. 또한 <strong>기술 블로그</strong>를 통해 최신 웹 기술의 성능 최적화를 실천하며, 
+              제가 배운 지식을 기록하고 공유하는 일을 즐깁니다.
+            </p>
+          </div>
           <p class="mt-4 text-sm text-surface-500 leading-relaxed">
             기술별 활용 내역은
             <NuxtLink to="/skills" class="text-brand-600 font-semibold hover:underline">기술 스택</NuxtLink>,
@@ -149,16 +186,44 @@ const strengths = [
     <!-- Experience -->
     <section class="py-14 sm:py-20 bg-surface-50">
       <div class="section-container">
-        <h2 class="text-lg font-bold text-surface-800 mb-8 tracking-tight">경력</h2>
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
+          <h2 class="text-lg font-bold text-surface-800 tracking-tight">경력</h2>
+          
+          <!-- Category Tabs -->
+          <div class="flex bg-surface-100 p-1 rounded-lg w-fit">
+            <button
+              v-for="cat in categories"
+              :key="cat.id"
+              @click="activeCategory = cat.id"
+              class="px-4 py-1.5 text-xs font-semibold rounded-md transition-all whitespace-nowrap"
+              :class="[
+                activeCategory === cat.id
+                  ? 'bg-white text-brand-600 shadow-sm'
+                  : 'text-surface-500 hover:text-surface-700'
+              ]"
+            >
+              {{ cat.label }}
+            </button>
+          </div>
+        </div>
+
         <div class="space-y-4">
           <div
-            v-for="exp in experiences"
-            :key="exp.period"
-            class="p-5 sm:p-6 rounded-xl bg-surface-50 border border-surface-100"
+            v-for="exp in filteredExperiences"
+            :key="exp.period + exp.project"
+            class="p-5 sm:p-6 rounded-xl bg-white border border-surface-100 shadow-sm hover:shadow-md transition-all"
           >
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 mb-3">
               <div>
-                <h3 class="text-base font-bold text-surface-800">{{ exp.role }}</h3>
+                <div class="flex items-center gap-2 mb-1">
+                  <span 
+                    class="text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider"
+                    :class="exp.type === 'work' ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'"
+                  >
+                    {{ exp.type === 'work' ? 'Work' : 'Personal' }}
+                  </span>
+                  <h3 class="text-base font-bold text-surface-800">{{ exp.role }}</h3>
+                </div>
                 <p class="text-sm text-brand-600 font-medium">{{ exp.company }} · {{ exp.project }}</p>
               </div>
               <span class="text-xs text-surface-400 whitespace-nowrap">{{ exp.period }}</span>
@@ -168,6 +233,10 @@ const strengths = [
               <TechBadge v-for="tech in exp.techs" :key="tech" :label="tech" size="sm" />
             </div>
           </div>
+
+          <p v-if="filteredExperiences.length === 0" class="text-center py-10 text-surface-400 text-sm">
+            해당 카테고리의 프로젝트가 없습니다.
+          </p>
         </div>
       </div>
     </section>
