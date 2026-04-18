@@ -13,7 +13,7 @@ portfolio: http://3.106.133.249:8082
 
 웹 프론트엔드(Vue 3, React/Next.js)와 Spring Boot 백엔드, AI 추론 파이프라인 연동까지 아우르는 풀스택 개발자입니다.
 
-지도 기반 군사 지휘통제 시스템(C4I)에서 OpenLayers·Cesium 3D와 NATO 표준 전술 심볼(MIL-STD-2525D) 렌더링, 실시간 WebSocket 기반 아키텍처를 설계·구현했습니다. **지능형 영상 비식별화 플랫폼**에서는 Electron 데스크톱, Spring Boot 멀티모듈, RabbitMQ로 복수 AI 모델을 서비스에 연결하는 파이프라인을 직접 설계했습니다.
+지도 기반 군사 지휘통제 시스템(C4I)에서 OpenLayers·Cesium 3D와 NATO 표준 전술 심볼(MIL-STD-2525D) 렌더링, 실시간 WebSocket 기반 아키텍처를 설계·구현했습니다. 지능형 영상 비식별화 플랫폼에서는 Electron 데스크톱, Spring Boot 멀티모듈, RabbitMQ로 복수 AI 모델을 서비스에 연결하는 파이프라인을 직접 설계했습니다.
 
 개인 프로젝트로 Next.js App Router 기술 블로그와 Spring Cloud·Kafka·Kubernetes 기반 이커머스 MSA를 구축하며 스택을 지속적으로 확장하고 있습니다.
 
