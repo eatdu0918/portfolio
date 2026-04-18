@@ -333,6 +333,13 @@ const skillCategories = [
           '로컬 서버를 외부로 노출하여 결제 리다이렉트, 웹훅 등 외부 시스템과의 실시간 인터랙션을 검증하고 디버깅하는 데 활용했습니다.',
         projectSlugs: ['sparta-ecommerce-msa'],
       },
+      {
+        name: 'Vercel',
+        icon: 'simple-icons:vercel',
+        summary:
+          'Next.js 기반 개인 개발 블로그를 배포하고 관리합니다. Edge Network 활용 및 CI/CD 워크플로우를 통해 정적/동적 콘텐츠를 효율적으로 서빙합니다.',
+        projectSlugs: ['dev-blog'],
+      },
     ],
   },
 ]

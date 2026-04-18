@@ -44,6 +44,7 @@ const techStacks = {
       { name: 'Nginx', icon: 'mdi:server' },
       { name: 'GitHub Actions', icon: 'mdi:github' },
       { name: 'ngrok', icon: 'simple-icons:ngrok' },
+      { name: 'Vercel', icon: 'simple-icons:vercel' },
       { name: 'Linux', icon: 'mdi:linux' },
       { name: 'Prometheus', icon: 'mdi:chart-line' },
     ],
