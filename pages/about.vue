@@ -6,7 +6,7 @@ useHead({
 const experiences = [
   {
     period: '2026.02 - 현재',
-    role: '1인 풀스택',
+    role: '풀스택 (개인 프로젝트)',
     company: '개인 프로젝트',
     project: 'dev-blog (기술 블로그)',
     description:
@@ -17,7 +17,7 @@ const experiences = [
     period: '2026.01 - 현재',
     role: '풀스택 (개인 프로젝트)',
     company: '개인 프로젝트',
-    project: 'Sparta e-commerce MSA',
+    project: 'e-commerce MSA',
     description:
       '도메인을 기준으로 서비스 경계를 나누고 Gateway·이벤트 흐름을 직접 연결해 “끊기지 않는” 주문·재고 시나리오를 검증했습니다. 클라이언트·인프라(K8s, GHCR)까지 한 사람이 맥락을 유지하도록 구성했습니다.',
     techs: ['Spring Boot 3', 'Spring Cloud Gateway', 'Kafka', 'Redis', 'React 19', 'Kubernetes', 'Docker', 'GitHub Actions'],
@@ -25,8 +25,8 @@ const experiences = [
   {
     period: '2025.12 - 현재',
     role: '프론트엔드 개발자 (아키텍처 설계)',
-    company: 'AI Studio',
-    project: 'AETEM v2 COP',
+    company: 'AI/GIS 솔루션즈',
+    project: '전장 정보 편집기',
     description:
       '지도 모듈을 Provider/Manager 패턴으로 쪼개 팀이 동시에 손댈 수 있는 뼈대를 잡았고, MIL-STD-2525D 부호·ORBAT 다이어그램처럼 요구가 무거운 UI를 Vue 쪽에서 끝까지 밀어 넣었습니다. 상세 지도·부호 스펙은 프로젝트 탭을 참고해 주세요.',
     techs: ['Vue 3', 'OpenLayers', 'MIL-STD-2525D', 'Tailwind CSS', 'Pinia', 'Vue Flow', 'Turf.js'],
@@ -34,8 +34,8 @@ const experiences = [
   {
     period: '2025.06 - 2025.11',
     role: '풀스택 개발자',
-    company: 'AI Studio',
-    project: 'AETEM',
+    company: 'AI/GIS 솔루션즈',
+    project: '3D 전장 상황 인지 시스템',
     description:
       '지휘·관리·엣지 3클라이언트를 동시에 맡아 화면·API 계약을 맞췄고, 외부 분석 모델·HLS 스트리밍처럼 “연결만 어렵다”는 구간을 직접 이어 붙였습니다. 시스템이 무엇을 하는지는 프로젝트 상세에서 다룹니다.',
     techs: ['Vue 3', 'Cesium', 'PrimeVue', 'Quasar', 'Spring Boot 3', 'PostgreSQL', 'WebSocket', 'HLS.js'],
@@ -43,8 +43,8 @@ const experiences = [
   {
     period: '2024.04 - 2025.05',
     role: '풀스택 개발자 + AI 파이프라인 통합',
-    company: 'AI Studio',
-    project: 'Heidi',
+    company: 'AI/GIS 솔루션즈',
+    project: '지능형 영상 비식별화 플랫폼',
     description:
       'Electron·SFTP·로컬 SQLite와 Spring API·큐·Redis를 한 흐름으로 엮는 데 집중했습니다. 다단계 AI 워커와 수동 비식별 분기에서 메시지·상태 이벤트가 끊기지 않게 설계·디버깅을 반복했고, 기술별로 무엇을 했는지는 기술 스택 탭에 정리했습니다.',
     techs: ['Vue 3', 'Electron', 'Spring Boot 3', 'Python', 'RabbitMQ', 'Redis', 'YOLOv8', 'Docker'],
@@ -52,8 +52,8 @@ const experiences = [
   {
     period: '2023.04 - 2024.03',
     role: '풀스택 개발자',
-    company: 'AI Studio',
-    project: 'RMS',
+    company: 'AI/GIS 솔루션즈',
+    project: 'AI 학습 데이터 관리 플랫폼',
     description:
       '공통 라이브러리·프론트·API·컨슈머가 같은 도메인 규칙을 쓰도록 모듈 경계를 정리하고, JSP 레거시와 REST·큐 기반 신규 기능이 공존하도록 이관 구간을 맡았습니다. 듀얼 DB·플러그인 파이프라인의 책임 분리를 설계에 반영했습니다.',
     techs: ['Spring Boot', 'JSP', 'jQuery', 'MyBatis', 'MariaDB', 'MongoDB', 'RabbitMQ', 'Python'],
@@ -69,7 +69,7 @@ const strengths = [
   {
     icon: 'heroicons:map-20-solid',
     title: 'GIS/지도 시스템 전문',
-    description: 'OpenLayers, Cesium 3D 기반의 군사 지도 시스템을 설계했습니다. MIL-STD-2525D 군사 부호 렌더링 경험.',
+    description: 'OpenLayers, Cesium 3D 기반의 군사 지도 시스템을 설계했습니다. 표준 전술 심볼 렌더링 경험.',
   },
   {
     icon: 'heroicons:bolt-20-solid',

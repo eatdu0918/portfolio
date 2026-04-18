@@ -1,9 +1,32 @@
 ---
-title: "Sparta e-commerce MSA"
+title: "e-commerce MSA"
 slug: "sparta-ecommerce-msa"
 summary: "이커머스 도메인을 기준으로 한 마이크로서비스 아키텍처 학습·구현 프로젝트입니다. Spring Cloud Gateway를 단일 진입점으로 두고, 주문·결제·취소·환불 흐름과 Kafka 기반 이벤트·보상 트랜잭션을 다루며, 회사 업무에서는 접하기 어려웠던 MSA를 스스로 설계·구축했습니다."
 period: "2026.01 - 현재"
 liveUrl: "https://gossipy-jeanetta-sulkier.ngrok-free.dev/"
+demoLinks:
+  [
+    {
+      "label": "e-commerce(메인)",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/",
+    },
+    {
+      "label": "e-commerce(어드민)",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin",
+    },
+    {
+      "label": "Kubernetes 대시보드",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa",
+    },
+    {
+      "label": "Kafka UI",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/kafka",
+    },
+    {
+      "label": "통합 Swagger UI",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/swagger-ui.html",
+    },
+  ]
 role: "풀스택 (개인 프로젝트)"
 tags:
   [
@@ -63,13 +86,39 @@ order: 5
 featured: true
 workType: personal
 category: "fullstack"
+testAccounts:
+  [
+    {
+      "type": "일반 사용자",
+      "email": "visitor@sparta-msa.com",
+      "password": "test1234!",
+      "role": "USER (주문/결제 가능)",
+    },
+    {
+      "type": "관리자",
+      "email": "admin@sparta-msa.com",
+      "password": "test1234!",
+      "role": "ADMIN (상품/주문 관리 가능)",
+    },
+  ]
 ---
+
+
 
 ## 왜 이 프로젝트인가
 
 회사 업무에서 MSA를 끝까지 설계·운영할 기회는 흔치 않다. 교육 **최종 개인 프로젝트**에서 착수한 뒤에도, **게이트웨이·도메인 분리·이벤트·배포·관측**을 스스로 반복할 수 있는 **개인 레퍼런스**로 유지하고 있다.
 
-**웹 데모(ngrok, 터널 켤 때만):** [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/) — URL은 터널마다 달라질 수 있다.
+**데모 및 관리 도구 (ngrok 익스포즈 시에만 접근 가능):**
+- **메인 쇼핑몰**: [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/)
+- **어드민 관리**: [/admin](https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin)
+- **K8s 대시보드**: [/k8s (sparta-msa)](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa)
+- **Kafka UI**: [/kafka](https://gossipy-jeanetta-sulkier.ngrok-free.dev/kafka)
+- **통합 Swagger UI**: [/swagger-ui.html](https://gossipy-jeanetta-sulkier.ngrok-free.dev/swagger-ui.html)
+
+*URL은 터널 세션마다 달라질 수 있습니다.*
+
+
 
 ## 내가 풀려던 문제
 
@@ -87,13 +136,14 @@ category: "fullstack"
 
 이커머스 MVP는 “장바구니가 된다”보다 **서비스 경계를 잘못 나눴을 때 비용이 어디로 튀는지**를 체감하게 해준다. 게이트웨이·DB 분리·이벤트를 손으로 만지며 **운영 가능한 MSA 감각**을 쌓는 것이 목표다.
 
-## 상세는 탭에서
+## 세부 문서
 
 - **아키텍처**: 경계 선택·동기/비동기 혼합
 - **프론트엔드**: 서버 상태 캐시·결제·ngrok 검증
 - **백엔드**: 게이트웨이·Feign·Kafka·관측·테스트
 - **인프라**: K8s·CI·Prometheus·터널
 
-## 나의 역할
+## 주요 구현 사항
 
-**풀스택(개인)**으로 서비스·클라이언트·인프라 스크립트를 설계·구현하고, 교육 이후에도 스스로 보완하는 **레퍼런스 아키텍처**로 가꾸고 있다.
+**풀스택(1인)**으로 서비스 분리, 클라이언트 개발, K8s 인프라 구성을 모두 수행했습니다. 단순히 기능을 완성하는 것을 넘어, 현업에서 접하기 힘든 MSA의 핵심 아키텍처를 스스로 설계하고 검증해 보는 **레퍼런스 프로젝트**로 완성했습니다.
+

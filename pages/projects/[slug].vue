@@ -77,6 +77,17 @@ function selectTab(key: string) {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 }
+
+// Helper function for demo link icons
+function getIconForLabel(label: string) {
+  const lower = label.toLowerCase()
+  if (lower.includes('kubernetes') || lower.includes('k8s')) return 'simple-icons:kubernetes'
+  if (lower.includes('kafka')) return 'simple-icons:apachekafka'
+  if (lower.includes('어드민') || lower.includes('admin')) return 'heroicons:wrench-screwdriver-20-solid'
+  if (lower.includes('메인') || lower.includes('main') || lower.includes('쇼핑몰')) return 'heroicons:shopping-bag-20-solid'
+  if (lower.includes('swagger')) return 'simple-icons:swagger'
+  return 'heroicons:link-20-solid'
+}
 </script>
 
 <template>
@@ -133,16 +144,50 @@ function selectTab(key: string) {
             {{ project.summary }}
           </p>
 
-          <a
-            v-if="project.liveUrl"
-            :href="project.liveUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-brand-600 hover:text-brand-700 underline-offset-4 hover:underline"
-          >
-            <Icon name="heroicons:arrow-top-right-on-square-20-solid" class="w-4 h-4 flex-shrink-0" />
-            라이브 사이트에서 보기
-          </a>
+          <div class="flex flex-wrap items-center gap-4 mt-4">
+            <!-- Demo Links -->
+            <div v-if="project.demoLinks?.length" class="flex flex-wrap gap-2">
+              <a
+                v-for="link in project.demoLinks"
+                :key="link.url"
+                :href="link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-surface-200 rounded-md text-xs font-semibold text-surface-600 hover:border-brand-200 hover:text-brand-600 hover:bg-brand-50/30 transition-all shadow-sm group"
+              >
+                <Icon :name="getIconForLabel(link.label)" class="w-3.5 h-3.5 text-surface-400 group-hover:text-brand-500" />
+                {{ link.label }}
+              </a>
+            </div>
+
+            <!-- Test Accounts -->
+            <div v-if="project.testAccounts?.length" class="mt-4 p-4 bg-white/50 border border-surface-200 rounded-lg shadow-sm max-w-2xl w-full">
+              <h3 class="text-[10px] font-bold text-surface-800 mb-2.5 flex items-center gap-1.5 uppercase tracking-wider">
+                <Icon name="heroicons:key-20-solid" class="w-3.5 h-3.5 text-brand-500" />
+                테스트 계정 안내
+              </h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead>
+                    <tr class="border-b border-surface-100">
+                      <th class="pb-1.5 font-semibold text-surface-400 text-[10px]">구분</th>
+                      <th class="pb-1.5 font-semibold text-surface-400 text-[10px]">아이디 (Email)</th>
+                      <th class="pb-1.5 font-semibold text-surface-400 text-[10px]">비밀번호</th>
+                      <th class="pb-1.5 font-semibold text-surface-400 text-[10px]">권한</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-surface-50">
+                    <tr v-for="acc in project.testAccounts" :key="acc.email">
+                      <td class="py-2 text-surface-700 font-medium truncate max-w-[80px]">{{ acc.type }}</td>
+                      <td class="py-2 text-surface-600 font-mono">{{ acc.email }}</td>
+                      <td class="py-2 text-surface-600 font-mono">{{ acc.password }}</td>
+                      <td class="py-2 text-surface-500 text-[10px] leading-tight">{{ acc.role }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

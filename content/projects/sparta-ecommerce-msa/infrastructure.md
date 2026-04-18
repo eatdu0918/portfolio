@@ -61,4 +61,7 @@ order: 4
 
 ## 설계 메모
 
-- README에 적힌 ngrok URL은 터널 재시작 시 바뀔 수 있어, **라이브 데모 링크는 프로젝트 개요 문서 메타데이터의 데모 주소 필드를 정본**으로 두는 편이 안전합니다.
+- ngrok 등 **터널 URL은 재시작 시 바뀔 수 있어**, 공개 데모 주소는 README가 아니라 **배포·소개에 쓰는 단일 `liveUrl` 및 `demoLinks`(프론트매터)를 정본**으로 맞춘다.
+- **K8s 대시보드** 및 **Kafka UI**를 ngrok으로 노출하여, 클러스터 내부 상태를 외부에서도 직접 관측할 수 있도록 구성했다.
+  - [Kubernetes 대시보드](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa)
+  - [Kafka UI](https://gossipy-jeanetta-sulkier.ngrok-free.dev/kafka)

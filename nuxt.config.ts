@@ -53,7 +53,7 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: '풀스택 개발자 포트폴리오 — Vue·Spring·AI 파이프라인 실무, Next.js 기술 블로그·이커머스 MSA(Kafka·K8s) 개인 프로젝트' },
         { property: 'og:title', content: 'Portfolio | Full-Stack — Vue/Spring & Next.js/MSA' },
-        { property: 'og:description', content: 'Vue·Spring·Python 풀스택, OpenLayers/Cesium GIS, AI 파이프라인 — 개인: Next.js 블로그(unified·Sandpack), Sparta e-commerce MSA' },
+        { property: 'og:description', content: 'Vue·Spring·Python 풀스택, OpenLayers/Cesium GIS, AI 파이프라인 — 개인: Next.js 블로그(unified·Sandpack), e-commerce MSA' },
         { property: 'og:type', content: 'website' },
       ],
       link: [

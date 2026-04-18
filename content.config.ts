@@ -8,6 +8,12 @@ export default defineContentConfig({
       schema: z.object({
         title: z.string().optional(),
         order: z.number().optional(),
+        name: z.string().optional(),
+        role: z.string().optional(),
+        email: z.string().optional(),
+        phone: z.string().optional(),
+        github: z.string().optional(),
+        portfolio: z.string().optional(),
       }),
     }),
     projects: defineCollection({
@@ -36,6 +42,24 @@ export default defineContentConfig({
         workType: z.enum(['personal', 'company']).optional(),
         category: z.string().optional(),
         liveUrl: z.string().url().optional(),
+        demoLinks: z
+          .array(
+            z.object({
+              label: z.string(),
+              url: z.string().url(),
+            }),
+          )
+          .optional(),
+        testAccounts: z
+          .array(
+            z.object({
+              type: z.string(),
+              email: z.string(),
+              password: z.string(),
+              role: z.string().optional(),
+            }),
+          )
+          .optional(),
       }),
     }),
   },

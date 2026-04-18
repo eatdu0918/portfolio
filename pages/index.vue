@@ -141,7 +141,7 @@ const techStacks = {
             최근 프로젝트
           </h2>
           <p class="mt-2 text-sm text-surface-500 max-w-2xl">
-            회사 제품(Heidi·AETEM·RMS 등)과 개인 작업(기술 블로그·Sparta MSA)을 함께 정리했습니다.
+            회사 제품(영상 비식별화·전장 상황 인지·데이터 관리 플랫폼 등)과 개인 작업(기술 블로그·e-commerce MSA)을 함께 정리했습니다.
           </p>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -173,22 +173,105 @@ const techStacks = {
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="py-16 sm:py-24 bg-white">
-      <div class="section-container text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold text-surface-800 mb-3 tracking-tight">
-          함께 일하고 싶으신가요?
-        </h2>
-        <p class="text-base text-surface-500 mb-6 max-w-md mx-auto leading-relaxed">
-          새로운 기회와 협업에 열려 있습니다.
-        </p>
-        <NuxtLink
-          to="/contact"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors"
+    <!-- Closing — 탐색 유도 (협업·채용 카피 없음) -->
+    <section class="py-16 sm:py-24 bg-surface-50">
+      <div class="section-container">
+        <div
+          class="relative overflow-hidden rounded-3xl bg-white px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-16 shadow-xl shadow-surface-900/5 border border-surface-200"
         >
-          <Icon name="heroicons:envelope-20-solid" class="w-4 h-4" />
-          연락하기
-        </NuxtLink>
+          <div
+            class="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-brand-100/70 blur-3xl pointer-events-none"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent-100/60 blur-3xl pointer-events-none"
+            aria-hidden="true"
+          ></div>
+
+          <div class="relative grid gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center">
+            <div class="lg:col-span-7">
+              <p class="text-sm font-semibold tracking-wide text-brand-600 mb-2">
+                더 알아보기
+              </p>
+              <h2 class="text-2xl sm:text-3xl font-bold text-surface-800 tracking-tight leading-tight mb-4">
+                관심 있는 주제가 있으셨나요?
+              </h2>
+              <p class="text-sm sm:text-base text-surface-600 leading-relaxed mb-8 max-w-xl">
+                메인에는 요약만 올려 두었습니다. 작업 맥락·기술 선택·경력은 아래 페이지에서 이어집니다.
+              </p>
+              <ul class="space-y-3 text-sm text-surface-700">
+                <li class="flex gap-3">
+                  <Icon
+                    name="heroicons:check-circle-20-solid"
+                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>Vue·Spring 기반 SaaS·GIS 제품을 실서비스 수준까지 다뤘습니다.</span>
+                </li>
+                <li class="flex gap-3">
+                  <Icon
+                    name="heroicons:check-circle-20-solid"
+                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>Next.js·Kafka·Kubernetes 등으로 개인 프로젝트에서도 엔드투엔드 흐름을 구성했습니다.</span>
+                </li>
+                <li class="flex gap-3">
+                  <Icon
+                    name="heroicons:check-circle-20-solid"
+                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
+                    aria-hidden="true"
+                  />
+                  <span>프로젝트별 배경과 스택은 상세 페이지에 정리해 두었습니다.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col gap-3">
+              <NuxtLink
+                to="/projects"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-5 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-brand-600/20 transition-colors hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
+                <Icon name="heroicons:squares-2x2-20-solid" class="w-4 h-4" />
+                프로젝트 전체 보기
+              </NuxtLink>
+              <NuxtLink
+                to="/resume"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-surface-200 bg-white px-5 py-3.5 text-center text-sm font-semibold text-surface-700 transition-colors hover:border-brand-300 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              >
+                <Icon name="heroicons:document-text-20-solid" class="w-4 h-4" />
+                이력서 보기
+              </NuxtLink>
+              <div
+                class="mt-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-surface-200 pt-5 text-xs text-surface-500"
+              >
+                <NuxtLink
+                  to="/skills"
+                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
+                >
+                  <Icon name="heroicons:cpu-chip-20-solid" class="w-4 h-4 text-brand-500" />
+                  기술 스택
+                </NuxtLink>
+                <NuxtLink
+                  to="/about"
+                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
+                >
+                  <Icon name="heroicons:user-20-solid" class="w-4 h-4 text-brand-500" />
+                  소개
+                </NuxtLink>
+                <a
+                  href="https://github.com/eatdu0918"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
+                >
+                  <Icon name="mdi:github" class="w-4 h-4 text-brand-500" />
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>

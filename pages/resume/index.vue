@@ -3,65 +3,60 @@ useHead({
   title: '이력서 | Portfolio',
 })
 
-const { data: resumePages } = await useAsyncData('resume-pages', () =>
-  queryCollection('resume').order('order', 'ASC').all(),
-)
-
-if (!resumePages.value?.length) {
-  throw createError({ statusCode: 404, statusMessage: '이력서 콘텐츠를 찾을 수 없습니다.' })
-}
-
-const activeIndex = ref(0)
-
-const activePage = computed(() => resumePages.value![activeIndex.value]!)
-
-function selectResume(i: number) {
-  activeIndex.value = i
-  if (import.meta.client) {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+const { data: resumePage } = await useAsyncData('resume-unified', async () => {
+  const possiblePaths = ['/resume-ko-unified', 'resume-ko-unified', '/resume/resume-ko-unified']
+  for (const path of possiblePaths) {
+    const result = await queryCollection('resume').path(path).first()
+    if (result) return result
   }
+  return null
+})
+
+if (!resumePage.value) {
+  throw createError({ statusCode: 404, statusMessage: '통합 이력서 콘텐츠를 찾을 수 없습니다.' })
 }
 </script>
 
 <template>
   <div class="pt-24">
-    <section class="py-10 sm:py-14 bg-surface-50 border-b border-surface-200/80">
-      <div class="section-container">
-        <p class="text-sm font-semibold text-brand-500 tracking-wide mb-2">
+    <section class="pt-14 sm:pt-20 pb-5 sm:pb-6 bg-surface-50 border-b border-surface-200/80">
+      <div class="section-container max-w-4xl">
+        <p class="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-brand-600 mb-3">
           Resume
         </p>
-        <h1 class="text-2xl sm:text-3xl font-display font-bold text-surface-800 tracking-tight mb-3">
-          이력서
-        </h1>
-        <p class="text-sm text-surface-600 max-w-2xl leading-relaxed">
-          마크다운 원본은 저장소
-          <code class="text-xs px-1.5 py-0.5 rounded bg-surface-200/80 text-surface-700 font-mono">content/resume/</code>
-          (개인정보 템플릿은
-          <code class="text-xs px-1.5 py-0.5 rounded bg-surface-200/80 text-surface-700 font-mono">content/personal-info-template.md</code>)
-          에 있습니다. 지원처에 맞는 탭을 고른 뒤 인쇄(PDF 저장)하거나 복사해 사용하세요.
-        </p>
-
-        <div class="flex flex-wrap gap-2 mt-6">
-          <button
-            v-for="(page, i) in resumePages"
-            :key="page.path"
-            type="button"
-            class="px-3.5 py-2 rounded-xl text-sm font-medium transition-all border"
-            :class="activeIndex === i
-              ? 'bg-brand-500 text-white border-brand-500 shadow-md shadow-brand-500/20'
-              : 'bg-white text-surface-600 border-surface-200 hover:border-brand-300 hover:text-brand-700'"
-            @click="selectResume(i)"
+        <div class="flex items-center justify-between gap-4">
+          <h1 class="text-3xl sm:text-4xl font-display font-bold text-surface-950 tracking-tight">
+            이력서
+          </h1>
+          <a
+            href="/downloads/이력서_자기소개서_이두현.docx"
+            download="이력서_자기소개서_이두현.docx"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-sm hover:shadow-md shrink-0"
           >
-            {{ page.title || page.path }}
-          </button>
+            <Icon name="heroicons:arrow-down-tray-20-solid" class="w-4 h-4" />
+            <span class="hidden sm:inline">이력서 다운로드</span>
+            <span class="sm:hidden">다운로드</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <section class="py-10 sm:py-14 bg-white">
+    <section class="pt-6 sm:pt-8 pb-14 sm:pb-20 bg-white">
       <div class="section-container max-w-4xl">
-        <div class="prose-content resume-print">
-          <ContentRenderer v-if="activePage" :value="activePage" />
+        <div class="resume-print">
+          <ResumeHeader
+            v-if="resumePage"
+            :name="resumePage.name"
+            :title="resumePage.role"
+            :email="resumePage.email"
+            :phone="resumePage.phone"
+            :github="resumePage.github"
+            :portfolio="resumePage.portfolio"
+          />
+
+          <div class="prose-content">
+            <ContentRenderer v-if="resumePage" :value="resumePage" />
+          </div>
         </div>
       </div>
     </section>
