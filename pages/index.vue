@@ -27,6 +27,7 @@ const techStacks = {
     label: '백엔드',
     items: [
       { name: 'Spring Boot', icon: 'mdi:leaf' },
+      { name: 'Spring Security / JWT', icon: 'mdi:shield-lock' },
       { name: 'Node.js', icon: 'mdi:nodejs' },
       { name: 'Python', icon: 'mdi:language-python' },
       { name: 'PostgreSQL', icon: 'mdi:database' },
