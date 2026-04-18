@@ -330,14 +330,14 @@ const skillCategories = [
         name: 'ngrok',
         icon: 'simple-icons:ngrok',
         summary:
-          '로컬 서버를 외부로 노출하여 결제 리다이렉트, 웹훅 등 외부 시스템과의 실시간 인터랙션을 검증하고 디버깅하는 데 활용했습니다.',
+          '클라우드 인프라(ELK 등) 비용 절감을 위해 로컬에서 구동 중인 모니터링/로그 분석 서버를 외부로 포워딩하여 실시간 관측성을 확보하는 전략을 수립하고 운영했습니다.',
         projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
         name: 'Vercel',
         icon: 'simple-icons:vercel',
         summary:
-          'Next.js 기반 개인 개발 블로그를 배포하고 관리합니다. Edge Network 활용 및 CI/CD 워크플로우를 통해 정적/동적 콘텐츠를 효율적으로 서빙합니다.',
+          'Next.js 기반 개인 개발 블로그를 배포하고 관리했습니다. Edge Network 활용 및 CI/CD 워크플로우를 통해 정적/동적 콘텐츠를 효율적으로 서빙했습니다.',
         projectSlugs: ['dev-blog'],
       },
     ],
