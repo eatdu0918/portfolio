@@ -33,6 +33,7 @@ highlights:
   - "3개 Vue 3 클라이언트 (지휘용 Main, 관리용 Admin, 현장용 Edge) 동시 개발"
 order: 3
 featured: true
+aiGenerated: true
 workType: company
 category: "fullstack"
 ---

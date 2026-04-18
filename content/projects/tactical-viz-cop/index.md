@@ -4,19 +4,19 @@ slug: "tactical-viz-cop"
 summary: "브라우저 기반 전장정보 편집기. OpenLayers와 MIL-STD-2525D로 NATO 표준 군사 부호·전술 그래픽을 다루고, 3개 독립 맵·ORBAT·레이어 권한을 퍼사드 중심 구조로 묶은 군사 지도 프론트엔드입니다."
 period: "2025.12 - 현재"
 role: "프론트엔드 개발 (아키텍처 설계)"
-liveUrl: "https://tactical-viz-cop.example.com/"
-thumbnail: "/images/projects/tactical-viz-cop/shared_cop.png"
+liveUrl: "https://aetem-v2-cop.dev-aistudio.com/"
+thumbnail: "/images/projects/tactical-viz-cop/dashboard.png"
 gallery:
-  - src: "/images/projects/tactical-viz-cop/shared_cop.png"
-    alt: "전장정보 편집기 — 공유 상황도 화면"
-  - src: "/images/projects/tactical-viz-cop/mission_timeline.png"
-    alt: "작전 타임라인"
-  - src: "/images/projects/tactical-viz-cop/threat_assessment.png"
-    alt: "위협 평가"
-  - src: "/images/projects/tactical-viz-cop/surveillance_feeds.png"
-    alt: "감시 피드"
-  - src: "/images/projects/tactical-viz-cop/logistics_supply.png"
-    alt: "보급·물류"
+  - src: "/images/projects/tactical-viz-cop/dashboard.png"
+    alt: "전장정보 편집기 — 상황판 개요"
+  - src: "/images/projects/tactical-viz-cop/map_editor.png"
+    alt: "전장정보 편집기 — 지도 기반 편집 화면"
+  - src: "/images/projects/tactical-viz-cop/orbat.png"
+    alt: "전장정보 편집기 — 전투편성표(ORBAT) 편집기"
+  - src: "/images/projects/tactical-viz-cop/features.png"
+    alt: "전장정보 편집기 — 주요 기능 목록"
+  - src: "/images/projects/tactical-viz-cop/docs.png"
+    alt: "전장정보 편집기 — 아키텍처 및 API 문서화"
 tags: ["Vue 3", "OpenLayers", "MIL-STD-2525D", "Tailwind CSS", "Pinia", "Vue Flow", "Turf.js", "기술문서"]
 techStack:
   frontend: ["Vue 3", "Vite 7", "Pinia", "Vue Router", "Tailwind CSS 4"]
@@ -35,13 +35,14 @@ highlights:
   - "저장소 내 기술 문서: 퍼사드 공개 계약·멀티 맵 상태 키 규칙·Draw 파이프라인 시퀀스·온보딩 체크리스트 정리"
 order: 4
 featured: true
+aiGenerated: false
 workType: company
 category: "fullstack"
 ---
 
 ## 왜 이 프로젝트인가
 
-[전장정보 편집기](https://tactical-viz-cop.example.com/)는 **규격(MIL-STD-2525D)**과 **운용 속도(다중 맵·대량 심볼·드로잉)**를 동시에 만족해야 합니다. v1에서 겪은 결합도를 줄이기 위해, **화면이 OpenLayers·군사 렌더러 세부를 직접 들여다보지 않게** 경계를 먼저 잡았습니다.
+[전장정보 편집기](https://aetem-v2-cop.dev-aistudio.com/)는 **규격(MIL-STD-2525D)**과 **운용 속도(다중 맵·대량 심볼·드로잉)**를 동시에 만족해야 합니다. v1에서 겪은 결합도를 줄이기 위해, **화면이 OpenLayers·군사 렌더러 세부를 직접 들여다보지 않게** 경계를 먼저 잡았습니다.
 
 ## 내가 풀려던 문제
 
