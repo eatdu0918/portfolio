@@ -5,6 +5,21 @@ summary: "브라우저 기반 전장정보 편집기. OpenLayers와 MIL-STD-2525
 period: "2025.12 - 현재"
 role: "프론트엔드 개발 (아키텍처 설계)"
 liveUrl: "https://aetem-v2-cop.dev-aistudio.com/"
+demoLinks:
+  [
+    {
+      "label": "전장 정보 편집기(메인)",
+      "url": "https://aetem-v2-cop.dev-aistudio.com/",
+    },
+    {
+      "label": "레퍼런스 화면",
+      "url": "https://aetem-v2-cop.dev-aistudio.com/screen2",
+    },
+    {
+      "label": "프로젝트 API 문서",
+      "url": "https://aetem-v2-cop.dev-aistudio.com/api",
+    },
+  ]
 thumbnail: "/images/projects/tactical-viz-cop/dashboard.png"
 gallery:
   - src: "/images/projects/tactical-viz-cop/dashboard.png"
@@ -43,6 +58,12 @@ category: "fullstack"
 ## 왜 이 프로젝트인가
 
 [전장정보 편집기](https://aetem-v2-cop.dev-aistudio.com/)는 **규격(MIL-STD-2525D)**과 **운용 속도(다중 맵·대량 심볼·드로잉)**를 동시에 만족해야 합니다. v1에서 겪은 결합도를 줄이기 위해, **화면이 OpenLayers·군사 렌더러 세부를 직접 들여다보지 않게** 경계를 먼저 잡았습니다.
+
+## 데모 및 기술 문서
+
+- **전장 정보 편집기 (메인)**: [https://aetem-v2-cop.dev-aistudio.com/](https://aetem-v2-cop.dev-aistudio.com/)
+- **레퍼런스 화면**: [/screen2](https://aetem-v2-cop.dev-aistudio.com/screen2)
+- **프로젝트 API 문서**: [/api](https://aetem-v2-cop.dev-aistudio.com/api)
 
 ## 내가 풀려던 문제
 
