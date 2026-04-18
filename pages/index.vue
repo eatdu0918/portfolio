@@ -43,6 +43,7 @@ const techStacks = {
       { name: 'AWS', icon: 'mdi:aws' },
       { name: 'Nginx', icon: 'mdi:server' },
       { name: 'GitHub Actions', icon: 'mdi:github' },
+      { name: 'ngrok', icon: 'simple-icons:ngrok' },
       { name: 'Linux', icon: 'mdi:linux' },
       { name: 'Prometheus', icon: 'mdi:chart-line' },
     ],

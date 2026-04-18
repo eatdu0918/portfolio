@@ -326,6 +326,13 @@ const skillCategories = [
           '메트릭 수집·기본 대시보드 연동을 경험했습니다.',
         projectSlugs: ['tactical-viz'],
       },
+      {
+        name: 'ngrok',
+        icon: 'simple-icons:ngrok',
+        summary:
+          '로컬 서버를 외부로 노출하여 결제 리다이렉트, 웹훅 등 외부 시스템과의 실시간 인터랙션을 검증하고 디버깅하는 데 활용했습니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
+      },
     ],
   },
 ]
