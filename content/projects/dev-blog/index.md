@@ -4,6 +4,13 @@ slug: "dev-blog"
 summary: "Next.js 기반 개인 기술 블로그입니다. Markdown을 unified(remark/rehype) 파이프라인으로 확장해 Sandpack 인라인 실행, Mermaid 다이어그램, 커스텀 React 컴포넌트를 글 본문에 삽입하고, PostgreSQL·Prisma·Server Actions로 댓글을 처리합니다. 백엔드·프론트·인프라·CS 주제의 글과 예제·Vitest 테스트를 함께 관리합니다. Vercel에 배포되어 누구나 접속해 글과 댓글 기능을 확인할 수 있습니다."
 period: "2026.02 - 현재"
 liveUrl: "https://dev-blog-snowy-alpha.vercel.app/"
+demoLinks:
+  [
+    {
+      "label": "개인 개발 블로그",
+      "url": "https://dev-blog-snowy-alpha.vercel.app/",
+    },
+  ]
 role: "개인프로젝트"
 tags:
   [
@@ -68,7 +75,9 @@ category: "fullstack"
 
 기술 블로그는 “글을 올린다” 이상이어야 한다고 봤다. **읽는 것 → 실행·검증하는 것**까지 한 페이지에 담으려면 MDX로 전면 전환하거나, **Markdown 파이프라인을 확장**해야 한다. 후자를 택해 **Git 친화적인 작성 경험**을 지키고 싶었다.
 
-**라이브:** [https://dev-blog-snowy-alpha.vercel.app/](https://dev-blog-snowy-alpha.vercel.app/)
+## 데모 및 기술 문서
+
+- **개인 개발 블로그**: [https://dev-blog-snowy-alpha.vercel.app/](https://dev-blog-snowy-alpha.vercel.app/)
 
 ## 내가 풀려던 문제
 
