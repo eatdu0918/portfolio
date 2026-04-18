@@ -178,7 +178,7 @@ const skillCategories = [
     ],
   },
   {
-    title: 'AI / ML & 실시간',
+    title: 'AI / ML 연동',
     icon: 'heroicons:cpu-chip-20-solid',
     items: [
       {
@@ -193,20 +193,6 @@ const skillCategories = [
         icon: 'mdi:database-clock',
         summary:
           '지능형 영상 비식별화 플랫폼에서 start, fileDown, selectiveEnd, progress, end, zeroshotTrackEnd, zeroshotBlurEnd 등 채널로 워커→API→소켓 경로를 설계해 DB 폴링 없이 UI를 갱신했습니다.',
-        projectSlugs: ['vision-factory'],
-      },
-      {
-        name: 'YOLO / 검출·트래킹',
-        icon: 'mdi:target',
-        summary:
-          '검출 JSON 스키마(bbox, track_id, class)와 후속 blur/replace 큐 분기를 맞추고, 수동 비식별 시 ODTrack 기반 제로샷 추적 산출물을 Electron·SFTP와 동기화했습니다.',
-        projectSlugs: ['vision-factory'],
-      },
-      {
-        name: 'Stable Diffusion / ControlNet / IP-Adapter',
-        icon: 'mdi:image-filter-frames',
-        summary:
-          '교체형 비식별 파이프라인(얼굴 등)에서 생성 모델 경로를 서비스 요청·큐 페이로드와 연결했습니다.',
         projectSlugs: ['vision-factory'],
       },
       {
