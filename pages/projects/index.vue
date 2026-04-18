@@ -73,6 +73,7 @@ const filteredProjects = computed(() => {
             :thumbnail="project.thumbnail ?? project.gallery?.[0]?.src"
             :live-url="project.liveUrl"
             :work-type="project.workType"
+            :ai-generated="project.aiGenerated"
             :index="Number(idx) + 1"
           />
         </div>

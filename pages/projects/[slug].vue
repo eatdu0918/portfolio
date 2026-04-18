@@ -232,7 +232,7 @@ function getIconForLabel(label: string) {
           <ProjectGallery
             v-if="project?.gallery?.length"
             :items="project.gallery"
-            :ai-generated-images="project.workType === 'company'"
+            :ai-generated-images="project.aiGenerated ?? (project.workType === 'company')"
           />
 
           <!-- Content Body -->

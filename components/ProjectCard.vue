@@ -16,6 +16,7 @@ interface Props {
   thumbnail?: string
   liveUrl?: string
   workType?: WorkType
+  aiGenerated?: boolean
 }
 
 const workTypeLabel: Record<WorkType, string> = {
@@ -28,7 +29,9 @@ const workTypeClass: Record<WorkType, string> = {
   company: 'bg-slate-100 border-slate-200 text-slate-700',
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  aiGenerated: true,
+})
 
 const detailTo = computed(() => props.detailPath?.trim() || `/projects/${props.slug}`)
 
@@ -70,7 +73,7 @@ watch(
           @error="imgFailed = true"
         />
         <p
-          v-if="workType === 'company' && thumbnail && !imgFailed"
+          v-if="workType === 'company' && aiGenerated && thumbnail && !imgFailed"
           class="absolute bottom-0 left-0 right-0 z-20 px-2 py-1 text-[9px] leading-snug font-medium text-white bg-surface-900/60 backdrop-blur-sm text-center pointer-events-none border-t border-white/10"
         >
           실제 개발한 내용을 기반으로 생성한 AI 이미지입니다

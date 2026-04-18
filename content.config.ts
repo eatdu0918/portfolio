@@ -39,6 +39,7 @@ export default defineContentConfig({
         highlights: z.array(z.string()).optional(),
         order: z.number().optional(),
         featured: z.boolean().optional(),
+        aiGenerated: z.boolean().optional(),
         workType: z.enum(['personal', 'company']).optional(),
         category: z.string().optional(),
         liveUrl: z.string().url().optional(),

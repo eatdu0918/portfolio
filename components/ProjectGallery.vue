@@ -77,7 +77,7 @@ onUnmounted(() => {
     </h2>
     <p
       v-if="aiGeneratedImages"
-      class="mb-4 text-xs text-surface-500 leading-relaxed max-w-3xl"
+      class="mb-4 text-xs text-surface-500 leading-relaxed max-w-3xl text-center"
     >
       아래 이미지는 <strong class="font-semibold text-surface-600">실제 개발한 내용을 기반으로 생성한 AI 이미지</strong>입니다.
     </p>
@@ -100,7 +100,7 @@ onUnmounted(() => {
         </div>
         <p
           v-if="item.alt"
-          class="px-3 py-2 text-xs font-medium text-surface-600 border-t border-surface-100 bg-white"
+          class="px-3 py-2 text-xs font-medium text-surface-600 border-t border-surface-100 bg-white text-center"
         >
           {{ item.alt }}
         </p>
