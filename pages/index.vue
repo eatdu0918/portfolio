@@ -40,10 +40,10 @@ const techStacks = {
     items: [
       { name: 'Docker', icon: 'mdi:docker' },
       { name: 'Kubernetes', icon: 'mdi:kubernetes' },
-      { name: 'Linux', icon: 'mdi:linux' },
+      { name: 'AWS', icon: 'mdi:aws' },
       { name: 'Nginx', icon: 'mdi:server' },
-      { name: 'Git', icon: 'mdi:git' },
-      { name: 'CI/CD', icon: 'mdi:pipe' },
+      { name: 'GitHub Actions', icon: 'mdi:github' },
+      { name: 'Linux', icon: 'mdi:linux' },
       { name: 'Prometheus', icon: 'mdi:chart-line' },
     ],
   },

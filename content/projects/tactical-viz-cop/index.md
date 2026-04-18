@@ -38,6 +38,7 @@ techStack:
   map: ["OpenLayers 10", "Turf.js", "MGRS", "proj4"]
   military: ["MIL-STD-2525D", "milsymbol", "mil-sym-ts-web", "milgraphics"]
   visualization: ["Vue Flow", "D3.js", "html-to-image", "xlsx"]
+  infrastructure: ["AWS EC2", "GitHub Actions", "Docker", "Nginx"]
 highlights:
   - "전장정보 편집기: MIL-STD-2525D 부대 심볼·전술 그래픽을 한 제품에서 다루는 렌더링·파이프라인 설계"
   - "Provider(Facade) + Manager/Renderer로 지도·심볼·그래픽 결합도를 낮추고 Screen 1~3을 동일 패턴으로 확장"

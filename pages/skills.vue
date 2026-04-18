@@ -274,8 +274,22 @@ const skillCategories = [
         name: 'Docker',
         icon: 'mdi:docker',
         summary:
-          '서비스·추론 워커 이미지화, 로컬·스테이징 구동 스크립트를 정리했습니다.',
+          '서비스·추론 워커 이미지화, 포트폴리오 EC2 배포를 위한 Nginx 기반 멀티 스테이지 빌드 구성을 관리합니다.',
         projectSlugs: ['vision-factory', 'sparta-ecommerce-msa'],
+      },
+      {
+        name: 'AWS',
+        icon: 'mdi:aws',
+        summary:
+          'EC2 인스턴스 생성 및 보안 그룹 설정, 탄력적 IP(EIP) 연결을 통해 서비스를 클라우드에 배치했습니다. 현재 보고 계신 포트폴리오 프로젝트(http://3.106.133.249:8082/)의 호스팅을 구축했습니다.',
+        projectSlugs: [],
+      },
+      {
+        name: 'GitHub Actions',
+        icon: 'mdi:github',
+        summary:
+          '푸시 시 빌드·테스트 자동화, Docker 이미지를 GHCR로 전송하고 SSH 액션을 통해 EC2 서버의 컨테이너를 갱신하는 CI/CD 파이프라인을 구축했습니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
         name: 'Kubernetes',
@@ -292,6 +306,13 @@ const skillCategories = [
         projectSlugs: ['vision-factory', 'resource-admin'],
       },
       {
+        name: 'Nginx',
+        icon: 'mdi:server',
+        summary:
+          '리버스 프록시·정적·업스트림 구성을 다뤘습니다. 포트폴리오 Docker 이미지 내에서 정적 파일을 서빙하도록 설정했습니다.',
+        projectSlugs: ['vision-factory', 'tactical-viz'],
+      },
+      {
         name: 'Git',
         icon: 'mdi:git',
         summary:
@@ -299,25 +320,11 @@ const skillCategories = [
         projectSlugs: [],
       },
       {
-        name: 'Nginx',
-        icon: 'mdi:server',
-        summary:
-          '리버스 프록시·정적·업스트림 구성을 다뤘습니다.',
-        projectSlugs: ['vision-factory', 'tactical-viz'],
-      },
-      {
         name: 'Prometheus',
         icon: 'mdi:chart-timeline-variant',
         summary:
           '메트릭 수집·기본 대시보드 연동을 경험했습니다.',
         projectSlugs: ['tactical-viz'],
-      },
-      {
-        name: 'CI/CD',
-        icon: 'mdi:pipe',
-        summary:
-          'e-commerce에서 GitHub Actions → GHCR 파이프라인을 구성했습니다.',
-        projectSlugs: ['sparta-ecommerce-msa'],
       },
     ],
   },
