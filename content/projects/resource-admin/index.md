@@ -31,8 +31,9 @@ highlights:
   - "CCTV RTSP 수집기 Docker 컨테이너 원격 실행 및 모니터링"
   - "Apache Tiles 레이아웃 기반 관리자/작업자 분리 UI"
   - "Spring Boot 멀티 프로젝트 공통 라이브러리 설계 (웹·소비자·API 공유 모듈)"
-order: 2
+order: 1
 featured: true
+aiGenerated: true
 workType: company
 category: "fullstack"
 ---
