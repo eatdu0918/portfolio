@@ -49,7 +49,7 @@ highlights:
   - "레이어 가시성·편집 권한: assignment / rule 모드로 화면별 작전 뷰 표현"
   - "지도 캡처 및 Excel보내기"
   - "저장소 내 기술 문서: 퍼사드 공개 계약·멀티 맵 상태 키 규칙·Draw 파이프라인 시퀀스·온보딩 체크리스트 정리"
-order: 4
+order: 6
 featured: true
 aiGenerated: false
 workType: company

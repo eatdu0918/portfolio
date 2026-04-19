@@ -30,7 +30,7 @@ highlights:
   - "Spring Boot 3 멀티모듈(사용자 API·관리 API·공통 모듈)"
   - "수동 비식별화 편집 기능 (이미지/비디오 캔버스 기반 영역 선택)"
   - "다국어 지원 (한국어, 영어, 일본어)"
-order: 2
+order: 4
 featured: true
 aiGenerated: true
 workType: company

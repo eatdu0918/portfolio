@@ -82,7 +82,7 @@ highlights:
   - "Blue/Green 기반 클라이언트 배포 전략 및 CI/CD 파이프라인 구성"
   - "서비스별 MySQL, Redis, Prometheus 모니터링 등 운영 관점 구성"
   - "ngrok으로 로컬 게이트웨이를 공개해 결제 리다이렉트·웹훅 등 외부 콜백 플로우 검증"
-order: 5
+order: 1
 featured: true
 workType: personal
 category: "fullstack"

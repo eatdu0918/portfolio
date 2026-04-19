@@ -65,7 +65,7 @@ highlights:
   - "프로덕션에서 발행 플래그·카테고리 쿼리로 목록 필터링, 개발 환경에서는 전체 노출"
   - "Ramda, MSA, 트랜잭션, 보안, 브라우저·JVM 등 폭넓은 주제의 글과 동기화된 예제·단위 테스트"
   - "https://dev-blog-snowy-alpha.vercel.app/ 에 배포되어 실제 서비스 형태로 바로 확인 가능"
-order: 6
+order: 2
 featured: true
 workType: personal
 category: "fullstack"

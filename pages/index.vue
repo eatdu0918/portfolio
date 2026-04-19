@@ -143,7 +143,7 @@ const techStacks = {
           <h2 class="text-lg sm:text-xl font-bold text-surface-800 tracking-tight">
             최근 프로젝트
           </h2>
-          <p class="mt-2 text-sm text-surface-500 max-w-2xl">
+          <p class="mt-2 text-sm text-surface-500 max-w-3xl">
             회사 제품(영상 비식별화·전장 상황 인지·데이터 관리 플랫폼 등)과 개인 작업(기술 블로그·e-commerce MSA)을 함께 정리했습니다.
           </p>
         </div>

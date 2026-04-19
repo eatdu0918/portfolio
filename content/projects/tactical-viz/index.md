@@ -31,7 +31,7 @@ highlights:
   - "Spring Boot 3 멀티모듈 (main-api / admin-api / common) RESTful API 설계"
   - "MapStruct 기반 DTO-VO 자동 변환으로 레이어 간 타입 안전성 확보"
   - "3개 Vue 3 클라이언트 (지휘용 Main, 관리용 Admin, 현장용 Edge) 동시 개발"
-order: 3
+order: 5
 featured: true
 aiGenerated: true
 workType: company
