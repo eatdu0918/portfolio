@@ -7,7 +7,7 @@ useHead({
 
 const { data: projects } = await useAsyncData('all-projects', () =>
   queryCollection('projects')
-    .where('category', '=', 'fullstack')
+    .where('featured', '=', true)
     .order('order', 'DESC')
     .all(),
 )

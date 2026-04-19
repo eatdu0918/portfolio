@@ -95,7 +95,7 @@ highlights:
 order: 1
 featured: true
 workType: personal
-category: "fullstack"
+category: fullstack
 testAccounts:
   [
     {

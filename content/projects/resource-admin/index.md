@@ -35,7 +35,7 @@ order: 3
 featured: true
 aiGenerated: true
 workType: company
-category: "fullstack"
+category: fullstack
 ---
 
 ## 왜 이 프로젝트인가

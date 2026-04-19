@@ -74,7 +74,7 @@ highlights:
 order: 2
 featured: true
 workType: personal
-category: "fullstack"
+category: fullstack
 ---
 
 ## 왜 이 프로젝트인가

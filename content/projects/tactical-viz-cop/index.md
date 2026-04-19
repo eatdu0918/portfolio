@@ -53,7 +53,7 @@ order: 6
 featured: true
 aiGenerated: false
 workType: company
-category: "fullstack"
+category: fullstack
 ---
 
 ## 왜 이 프로젝트인가
