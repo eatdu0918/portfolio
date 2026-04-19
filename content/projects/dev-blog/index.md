@@ -11,6 +11,12 @@ demoLinks:
       "url": "https://dev-blog-snowy-alpha.vercel.app/",
     },
   ]
+thumbnail: "/images/projects/dev-blog/blog-home.png"
+gallery:
+  - src: "/images/projects/dev-blog/blog-home.png"
+    alt: "개발 블로그 — 홈(카테고리·최근 글 목록, 다크 테마)"
+  - src: "/images/projects/dev-blog/post-cqrs.png"
+    alt: "개발 블로그 — 글 본문 예시(CQRS, Mermaid·타이포그래피)"
 role: "개인프로젝트"
 tags:
   [
