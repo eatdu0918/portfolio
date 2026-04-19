@@ -62,6 +62,13 @@ order: 4
 ## 설계 메모
 
 - ngrok 등 **터널 URL은 재시작 시 바뀔 수 있어**, 공개 데모 주소는 README가 아니라 **배포·소개에 쓰는 단일 `liveUrl` 및 `demoLinks`(프론트매터)를 정본**으로 맞춘다.
-- **K8s 대시보드** 및 **Kafka UI**를 ngrok으로 노출하여, 클러스터 내부 상태를 외부에서도 직접 관측할 수 있도록 구성했다.
-  - [Kubernetes 대시보드](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa)
+- **터널을 단일 진입점으로 모은다.** ngrok 터널은 K8s에 떠 있는 `client(nginx)` 컨테이너 한 곳만 가리키고, nginx 가 SPA·API·Kafka UI·K8s 대시보드·통합 Swagger 를 모두 sub-path 로 라우팅한다.
+  - `/` → SPA(메인·어드민)
+  - `/api` → `gateway-service:8000`
+  - `/kafka` → `kafka-ui:8080`
+  - `/k8s/` → `dashboard-bridge:80` (`sparta-msa` ns 의 ExternalName → `kubernetes-dashboard.kubernetes-dashboard:80`)
+  - `/swagger-ui.html`·`/swagger-ui/`·`/v3/api-docs`·`/webjars/` → `gateway-service:8000` (springdoc 통합)
+- 그 결과 외부에서 클러스터 내부 상태를 클릭 한 번으로 관측할 수 있다.
+  - [Kubernetes 대시보드](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/)
   - [Kafka UI](https://gossipy-jeanetta-sulkier.ngrok-free.dev/kafka)
+  - [통합 Swagger UI](https://gossipy-jeanetta-sulkier.ngrok-free.dev/swagger-ui.html)

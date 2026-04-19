@@ -12,11 +12,11 @@ demoLinks:
     },
     {
       "label": "e-commerce(어드민)",
-      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin/login",
     },
     {
       "label": "Kubernetes 대시보드",
-      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa",
+      "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/",
     },
     {
       "label": "Kafka UI",
@@ -27,6 +27,16 @@ demoLinks:
       "url": "https://gossipy-jeanetta-sulkier.ngrok-free.dev/swagger-ui.html",
     },
   ]
+thumbnail: "/images/projects/sparta-ecommerce-msa/order-detail.png"
+gallery:
+  - src: "/images/projects/sparta-ecommerce-msa/order-detail.png"
+    alt: "이커머스 MSA — 주문 상세(진행 단계·배송·결제 요약)"
+  - src: "/images/projects/sparta-ecommerce-msa/admin-dashboard.png"
+    alt: "이커머스 MSA — 어드민 대시보드(지표·최근 주문)"
+  - src: "/images/projects/sparta-ecommerce-msa/kafka-topics.png"
+    alt: "이커머스 MSA — Kafka UI 토픽(order-created, payment-completed 등)"
+  - src: "/images/projects/sparta-ecommerce-msa/kubernetes-pods.png"
+    alt: "이커머스 MSA — Kubernetes 파드(게이트웨이 Blue/Green·서비스·Kafka)"
 role: "풀스택 (개인 프로젝트)"
 tags:
   [
@@ -109,14 +119,19 @@ testAccounts:
 
 회사 업무에서 MSA를 끝까지 설계·운영할 기회는 흔치 않다. 교육 **최종 개인 프로젝트**에서 착수한 뒤에도, **게이트웨이·도메인 분리·이벤트·배포·관측**을 스스로 반복할 수 있는 **개인 레퍼런스**로 유지하고 있다.
 
-**데모 및 관리 도구 (ngrok 익스포즈 시에만 접근 가능):**
-- **메인 쇼핑몰**: [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/)
-- **어드민 관리**: [/admin](https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin)
-- **K8s 대시보드**: [/k8s (sparta-msa)](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/#/service?namespace=sparta-msa)
+**데모 및 관리 도구 (로컬 K8s + ngrok 터널이 가동 중일 때만 접근 가능):**
+- **포트폴리오 내 어드민 로그인 UI 데모**: [`/admin/login`](/admin/login) (테스트 계정은 아래 `testAccounts`와 동일)
+- **메인 쇼핑몰(SPA)**: [https://gossipy-jeanetta-sulkier.ngrok-free.dev/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/)
+- **어드민 로그인**: [/admin/login](https://gossipy-jeanetta-sulkier.ngrok-free.dev/admin/login)
+- **K8s 대시보드**: [/k8s/](https://gossipy-jeanetta-sulkier.ngrok-free.dev/k8s/)
 - **Kafka UI**: [/kafka](https://gossipy-jeanetta-sulkier.ngrok-free.dev/kafka)
 - **통합 Swagger UI**: [/swagger-ui.html](https://gossipy-jeanetta-sulkier.ngrok-free.dev/swagger-ui.html)
 
-*URL은 터널 세션마다 달라질 수 있습니다.*
+> 터널 구조: `client(nginx)` 단일 컨테이너를 ngrok으로 익스포즈하고, nginx가 다음과 같이 라우팅합니다.
+> `/` → SPA, `/api` → `gateway-service:8000`, `/kafka` → `kafka-ui:8080`,
+> `/k8s/` → `dashboard-bridge:80`(kubernetes-dashboard ExternalName), `/swagger-ui.html`·`/v3/api-docs` → `gateway-service:8000`(springdoc 통합).
+>
+> URL은 ngrok 무료 플랜 특성상 터널 세션마다 달라질 수 있습니다.
 
 
 
