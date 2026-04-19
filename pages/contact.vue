@@ -11,6 +11,12 @@ const contacts = [
     href: 'mailto:eatdu0918@gmail.com',
   },
   {
+    icon: 'heroicons:phone-20-solid',
+    label: 'Phone',
+    value: '010-8310-1753',
+    href: 'tel:010-8310-1753',
+  },
+  {
     icon: 'mdi:github',
     label: 'GitHub',
     value: 'github.com/eatdu0918',

@@ -24,6 +24,13 @@
           >
             <Icon name="heroicons:envelope-20-solid" class="w-5 h-5" />
           </a>
+          <a
+            href="tel:010-8310-1753"
+            class="p-2.5 rounded-xl text-surface-400 hover:text-brand-600 hover:bg-brand-50 transition-colors"
+            aria-label="Phone"
+          >
+            <Icon name="heroicons:phone-20-solid" class="w-5 h-5" />
+          </a>
         </div>
       </div>
 
