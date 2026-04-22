@@ -205,6 +205,30 @@ const skillCategories = [
     ],
   },
   {
+    title: 'AI-Assisted Development',
+    icon: 'heroicons:sparkles-20-solid',
+    items: [
+      {
+        name: 'Claude Code',
+        icon: 'mdi:creation',
+        summary:
+          'CLAUDE.md 하네스로 프로젝트 컨텍스트·규칙을 주입하고, 서브에이전트를 활용해 탐색·리팩토링·코드 리뷰를 병렬 수행합니다. 아키텍처 설계 시 Plan 모드로 구조를 먼저 잡은 뒤 구현에 진입하는 워크플로우를 사용합니다.',
+      },
+      {
+        name: 'Cursor',
+        icon: 'mdi:creation',
+        summary:
+          '각 프로젝트 특성에 맞는 .cursorrules를 작성하여 컨텍스트·코딩 컨벤션·금지 패턴 등을 사전 정의하고, 이를 통해 AI 코드 생성의 안전성과 일관성을 확보하면서 생산성을 극대화합니다.',
+      },
+      {
+        name: 'Gemini',
+        icon: 'mdi:creation',
+        summary:
+          '개발 블로그 포스트에 삽입할 다이어그램·개념도 등 이미지를 생성하여 독자의 이해를 돕고, 새 프로젝트 착수 시 구조·일정·기술 선정 등 계획 수립에 활용합니다.',
+      },
+    ],
+  },
+  {
     title: 'Database',
     icon: 'heroicons:circle-stack-20-solid',
     items: [
