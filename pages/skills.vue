@@ -20,7 +20,7 @@ const skillCategories = [
         name: 'Next.js / React 19',
         icon: 'simple-icons:nextdotjs',
         summary:
-          '개인 개발 블로그 (dev-blog)에서 App Router·Server Actions·콘텐츠 파이프라인을 구축했고, e-commerce MSA에서는 Vite 기반 React 클라이언트로 주문·상품 흐름을 연결했습니다.',
+          '개인 개발 블로그 (dev-blog)에서 Next.js 16 App Router·RSC·Server Actions 기반으로 콘텐츠·댓글 흐름을 구축했습니다. unified(remark/rehype) 파이프라인을 확장해 Sandpack 인라인 실행·Mermaid 다이어그램·커스텀 MDX 컴포넌트를 본문에 임베드하고, next-themes 다크 모드, Prisma 기반 댓글 Server Actions, Vitest 테스트·Vercel 배포까지 운영합니다. e-commerce MSA에서는 React 19 + Vite 클라이언트로 Spring Cloud Gateway·JWT·주문·결제·취소 흐름을 연결했습니다.',
         projectSlugs: ['dev-blog', 'sparta-ecommerce-msa'],
       },
       {
@@ -55,8 +55,8 @@ const skillCategories = [
         name: 'TypeScript',
         icon: 'mdi:language-typescript',
         summary:
-          '컴포넌트 props, 지도·좌표 유틸, API 응답 타입을 명시해 리팩터링 비용을 줄였습니다.',
-        projectSlugs: ['dev-blog', 'sparta-ecommerce-msa', 'tactical-viz-cop'],
+          'Vue·React를 아우르는 공통 기반입니다. 개인 개발 블로그 (dev-blog)에서는 Next.js App Router·Server Actions·Prisma Client로 end-to-end 타입 전파, 본 포트폴리오(Nuxt 3)에서는 @nuxt/content Zod 스키마·컴포넌트 props·composables 타입을 정의했습니다. 전장 정보 편집기에서는 지도 Provider/Manager·MGRS 좌표 유틸·Draw 파이프라인의 상태 키와 API 응답 DTO를 명시해 팀 확장에도 리팩터링 비용을 낮췄고, 3D 전장 상황 인지 시스템 프론트엔드·e-commerce MSA React 클라이언트에서도 동일 원칙으로 적용했습니다.',
+        projectSlugs: ['dev-blog', 'sparta-ecommerce-msa', 'tactical-viz-cop', 'tactical-viz'],
       },
     ],
   },

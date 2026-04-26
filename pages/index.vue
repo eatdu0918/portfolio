@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Portfolio | Full-Stack — Vue/Spring & Next.js/MSA',
+  title: 'Portfolio | TypeScript Full-Stack — Vue·Nuxt · React·Next.js · Spring',
 })
 
 const { data: projects } = await useAsyncData('featured-projects', () =>
@@ -70,7 +70,7 @@ const techStacks = {
             <span class="gradient-text">이두현</span>입니다
           </h1>
           <p class="mt-6 text-lg sm:text-xl text-surface-800 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
-            Vue 3·Spring Boot 기반으로 GIS·3D 전장(Cesium)과 AI 추론 파이프라인(RabbitMQ·Python)을 설계하며, Electron 데스크톱과 REST·WebSocket 실시간 연동 등 복잡한 도메인의 비동기 처리에 강점이 있습니다. Next.js와 K8s 기반 MSA로 기술 영역을 넓히고 있습니다.
+            TypeScript를 공통 기반으로 Vue 3·Nuxt와 React 19·Next.js를 오가며 프론트엔드를, Spring Boot 3·Spring Cloud로 백엔드를 설계합니다. RabbitMQ·Kafka 이벤트 파이프라인과 WebSocket·Redis 실시간 연동, Electron·Kubernetes 배포까지 하나의 서비스 흐름으로 엮는 데 강점이 있습니다.
           </p>
           <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.4s">
             <NuxtLink
@@ -210,7 +210,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>Vue 3·Spring Boot 기반의 Cesium 3D 전장 GIS와 MIL-STD-2525D 도메인을 심도 있게 다뤘습니다.</span>
+                  <span>TypeScript + Vue 3·Nuxt와 React 19·Next.js로 SPA·Electron·SSR을 같은 언어 기반에서 오가며 구축했습니다.</span>
                 </li>
                 <li class="flex gap-3">
                   <Icon
@@ -218,7 +218,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>RabbitMQ·Redis 기반의 AI 추론 배치를 비동기로 설계하고, Electron·WebSocket으로 다중 클라이언트를 실시간 연동했습니다.</span>
+                  <span>RabbitMQ·Kafka·Redis 이벤트 파이프라인과 WebSocket STOMP로 비동기 처리·실시간 다중 클라이언트 연동을 설계했습니다.</span>
                 </li>
                 <li class="flex gap-3">
                   <Icon
@@ -226,7 +226,7 @@ const techStacks = {
                     class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
                     aria-hidden="true"
                   />
-                  <span>Next.js 기술 블로그와 Spring Cloud·Kafka·Kubernetes 기반 MSA로 클라우드 네이티브 역량을 확장 중입니다.</span>
+                  <span>Next.js 콘텐츠 파이프라인과 Spring Cloud·Kafka·Kubernetes 기반 MSA를 직접 구축해 운영 중입니다.</span>
                 </li>
               </ul>
             </div>

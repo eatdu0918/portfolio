@@ -72,37 +72,37 @@ const strengths = [
   {
     icon: 'heroicons:puzzle-piece-20-solid',
     title: '풀스택 통합 역량',
-    description: 'Vue 3 프론트엔드, Spring Boot 백엔드, Python AI 모델 바인딩 및 파이프라인까지 전체 서비스 시스템을 설계하고 구현합니다.',
+    description: 'TypeScript 기반 Vue 3·Nuxt와 React 19·Next.js 프론트엔드, Spring Boot 3·Spring Cloud 백엔드, Python AI 파이프라인까지 한 흐름으로 설계·구현합니다.',
   },
   {
-    icon: 'heroicons:map-20-solid',
-    title: 'GIS/지도 시스템 전문',
-    description: 'OpenLayers, Cesium 3D 기반의 군사 지도 시스템을 설계했습니다. 표준 전술 심볼 렌더링 경험.',
+    icon: 'heroicons:code-bracket-square-20-solid',
+    title: 'TypeScript 기반 타입 안전 설계',
+    description: 'Vue 컴포넌트·지도 Provider·Nuxt Content Zod 스키마부터 Next.js Server Actions·Prisma Client까지, 프런트·백·콘텐츠를 엔드투엔드로 타입 전파해 리팩터링 비용을 낮춥니다.',
   },
   {
     icon: 'heroicons:bolt-20-solid',
     title: '실시간 시스템 설계',
-    description: 'WebSocket STOMP, RabbitMQ, Redis Pub/Sub를 활용한 이벤트 드리븐 아키텍처 경험.',
+    description: 'WebSocket STOMP, RabbitMQ, Kafka, Redis Pub/Sub를 활용해 이벤트 드리븐 파이프라인과 실시간 다중 클라이언트 연동을 설계합니다.',
   },
   {
     icon: 'heroicons:squares-2x2-20-solid',
     title: '모듈 아키텍처 설계',
-    description: 'Provider/Manager 패턴, 마이크로서비스, 멀티모듈 구조 등 확장 가능한 아키텍처 설계.',
+    description: 'Provider/Manager 퍼사드, Spring Boot 3 멀티모듈, Spring Cloud Gateway 기반 MSA 등 확장 가능한 경계 설계 경험.',
   },
   {
     icon: 'heroicons:chart-bar-20-solid',
     title: 'AI 파이프라인 통합',
-    description: 'YOLOv8, Stable Diffusion 등 외부 AI 모델을 서비스와 연결하기 위한 RabbitMQ 기반 마이크로서비스 바인딩 및 배포.',
+    description: 'YOLOv8·Stable Diffusion 등 외부 AI 모델을 Python 워커·RabbitMQ·Redis Pub/Sub로 서비스에 바인딩하고, 실시간 UI까지 데이터 계약을 맞춥니다.',
   },
   {
-    icon: 'heroicons:device-phone-mobile-20-solid',
-    title: '멀티 클라이언트 개발',
-    description: 'Electron 데스크톱 앱, Quasar 모바일 대응, PrimeVue 관리자 화면 동시 개발 경험.',
+    icon: 'heroicons:map-20-solid',
+    title: '대규모 지도 UI',
+    description: 'OpenLayers·Cesium 3D 기반의 다중 맵·대량 심볼 렌더링, Provider/Manager 패턴과 LRU 캐시로 성능·확장성을 확보했습니다.',
   },
   {
-    icon: 'heroicons:academic-cap-20-solid',
-    title: '개인 프로젝트로 스택 확장',
-    description: '실무 외에 Next.js 콘텐츠 파이프라인·기술 블로그와 이커머스 MSA(게이트웨이·Kafka·K8s)를 끝까지 구축해 학습을 결과물로 남깁니다.',
+    icon: 'heroicons:sparkles-20-solid',
+    title: 'React·Next.js 풀스택 구축',
+    description: 'Next.js App Router·Server Actions·unified 파이프라인 기반 기술 블로그와 Spring Cloud·Kafka·Kubernetes 기반 이커머스 MSA를 직접 설계·배포했습니다.',
   },
 ]
 
@@ -133,23 +133,22 @@ const filteredExperiences = computed(() => {
             <span class="gradient-text">관여하는 개발자</span>
           </h1>
           <p class="text-base text-surface-600 leading-relaxed">
-            안녕하세요, 복잡한 도메인 요구사항을 아키텍처 수준에서 해석하고, 서비스의 엔드투엔드 흐름을 직접 설계·구축하는 것에 즐거움을 느끼는 풀스택 개발자 이두현입니다.
+            안녕하세요, <strong>TypeScript를 공통 기반으로 Vue·Nuxt와 React·Next.js를 오가며</strong> 프론트엔드를, <strong>Spring Boot 3·Spring Cloud</strong>로 백엔드를 설계하는 풀스택 개발자 이두현입니다.
           </p>
           <div class="mt-6 space-y-4 text-base text-surface-600 leading-relaxed">
             <p>
-              실무에서는 주로 <strong>GIS 기반 군사 지휘통제 시스템(C4I)</strong>과 <strong>지능형 영상 비식별화 플랫폼</strong>을 개발해 왔습니다. 
-              Cesium 3D 환경에서 NATO 표준 군사 기호(MIL-STD-2525D)를 대량으로 렌더링하기 위한 최적화 파이프라인을 구축하고, 
-              다단계 AI 모델의 추론 데이터를 RabbitMQ와 Redis를 활용해 실시간으로 처리하는 이벤트 드리븐 시스템을 설계했습니다.
+              실무에서는 <strong>Vue 3·Nuxt + Spring Boot 3</strong> 기반의 대규모 지도(OpenLayers·Cesium 3D)·실시간 시스템을 설계했고,
+              개인 프로젝트에서는 <strong>Next.js·React 19</strong> 기반 콘텐츠 파이프라인과 <strong>Spring Cloud·Kafka·Kubernetes</strong> 기반 MSA를 직접 구축했습니다.
+              프런트·백·콘텐츠 스키마까지 TypeScript로 타입을 전파해, 멀티 스택이어도 리팩터링 비용이 급격히 늘지 않게 경계를 잡는 데 집중합니다.
             </p>
             <p>
-              단순한 기능 구현을 넘어, <strong>Electron 데스크톱 앱</strong>부터 <strong>WebSocket 기반의 실시간 다중 클라이언트 연동</strong>까지 
-              복잡한 비즈니스 로직을 구조적으로 나누고 비동기 처리를 통해 사용자 경험을 개선하는 데 강점이 있습니다. 
-              기획 및 AI 연구팀과 긴밀히 소통하며 기술적 제약을 함께 풀어나가는 과정을 소중히 여깁니다.
+              단순한 기능 구현을 넘어, <strong>Electron 데스크톱 앱·SSR(Next.js)·SPA(Vue/React)</strong>를 같은 언어 기반에서 오가고,
+              RabbitMQ·Kafka·Redis Pub/Sub과 WebSocket STOMP로 <strong>비동기 파이프라인과 실시간 다중 클라이언트 연동</strong>을 구조적으로 풀어내는 데 강점이 있습니다.
+              기획·AI 연구팀과 메시지 계약·DTO 계약을 맞추며 기술적 제약을 함께 풀어나가는 과정을 소중히 여깁니다.
             </p>
             <p>
-              현재는 서비스 전체를 조망하는 시야를 넓히기 위해 <strong>Spring Cloud와 Kubernetes 기반의 MSA</strong> 환경을 구축하며 
-              분산 시스템의 정합성과 배포 자동화를 탐구하고 있습니다. 또한 <strong>기술 블로그</strong>를 통해 최신 웹 기술의 성능 최적화를 실천하며, 
-              제가 배운 지식을 기록하고 공유하는 일을 즐깁니다.
+              개인 프로젝트로 <strong>Next.js 16 App Router·Server Actions·unified(remark/rehype) 파이프라인</strong> 기반 기술 블로그를 Vercel에 배포해 운영하고,
+              <strong>Spring Cloud Gateway·Kafka·Kubernetes</strong> 기반 이커머스 MSA를 GHCR·EC2·GitHub Actions로 배포·관측하며 분산 시스템의 정합성과 배포 자동화를 다룹니다.
             </p>
           </div>
           <p class="mt-4 text-sm text-surface-500 leading-relaxed">
