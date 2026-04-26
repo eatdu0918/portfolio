@@ -1,7 +1,7 @@
 ---
 title: "지능형 영상 비식별화 플랫폼"
 slug: "vision-factory"
-summary: "AI 기술을 접목한 얼굴/번호판 자동 탐지 및 비식별화 처리 플랫폼. 비디오와 이미지에서 개인정보를 자동으로 감지하고 블러/교체 처리하는 엔터프라이즈 SaaS 서비스입니다."
+summary: "Vue 3·Electron·Spring Boot 3 풀스택으로 구축한 엔터프라이즈 영상 비식별화 플랫폼. RabbitMQ 단계형 파이프라인·Redis Pub/Sub·WebSocket STOMP로 대용량 AI 추론을 비동기 이벤트로 처리하고, 5개 Python 워커와 SFTP·SQLite·FFmpeg를 하나의 흐름으로 엮었습니다."
 period: "2024.04 - 2025.05"
 role: "풀스택 개발 + AI 모델 바인딩 및 파이프라인 통합"
 thumbnail: "/images/projects/vision-factory/image_deident.png"
@@ -39,19 +39,20 @@ category: fullstack
 
 ## 왜 이 프로젝트인가
 
-엔터프라이즈 비식별화는 **정확도**와 **처리 시간(수 분~수십 분)**, **테넌트 격리**가 동시에 걸린다. 브라우저만으로는 대용량·SFTP·로컬 편집까지 커버하기 어렵기 때문에 **Electron + 이벤트 파이프라인**을 전제로 제품을 설계했다.
+**대용량 미디어 처리**는 분 단위 이상의 GPU 추론이 필연이라, 동기 HTTP·단일 브라우저 모델로는 응답 시간·파일 전송·로컬 편집을 한 번에 커버할 수 없다. 그래서 **Vue 3 + Electron 클라이언트**와 **Spring Boot 3 멀티모듈 API**, **RabbitMQ·Redis·WebSocket 기반 이벤트 파이프라인**을 처음부터 한 세트로 설계했다.
 
 ## 내가 풀려던 문제
 
-1. GPU 추론은 **API 응답 시간과 분리**되어야 한다 — 동기 HTTP로 워커를 붙잡으면 전부가 느려진다.
-2. Python 워커가 늘어날수록 **콜백 엔드포인트 난립**이 생기므로, 실시간 UI로 가는 길을 단순화해야 한다.
-3. “완전 자동”과 “사람이 보정”을 **같은 제품**에서 전환할 수 있어야 한다.
+1. GPU 추론은 **API 응답 시간과 분리**되어야 한다 — 동기 HTTP로 워커를 붙잡으면 전체 요청 스레드가 묶인다.
+2. Python 워커가 늘어날수록 **콜백 엔드포인트 난립**이 생기므로, 실시간 UI로 가는 경로를 하나의 메시지 계약으로 단순화해야 한다.
+3. 같은 앱 안에서 **자동 처리**와 **사용자 수동 편집**이 상태·로컬 저장을 공유해야 한다.
 
 ## 접근과 결과 (요약)
 
-- **RabbitMQ로 단계형 파이프라인**을 만들고, API는 작업을 큐에 넣는 데서 빠르게 끝낸다.
-- 워커 → **Redis Pub/Sub** → Spring → **실시간 메시지**로 진행률을 푸시해 폴링 없이 신뢰를 만든다.
-- **Electron 메인 프로세스**에서 SFTP·SQLite·FFmpeg를 처리하고, 백오피스는 가벼운 웹으로 분리했다.
+- **RabbitMQ 단계형 큐**로 추론 파이프라인을 구성하고, API는 작업을 큐에 넣는 지점까지만 책임져 응답 시간을 일정하게 유지했다.
+- 워커 → **Redis Pub/Sub** → Spring → **WebSocket STOMP**로 진행률·완료 이벤트를 푸시해 폴링 없이 UI를 갱신했다.
+- **Electron 메인 프로세스**에 SFTP·SQLite·FFmpeg 책임을 두고, 렌더러는 `isElectron()` 분기로 웹과 동일한 Vue 3 코드베이스를 유지했다.
+- **Spring Boot 3 멀티모듈(front_api·back_api·common)** 로 사용자 API와 관리 API를 분리하고 Spring Security·JWT로 인증을 통일했다.
 
 ## 제품 관점에서의 가치
 

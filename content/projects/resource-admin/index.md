@@ -1,7 +1,7 @@
 ---
 title: "AI 학습 데이터 관리 플랫폼"
 slug: "resource-admin"
-summary: "AI 학습용 원천 데이터를 체계적으로 수집, 정제, 변환, 관리하는 데이터 파이프라인 플랫폼. 플러그인 기반 아키텍처로 SFTP, 비디오 변환, LLM 서비스 바인딩을 통한 텍스트 정제, 비식별화 등 다양한 데이터 처리를 자동화합니다."
+summary: "Spring Boot 2.7 멀티 애플리케이션(resource_front_web·resource_api·resource_consumer·resource_common_lib)과 RabbitMQ 기반 플러그인 파이프라인으로 구축한 데이터 처리 플랫폼. MariaDB + MongoDB 하이브리드 저장소, JSP/Tiles 레거시와 REST JWT API의 공존, Python OpenCV 워커 연동까지 단일 공통 라이브러리 위에서 설계했습니다."
 period: "2023.04 - 2024.03"
 role: "풀스택 개발"
 thumbnail: "/images/projects/resource-admin/pipeline_workflow.png"
@@ -40,19 +40,21 @@ category: fullstack
 
 ## 왜 이 프로젝트인가
 
-학습용 원천 데이터는 **수집 경로(SFTP·RTSP·API)**와 **변환 단계(비디오→이미지·JSONL)**가 제각각이다. 모든 단계를 동기 HTTP로 묶으면 타임아웃과 재시도 지옥이 되므로, **플러그인 + 큐 + 공통 라이브러리**를 중심축으로 삼았다.
+수집 경로(SFTP·RTSP·API)와 변환 단계(비디오→이미지·JSONL 변환·LLM 정제)가 제각각인 파이프라인을 동기 HTTP로 묶으면 타임아웃·재시도 지옥이 된다. 그래서 **Spring Boot 2.7 멀티 애플리케이션 + RabbitMQ 플러그인 버스 + 공통 라이브러리 모듈**을 프로젝트의 중심축으로 삼았다.
 
 ## 내가 풀려던 문제
 
-1. 단계마다 **실행 시간·실패 방식**이 달라 동기 파이프라인으로는 유지보수가 불가능하다.
-2. Java Consumer와 **Python OpenCV**가 같은 작업 버스를 써야 한다.
-3. 운영 메타(RDB)와 **실험적 텍스트 산출(문서 DB)**를 한 스키마에 억지로 넣기 어렵다.
+1. 단계마다 **실행 시간·실패 방식**이 달라 동기 파이프라인으로는 유지보수가 어렵다.
+2. **Java Consumer(Spring AMQP)** 와 **Python OpenCV 워커**가 같은 큐 계약을 공유해야 한다.
+3. 운영 메타(RDB)와 **실험적 텍스트·API 산출(문서 DB)** 를 한 스키마에 억지로 넣기 어렵다.
+4. JSP/Tiles 기반 레거시 화면과 **JWT 기반 REST API 신규 기능**이 같은 도메인 모델 위에서 공존해야 한다.
 
 ## 접근과 결과 (요약)
 
-- **작업 데이터셋**에 **Import / Transform / Export / Profile** 파이프라인 모델을 두고, 무거운 단계는 **RabbitMQ**로 넘겼다.
-- **MariaDB + MongoDB**로 메타와 비정형 산출을 분리해 각각 튜닝 가능하게 했다.
-- **공용 라이브러리 모듈**로 서비스·메시지 소비자·웹이 같은 도메인 로직을 공유하게 했다.
+- **resource_front_web**(JSP·Tiles·세션), **resource_api**(JWT REST), **resource_consumer**(@RabbitListener), **resource_common_lib**(도메인·MyBatis·플러그인 공유)로 애플리케이션을 나누고, 공통 라이브러리로 같은 규칙을 강제했다.
+- 데이터셋 작업에 **Import / Transform / Export / Profile** 파이프라인 모델을 두고, 무거운 단계는 **RabbitMQ로 비동기**로 넘겼다.
+- **MariaDB(정형 메타) + MongoDB(비정형 산출)** 하이브리드 저장소로 특성이 다른 데이터를 각각 튜닝 가능하게 했다.
+- Python OpenCV 플러그인(`plugin_video_to_image` 등)을 Java 파이프라인과 같은 큐 계약으로 엮어 언어·프로세스 경계를 없앴다.
 
 ## 제품 관점에서의 가치
 
