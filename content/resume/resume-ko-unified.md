@@ -11,24 +11,25 @@ portfolio: http://3.106.133.249:8082
 
 ## 자기소개
 
-웹 프론트엔드(Vue 3, React/Next.js)와 Spring Boot 백엔드, AI 추론 파이프라인 연동까지 아우르는 풀스택 개발자입니다.
+기능 요구사항보다 "왜 이게 필요한가"를 먼저 묻는 개발자입니다. 증상이 아닌 Root Cause를 찾을 때까지 파고들고, 찾으면 TypeScript 기반 풀스택으로 처음부터 끝까지 구현합니다.
 
-지도 기반 군사 지휘통제 시스템(C4I)에서 OpenLayers·Cesium 3D와 NATO 표준 전술 심볼(MIL-STD-2525D) 렌더링, 실시간 WebSocket 기반 아키텍처를 설계·구현했습니다. 지능형 영상 비식별화 플랫폼에서는 Electron 데스크톱, Spring Boot 멀티모듈, RabbitMQ로 복수 AI 모델을 서비스에 연결하는 파이프라인을 직접 설계했습니다.
+3년여간 AI 추론 파이프라인, 대규모 실시간 지도 UI, 분산 시스템을 1~3인 팀에서 설계·구현·배포했습니다. Vue 3 · Nuxt와 React 19 · Next.js 프론트엔드, Spring Boot 3 · Spring Cloud 백엔드, Python AI 파이프라인까지 End-to-End로 담당했습니다.
 
-개인 프로젝트로 Next.js App Router 기술 블로그와 Spring Cloud·Kafka·Kubernetes 기반 이커머스 MSA를 구축하며 스택을 지속적으로 확장하고 있습니다.
+AI는 보조 도구가 아닌 제품의 핵심 로직으로 활용합니다. YOLOv8 · Stable Diffusion 추론을 서비스 파이프라인에 연결했고, 개발 과정에서는 CLAUDE.md 하네스 · 자동 검증 훅 · 커스텀 커맨드 · 전문 에이전트로 이루어진 AI 개발 시스템을 직접 설계해 운용합니다.
 
 ---
 
 ## 기술 스택
 
-| 구분      | 키워드                                                                                                     |
-| --------- | ---------------------------------------------------------------------------------------------------------- |
-| Frontend  | Vue 3, Nuxt 3, React 19, Next.js (App Router), TypeScript, Electron, Pinia, Tailwind CSS, PrimeVue, Quasar |
-| Backend   | Spring Boot 3, Spring Cloud, Spring Security / JWT, REST, MyBatis, Kafka, RabbitMQ, WebSocket (STOMP)      |
-| GIS       | OpenLayers, Cesium 3D, MIL-STD-2525D, Turf.js, MGRS / proj4                                                |
-| AI · 연동 | Python, OpenCV                                                                                             |
-| Data      | PostgreSQL, MariaDB / MySQL, MongoDB, Redis, SQLite, Prisma                                                |
-| Infra     | Docker, Kubernetes, Nginx, Prometheus, Git, CI/CD (GitHub Actions)                                         |
+| 구분          | 키워드                                                                                                     |
+| ------------- | ---------------------------------------------------------------------------------------------------------- |
+| Frontend      | Vue 3, Nuxt 3, React 19, Next.js (App Router), TypeScript, Electron, Pinia, Tailwind CSS, PrimeVue, Quasar |
+| Backend       | Spring Boot 3, Spring Cloud, Spring Security / JWT, REST, MyBatis, Kafka, RabbitMQ, WebSocket (STOMP)      |
+| GIS           | OpenLayers, Cesium 3D, MIL-STD-2525D, Turf.js, MGRS / proj4                                               |
+| AI · ML 연동  | Python, YOLOv8, Stable Diffusion, BYTETracker, OpenCV, FFmpeg                                             |
+| AI 활용 개발  | Claude Code (CLAUDE.md 하네스, 자동 검증 훅 4종, 커스텀 커맨드 6종, 전문 에이전트 3종), Cursor            |
+| Data          | PostgreSQL, MariaDB / MySQL, MongoDB, Redis, SQLite, Prisma                                                |
+| Infra         | Docker, Kubernetes, Nginx, Prometheus, Git, CI/CD (GitHub Actions)                                        |
 
 ---
 
@@ -112,21 +113,21 @@ portfolio: http://3.106.133.249:8082
 
 ## 지원 동기
 
-Vue 3·React 프론트엔드와 Spring Boot 백엔드, AI 추론 파이프라인까지 아우르는 웹 풀스택 개발자로서 지난 3년여간 군사 지휘통제(C4I) 시스템과 지능형 영상 비식별화 플랫폼을 개발해 왔습니다. 이 과정에서 단순한 기능 구현을 넘어 복잡한 도메인 요구사항을 아키텍처 수준에서 해석하고 확장 가능한 구조로 설계하는 역량을 키웠습니다.
+기능 요청을 받았을 때 가장 먼저 하는 일은 "왜 이게 필요한가"를 묻는 것입니다. 3년여간 복잡한 시스템을 설계하면서, 증상이 아닌 Root Cause를 찾아야 구조가 버틴다는 것을 반복해서 확인했습니다.
 
-저는 실사용자 중심의 서비스를 만들고, 기술적 도전을 팀원들과 함께 풀어나가는 환경을 찾고 있습니다. 제품의 품질과 개발 경험(DX)을 함께 고민하는 조직, 새로운 기술 도입에 개방적이면서도 아키텍처·코드 품질을 꾸준히 관리하는 문화가 가장 이상적이라고 생각합니다.
+이 방식이 어느 도메인에서나 통한다고 생각합니다. 파이프라인 블로킹의 원인을 동기 구조에서 찾아 RabbitMQ 큐를 분리하는 결정, 렌더링 지연을 SVG 생성 비용으로 추적해 LRU 캐시를 도입한 결정 모두 도메인 지식보다 문제를 구조적으로 보는 시각에서 나왔습니다.
 
-기술 스택을 도구로 보며, 서비스의 목적과 사용자 경험에 맞게 최적의 구조를 선택·설계하는 개발자를 지향합니다. 지금까지 쌓아온 경험을 더욱 확장하고, 팀과 함께 의미 있는 서비스를 만들어 가고 싶습니다.
+새 팀에 합류할 때 제가 제일 먼저 할 일은 팀의 언어로 CLAUDE.md를 작성하는 것입니다. 코드 컨벤션, 서비스 경계, 금지 패턴을 AI 컨텍스트에 인코딩해 팀 전체의 속도를 높이는 방식으로 빠르게 기여하고 싶습니다.
 
 ---
 
 ## 문제 해결 사례
 
-### 사례 1: 대량 군사 심볼 렌더링 성능 문제
+### 사례 1: 수백 개 오브젝트 렌더링 지연 — Root Cause 추적
 
-**상황** — 전장 정보 편집기(COP)에서 지도 위에 수백 개의 MIL-STD-2525D 군사 심볼을 동시에 렌더링할 때 화면 이동·확대 시마다 심볼을 재생성하여 눈에 띄는 렌더링 지연이 발생했습니다.
+**상황** — 지도 편집기에서 수백 개의 SVG 심볼을 동시에 배치할 때 화면 이동·확대 시마다 심볼을 재생성하여 눈에 띄는 렌더링 지연이 발생했습니다.
 
-**접근** — SVG 생성 비용 자체가 크다는 점을 파악하고, LRU(Least Recently Used) 알고리즘 기반 캐시(최대 120개)를 심볼 레이어에 도입했습니다. 동일 SIDC 코드 심볼은 캐시에서 즉시 반환하고, keep-alive로 3개 맵 화면의 컴포넌트 상태도 보존하여 화면 전환 시 재마운트 비용을 제거했습니다.
+**접근** — "느리다"는 증상 뒤에서 실제 병목을 먼저 측정했습니다. Profiling 결과 SVG 생성 자체가 반복 호출되는 것이 원인이었습니다. LRU 알고리즘 기반 캐시(최대 120개)를 도입해 동일 심볼은 즉시 반환하도록 하고, keep-alive로 맵 화면 전환 시 컴포넌트 재마운트 비용도 제거했습니다.
 
 **결과** — 반복 렌더링 시 심볼 생성 비용을 대폭 절감하여 지도 인터랙션이 눈에 띄게 부드러워졌으며, 레이어 전환 속도도 개선되었습니다.
 
@@ -147,6 +148,7 @@ Vue 3·React 프론트엔드와 Spring Boot 백엔드, AI 추론 파이프라인
 - 아키텍처 변경 사항은 다이어그램과 문서로 정리해 팀 내 공유하고 리뷰를 요청하는 방식으로 의사결정 투명성을 유지
 - AI 연구팀과의 협업 시, 추론 모델의 입출력 스펙을 문서화·버전 관리하여 인터페이스 변경 시 혼선을 최소화
 - 팀스파르타 교육 과정에서는 Git Flow 브랜치 전략과 코드 리뷰 문화를 적용하고, 역할 분담·진척 공유를 위한 데일리 스크럼을 주도
+- MSA 프로젝트에서 CLAUDE.md 하네스 · 자동 검증 훅 4종 · 커스텀 커맨드 6종 · 전문 에이전트 3종으로 이루어진 AI 개발 시스템을 직접 설계해, 새 팀 합류 시 3일 이내에 팀 패턴을 AI 컨텍스트에 인코딩하고 팀 전체 속도를 높이는 방식으로 기여할 수 있습니다
 
 작은 팀에서 넓은 역할을 담당하다 보니 스스로 판단하고 실행하는 자율성이 강해졌고, 동시에 팀원의 컨텍스트를 빠르게 이해하고 맞춰가는 유연성도 키웠습니다.
 
