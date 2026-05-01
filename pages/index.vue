@@ -54,7 +54,7 @@ const workingStyle = [
     icon: 'heroicons:sparkles-20-solid',
     title: 'AI를 제품 흐름 안에 녹입니다',
     description:
-      'YOLOv8 · Stable Diffusion 추론을 서비스 파이프라인에 직접 연결한 경험이 있습니다. 개발 과정에서 Claude Code · Cursor로 서브에이전트 기반 탐색·리팩터링을 운용하며, AI를 보조 도구가 아닌 제품의 핵심 로직으로 활용합니다.',
+      'YOLOv8 · Stable Diffusion 추론을 서비스 파이프라인에 직접 연결했습니다. CLAUDE.md 하네스 · 자동 검증 훅 4종 · 커스텀 커맨드 6종 · 전문 에이전트 3종으로 이루어진 AI 개발 시스템을 직접 설계해 운용합니다.',
   },
   {
     icon: 'heroicons:chat-bubble-left-right-20-solid',
@@ -155,6 +155,125 @@ const problemCases = [
             <h3 class="text-sm font-bold text-white mb-2">{{ w.title }}</h3>
             <p class="text-xs text-surface-400 leading-relaxed">{{ w.description }}</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── AI 개발 시스템 ────────────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-white border-t border-surface-300">
+      <div class="section-container">
+        <div class="mb-10">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">AI Development System</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+            AI를 보조 도구가 아닌<br class="hidden sm:block">
+            팀의 생산성 시스템으로 설계합니다.
+          </h2>
+          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
+            MSA 프로젝트에서 직접 설계한 Claude Code 기반 개발 자동화 시스템입니다.
+            CLAUDE.md에 팀 규칙을 인코딩하고, 훅·커맨드·에이전트로 반복 작업을 없앱니다.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-5 mb-8">
+          <!-- Hooks -->
+          <div class="card-base p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
+                <Icon name="heroicons:shield-check-20-solid" class="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">자동 검증</p>
+                <p class="text-sm font-bold text-black">훅 4종</p>
+              </div>
+            </div>
+            <ul class="space-y-2.5 text-xs text-surface-600">
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">pre-bash-danger</strong> — <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">docker compose down -v</code>, 강제 푸시 등 위험 명령 차단</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">post-java-compile</strong> — 파일 수정 후 Gradle 자동 컴파일 (90초 타임아웃)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">post-flyway-validate</strong> — 마이그레이션 파일 변경 시 charset·엔진·타입 자동 검증</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">on-stop</strong> — 세션 종료 시 git diff 요약 자동 출력</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Commands -->
+          <div class="card-base p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
+                <Icon name="heroicons:command-line-20-solid" class="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">커스텀 커맨드</p>
+                <p class="text-sm font-bold text-black">6종</p>
+              </div>
+            </div>
+            <ul class="space-y-2.5 text-xs text-surface-600">
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/새서비스</code> — MSA 서비스 전체 스캐폴딩을 10분 내 완성</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/api추가</code> — DTO·Service·Controller·Flyway 전 레이어 일괄 생성</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/saga구현</code> — Kafka Saga 패턴 + 보상 트랜잭션 구현</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/마이그레이션</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/상태확인</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/코드리뷰</code></span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Agents -->
+          <div class="card-base p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
+                <Icon name="heroicons:cpu-chip-20-solid" class="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">전문 에이전트</p>
+                <p class="text-sm font-bold text-black">3종</p>
+              </div>
+            </div>
+            <ul class="space-y-2.5 text-xs text-surface-600">
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">빌드분석</strong> — Gradle 에러 Root Cause 자동 추적·해결 방안 제시</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">성능진단</strong> — N+1 · Kafka Lag · Redis Miss 패턴 탐지 및 분석</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
+                <span><strong class="text-black">테스트작성</strong> — JUnit5 · Mockito · spring-kafka-test 기반 테스트 자동 생성</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Closing statement -->
+        <div class="flex items-center gap-4 p-5 rounded-[8px] bg-surface-100 border border-surface-300">
+          <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center flex-shrink-0">
+            <Icon name="heroicons:rocket-launch-20-solid" class="w-4 h-4 text-white" />
+          </div>
+          <p class="text-sm text-surface-700 leading-relaxed">
+            <strong class="text-black">새 팀에 합류하면 팀의 패턴을 CLAUDE.md에 인코딩하고 이 시스템을 3일 이내에 세팅합니다.</strong>
+            — 코드 컨벤션, 금지 명령, 서비스 포트맵, 팀 아키텍처 결정을 AI 컨텍스트로 주입해 전체 팀의 개발 속도를 높입니다.
+          </p>
         </div>
       </div>
     </section>
