@@ -182,6 +182,13 @@ const skillCategories = [
     icon: 'heroicons:cpu-chip-20-solid',
     items: [
       {
+        name: 'AI 파이프라인 통합 (Vision Factory)',
+        icon: 'heroicons:cpu-chip-20-solid',
+        summary:
+          'YOLOv8 · Stable Diffusion · BYTETracker · ODTrack · SPIGA 5개 AI 추론 모델을 RabbitMQ 큐 분리 · Redis Pub/Sub · WebSocket 3-tier 파이프라인으로 서비스에 연결했습니다. AI 모델을 단순 API 호출이 아닌 제품의 핵심 처리 흐름 안에 설계한 경험입니다.',
+        projectSlugs: ['vision-factory'],
+      },
+      {
         name: 'Python (워커·플러그인)',
         icon: 'mdi:language-python',
         summary:
@@ -209,17 +216,32 @@ const skillCategories = [
     icon: 'heroicons:sparkles-20-solid',
     items: [
       {
-        name: 'AI 파이프라인 통합 (Vision Factory)',
-        icon: 'heroicons:cpu-chip-20-solid',
+        name: 'CLAUDE.md 하네스 (팀 규칙 인코딩)',
+        icon: 'mdi:file-document-outline',
         summary:
-          'YOLOv8 · Stable Diffusion · BYTETracker · ODTrack · SPIGA 5개 AI 추론 모델을 RabbitMQ 큐 분리 · Redis Pub/Sub · WebSocket 3-tier 파이프라인으로 서비스에 연결했습니다. AI 모델을 단순 API 호출이 아닌 제품의 핵심 처리 흐름 안에 설계한 경험입니다.',
-        projectSlugs: ['vision-factory'],
+          'MSA 프로젝트에 17KB CLAUDE.md를 작성해 서비스 포트맵, Entity 패턴(@DynamicInsert/@DynamicUpdate, static create() 팩토리), BigDecimal 금액 처리 규칙, Kafka Saga 흐름도, 자동 스킬 선택 매트릭스를 AI 컨텍스트로 주입했습니다. 팀 합류 시 3일 이내에 팀 규칙을 CLAUDE.md에 인코딩해 전체 팀의 생산성을 높이는 방식으로 운용합니다. 이 포트폴리오 자체도 Claude Code + CLAUDE.md로 설계·구현했습니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
-        name: 'Claude Code (AI Agent 워크플로우)',
-        icon: 'mdi:creation',
+        name: '자동 검증 훅 4종 (Hooks)',
+        icon: 'heroicons:shield-check-20-solid',
         summary:
-          'CLAUDE.md 하네스로 프로젝트 컨텍스트·규칙·금지 패턴을 주입하고, 서브에이전트를 활용해 탐색·리팩터링·코드 리뷰를 병렬 수행합니다. Plan 모드로 아키텍처 구조를 먼저 정의한 뒤 구현에 진입하는 방식으로 AI를 개발 파트너로 활용합니다. 이 포트폴리오 자체도 Claude Code로 설계·구현했습니다.',
+          'pre-bash-danger.py: docker compose down -v · git push --force 등 위험 명령을 실행 전 차단합니다. post-java-compile.py: 파일 수정 후 Gradle을 자동 컴파일해 즉시 에러를 확인합니다(90초 타임아웃). post-flyway-validate.py: 마이그레이션 파일 변경 시 utf8mb4·InnoDB·DECIMAL·timestamp 규칙을 자동 검증합니다. on-stop.py: 세션 종료 시 git diff 요약을 자동 출력해 변경 내역을 놓치지 않습니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
+      },
+      {
+        name: '커스텀 커맨드 6종 (Slash Commands)',
+        icon: 'heroicons:command-line-20-solid',
+        summary:
+          '/새서비스: MSA 신규 서비스 전체 스캐폴딩(빌드 설정·도메인·API·Flyway·Docker·k8s 매니페스트)을 10분 내 완성합니다. /api추가: DTO·Service·Controller·Flyway 마이그레이션을 전 레이어 일괄 생성합니다. /saga구현: Kafka Saga 패턴 + 보상 트랜잭션을 표준 구조로 구현합니다. /마이그레이션, /상태확인, /코드리뷰로 반복 작업을 자동화합니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
+      },
+      {
+        name: '전문 에이전트 3종 (Custom Agents)',
+        icon: 'heroicons:cpu-chip-20-solid',
+        summary:
+          '빌드분석: Gradle 빌드 에러의 Root Cause를 추적하고 해결 방안을 제시합니다. 성능진단: N+1 쿼리 · Kafka Consumer Lag · Redis Cache Miss 패턴을 자동 탐지·분석합니다. 테스트작성: 비즈니스 로직을 분석해 JUnit5 · Mockito · spring-kafka-test 기반 테스트를 자동 생성합니다.',
+        projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
         name: 'Cursor (.cursorrules 기반 컨텍스트 제어)',
