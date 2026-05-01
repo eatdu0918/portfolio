@@ -1,7 +1,7 @@
 ---
 title: "지능형 영상 비식별화 플랫폼"
 slug: "vision-factory"
-summary: "Vue 3·Electron·Spring Boot 3 풀스택으로 구축한 엔터프라이즈 영상 비식별화 플랫폼. RabbitMQ 단계형 파이프라인·Redis Pub/Sub·WebSocket STOMP로 대용량 AI 추론을 비동기 이벤트로 처리하고, 5개 Python 워커와 SFTP·SQLite·FFmpeg를 하나의 흐름으로 엮었습니다."
+summary: "Vue 3 · Electron · Spring Boot 3 풀스택 미디어 처리 플랫폼. RabbitMQ 큐 분리 · Redis Pub/Sub · WebSocket 3-tier 비동기 파이프라인으로 AI 추론 모델 5개를 동시에 구동하고, Electron 데스크톱에서 SFTP 파일 전송 · 캔버스 수동 편집 · 오프라인 SQLite 저장까지 하나의 흐름으로 엮었습니다."
 period: "2024.04 - 2025.05"
 role: "풀스택 개발 + AI 모델 바인딩 및 파이프라인 통합"
 thumbnail: "/images/projects/vision-factory/image_deident.png"

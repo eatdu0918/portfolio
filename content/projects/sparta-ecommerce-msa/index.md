@@ -1,7 +1,7 @@
 ---
 title: "e-commerce MSA"
 slug: "sparta-ecommerce-msa"
-summary: "이커머스 도메인을 기준으로 한 마이크로서비스 아키텍처 학습·구현 프로젝트입니다. Spring Cloud Gateway를 단일 진입점으로 두고, 주문·결제·취소·환불 흐름과 Kafka 기반 이벤트·보상 트랜잭션을 다루며, 회사 업무에서는 접하기 어려웠던 MSA를 스스로 설계·구축했습니다."
+summary: "Spring Cloud Gateway · Kafka · Kubernetes 기반 이커머스 마이크로서비스 아키텍처. 주문 · 결제 · 취소 · 환불 흐름을 Kafka 이벤트 · 보상 트랜잭션으로 처리하고, React 19 클라이언트 · PortOne 결제 연동 · GitHub Actions → GHCR CI/CD · TestContainers 통합 테스트까지 직접 구축해 운영 중입니다."
 period: "2026.01 - 현재"
 liveUrl: "https://gossipy-jeanetta-sulkier.ngrok-free.dev/"
 demoLinks:

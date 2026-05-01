@@ -2,7 +2,7 @@
 type WorkFilter = 'all' | 'personal' | 'company'
 
 useHead({
-  title: 'Projects | Portfolio',
+  title: '프로젝트 | 이두현 포트폴리오',
 })
 
 const { data: projects } = await useAsyncData('all-projects', () =>
@@ -17,7 +17,7 @@ const workFilter = ref<WorkFilter>('all')
 const filterOptions: { key: WorkFilter; label: string }[] = [
   { key: 'all', label: '전체' },
   { key: 'personal', label: '개인 프로젝트' },
-  { key: 'company', label: '회사 작업' },
+  { key: 'company', label: '실무 프로젝트' },
 ]
 
 const filteredProjects = computed(() => {
@@ -29,19 +29,19 @@ const filteredProjects = computed(() => {
 
 <template>
   <div class="pt-24">
-    <section class="py-14 sm:py-20 bg-surface-50">
+    <section class="py-14 sm:py-20 bg-white">
       <div class="section-container">
-        <p class="text-sm font-semibold text-brand-500 tracking-wide mb-3">Projects</p>
-        <h1 class="text-2xl sm:text-3xl font-bold text-surface-800 tracking-tight mb-2">프로젝트</h1>
-        <p class="text-sm text-surface-500 mb-6 max-w-2xl">
-          회사 제품과 개인 프로젝트(Next.js 기술 블로그, Sparta 이커머스 MSA)를 구분해 볼 수 있습니다.
+        <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Projects</p>
+        <h1 class="text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3">프로젝트</h1>
+        <p class="text-sm text-surface-500 mb-8 max-w-xl leading-relaxed">
+          실무 제품과 개인 프로젝트를 함께 정리했습니다. 각 카드에서 기술 선택 이유와 아키텍처 상세를 확인할 수 있습니다.
         </p>
 
         <div
           v-if="projects?.length"
           class="flex flex-wrap gap-2 mb-8"
           role="tablist"
-          aria-label="프로젝트 구분"
+          aria-label="프로젝트 필터"
         >
           <button
             v-for="opt in filterOptions"
@@ -49,10 +49,10 @@ const filteredProjects = computed(() => {
             type="button"
             role="tab"
             :aria-selected="workFilter === opt.key"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all"
+            class="px-4 py-2 text-xs font-semibold rounded-[999px] transition-colors"
             :class="workFilter === opt.key
-              ? 'bg-brand-50 border-brand-200 text-brand-700'
-              : 'bg-white border-surface-200 text-surface-500 hover:border-brand-200 hover:text-brand-600'"
+              ? 'bg-black text-white'
+              : 'bg-brand-300 text-black hover:bg-brand-200'"
             @click="workFilter = opt.key"
           >
             {{ opt.label }}
@@ -78,14 +78,9 @@ const filteredProjects = computed(() => {
           />
         </div>
 
-        <div v-else-if="projects?.length && !filteredProjects.length" class="text-center py-16">
-          <Icon name="heroicons:folder-open-20-solid" class="w-12 h-12 text-surface-300 mx-auto mb-3" />
-          <p class="text-sm text-surface-500">이 구분에 해당하는 프로젝트가 없습니다.</p>
-        </div>
-
         <div v-else class="text-center py-16">
           <Icon name="heroicons:folder-open-20-solid" class="w-12 h-12 text-surface-300 mx-auto mb-3" />
-          <p class="text-sm text-surface-500">아직 등록된 프로젝트가 없습니다.</p>
+          <p class="text-sm text-surface-500">해당하는 프로젝트가 없습니다.</p>
         </div>
       </div>
     </section>

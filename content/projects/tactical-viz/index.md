@@ -1,7 +1,7 @@
 ---
 title: "3D 전장 상황 인지 시스템"
 slug: "tactical-viz"
-summary: "Vue 3·Spring Boot 3 멀티모듈·Cesium 3D로 구성한 실시간 상황 인지 플랫폼. WebSocket STOMP 기반 실시간 동기화와 MapStruct·MyBatis 기반 DTO 계약으로 대규모 CRUD를 고정하고, 지휘·관리·엣지 3개 Vue 3 클라이언트와 중앙 PostgreSQL ↔ 엣지 SQLite 오프라인 동기화까지 한 사람이 설계·구현했습니다."
+summary: "Vue 3 · Spring Boot 3 멀티모듈 · Cesium 3D 기반 실시간 3D 데이터 시각화 플랫폼. WebSocket STOMP 멀티클라이언트 동기화, AI 분석 모델 API 연동, HLS 스트리밍 통합, 클라이언트 3개(관리 · 운영 · 현장)를 단일 백엔드로 연결하고 중앙 PostgreSQL ↔ 엣지 SQLite 오프라인 동기화까지 한 사람이 설계·구현했습니다."
 period: "2025.06 - 2025.11"
 role: "풀스택 개발"
 thumbnail: "/images/projects/tactical-viz/battlefield_overview.png"

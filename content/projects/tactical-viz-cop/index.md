@@ -1,7 +1,7 @@
 ---
 title: "전장 정보 편집기"
 slug: "tactical-viz-cop"
-summary: "Vue 3 + Vite 7 + TypeScript + Pinia 기반 브라우저 지도 편집기. 화면이 OpenLayers·렌더러 세부를 직접 보지 않도록 퍼사드(Provider) + Manager/Renderer로 경계를 잡고, 3개 독립 맵·ORBAT·Draw 파이프라인을 같은 패턴으로 확장한 대규모 프론트엔드 아키텍처 프로젝트입니다."
+summary: "Vue 3 · TypeScript · OpenLayers 기반 대규모 지도 협업 편집기. Provider(Facade) + Manager/Renderer 패턴으로 지도 · 오브젝트 · 그래픽 결합도를 낮추고, 3개 독립 맵 인스턴스 · 트리 다이어그램 · Draw 파이프라인을 같은 패턴으로 확장했습니다. LRU SVG 캐시(120)로 수백 개 오브젝트 반복 렌더링 성능을 확보한 프론트엔드 아키텍처 프로젝트입니다."
 period: "2025.12 - 현재"
 role: "프론트엔드 개발 (아키텍처 설계)"
 liveUrl: "https://aetem-v2-cop.dev-aistudio.com/"

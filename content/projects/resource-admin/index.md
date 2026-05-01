@@ -1,7 +1,7 @@
 ---
 title: "AI 학습 데이터 관리 플랫폼"
 slug: "resource-admin"
-summary: "Spring Boot 2.7 멀티 애플리케이션(resource_front_web·resource_api·resource_consumer·resource_common_lib)과 RabbitMQ 기반 플러그인 파이프라인으로 구축한 데이터 처리 플랫폼. MariaDB + MongoDB 하이브리드 저장소, JSP/Tiles 레거시와 REST JWT API의 공존, Python OpenCV 워커 연동까지 단일 공통 라이브러리 위에서 설계했습니다."
+summary: "Spring Boot 2.7 멀티 애플리케이션(웹 · API · 컨슈머 · 공통 라이브러리) + RabbitMQ 플러그인 파이프라인 기반 엔터프라이즈 데이터 처리 플랫폼. Import · Transform · Export 7종 작업을 비동기 큐로 처리하고, MariaDB + MongoDB 하이브리드 저장소, 외부 LLM API 연동, Python 워커 원격 실행까지 단일 공통 라이브러리 위에서 설계했습니다."
 period: "2023.04 - 2024.03"
 role: "풀스택 개발"
 thumbnail: "/images/projects/resource-admin/pipeline_workflow.png"
