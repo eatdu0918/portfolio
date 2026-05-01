@@ -11,10 +11,8 @@ withDefaults(defineProps<Props>(), {
 
 <template>
   <span
-    class="inline-flex items-center font-sans font-bold rounded-lg border transition-colors"
-    :class="size === 'sm'
-      ? 'text-xs px-2.5 py-1 border-brand-200 text-brand-700 bg-brand-50'
-      : 'text-sm px-3 py-1.5 border-brand-200 text-brand-700 bg-brand-50'"
+    class="inline-flex items-center font-sans font-bold rounded-[999px] transition-colors bg-brand-300 text-black"
+    :class="size === 'sm' ? 'text-[10px] px-2.5 py-0.5' : 'text-xs px-3 py-1'"
   >
     {{ label }}
   </span>

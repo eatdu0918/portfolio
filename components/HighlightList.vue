@@ -13,7 +13,7 @@ defineProps<Props>()
       :key="i"
       class="flex items-start gap-3"
     >
-      <span class="mt-1.5 w-2 h-2 rounded-full bg-gradient-to-br from-brand-400 to-accent-400 flex-shrink-0" ></span>
+      <span class="mt-1.5 w-2 h-2 rounded-full bg-black flex-shrink-0"></span>
       <span class="text-surface-600 leading-relaxed">{{ item }}</span>
     </li>
   </ul>

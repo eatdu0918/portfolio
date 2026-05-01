@@ -31,11 +31,11 @@ function getCategoryInfo(key: string) {
     <div
       v-for="(techs, category) in techStack"
       :key="category"
-      class="glass-card p-5"
+      class="card-base p-5"
     >
       <div class="flex items-center gap-2 mb-4">
-        <Icon :name="getCategoryInfo(category as string).icon" class="w-5 h-5 text-brand-500" />
-        <h4 class="font-semibold text-surface-800">
+        <Icon :name="getCategoryInfo(category as string).icon" class="w-5 h-5 text-black" />
+        <h4 class="font-semibold text-black">
           {{ getCategoryInfo(category as string).label }}
         </h4>
       </div>
