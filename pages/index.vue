@@ -95,7 +95,7 @@ const problemCases = [
             Full-Stack Developer
           </p>
           <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-display font-bold text-black leading-[1.15] tracking-tight animate-slide-up">
-            기능보다 문제를,<br>
+            기능보다 문제를,<br/>
             처음부터 끝까지.
           </h1>
           <p class="mt-6 text-base sm:text-lg text-surface-600 leading-relaxed max-w-2xl animate-fade-in" style="animation-delay: 0.15s">
@@ -165,7 +165,7 @@ const problemCases = [
         <div class="mb-10">
           <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">AI Development System</p>
           <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
-            AI를 보조 도구가 아닌<br class="hidden sm:block">
+            AI를 보조 도구가 아닌<br class="hidden sm:block"/>
             팀의 생산성 시스템으로 설계합니다.
           </h2>
           <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
@@ -284,7 +284,7 @@ const problemCases = [
         <div class="mb-10">
           <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Why It Works Anywhere</p>
           <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
-            스택이 다양한 게 아니라,<br class="hidden sm:block">
+            스택이 다양한 게 아니라,<br class="hidden sm:block"/>
             문제를 구조적으로 풀어온 겁니다.
           </h2>
           <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
@@ -414,7 +414,7 @@ const problemCases = [
         <div class="max-w-2xl">
           <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4">Get In Touch</p>
           <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight mb-4">
-            팀에 필요한 개발자라면<br>
+            팀에 필요한 개발자라면<br/>
             지금 연락해 주세요.
           </h2>
           <p class="text-sm text-surface-500 leading-relaxed mb-8 max-w-lg">

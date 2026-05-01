@@ -6,7 +6,7 @@
         <div>
           <p class="font-display font-bold text-xl text-white mb-2">이두현</p>
           <p class="text-sm text-surface-400 leading-relaxed max-w-xs">
-            TypeScript 기반 풀스택 개발자.<br>
+            TypeScript 기반 풀스택 개발자.<br/>
             어느 도메인이든 처음부터 끝까지 설계합니다.
           </p>
         </div>

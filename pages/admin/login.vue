@@ -87,15 +87,15 @@ async function handleSubmit() {
     <div
       class="absolute inset-0 dot-pattern opacity-30 pointer-events-none"
       aria-hidden="true"
-    />
+    ></div>
     <div
       class="absolute top-24 right-[12%] w-64 h-64 bg-brand-200/25 rounded-full blur-[72px] pointer-events-none"
       aria-hidden="true"
-    />
+    ></div>
     <div
       class="absolute bottom-16 left-[8%] w-56 h-56 bg-accent-300/20 rounded-full blur-[64px] pointer-events-none"
       aria-hidden="true"
-    />
+    ></div>
 
     <div class="relative w-full max-w-md animate-fade-in">
       <NuxtLink
@@ -141,7 +141,7 @@ async function handleSubmit() {
               autocomplete="username"
               class="w-full px-3.5 py-2.5 rounded-xl border border-surface-200 bg-white text-surface-800 text-sm placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-400/40 focus:border-brand-400 transition-shadow"
               placeholder="admin@sparta-msa.com"
-            >
+            />
           </div>
           <div>
             <label for="admin-password" class="block text-xs font-semibold text-surface-600 mb-1.5">
@@ -154,7 +154,7 @@ async function handleSubmit() {
               autocomplete="current-password"
               class="w-full px-3.5 py-2.5 rounded-xl border border-surface-200 bg-white text-surface-800 text-sm placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-brand-400/40 focus:border-brand-400 transition-shadow"
               placeholder="••••••••"
-            >
+            />
           </div>
 
           <p

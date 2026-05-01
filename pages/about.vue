@@ -121,7 +121,7 @@ const filteredExperiences = computed(() => {
         <div class="max-w-3xl">
           <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4">About Me</p>
           <h1 class="text-3xl sm:text-4xl font-display font-bold text-black leading-tight tracking-tight mb-5">
-            문제를 먼저 정의하고<br>
+            문제를 먼저 정의하고<br/>
             끝까지 해결합니다.
           </h1>
           <div class="space-y-4 text-sm sm:text-base text-surface-600 leading-relaxed">
