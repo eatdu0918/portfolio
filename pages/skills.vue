@@ -205,26 +205,27 @@ const skillCategories = [
     ],
   },
   {
-    title: 'AI-Assisted Development',
+    title: 'AI 활용 개발 (AI-Driven Development)',
     icon: 'heroicons:sparkles-20-solid',
     items: [
       {
-        name: 'Claude Code',
-        icon: 'mdi:creation',
+        name: 'AI 파이프라인 통합 (Vision Factory)',
+        icon: 'heroicons:cpu-chip-20-solid',
         summary:
-          'CLAUDE.md 하네스로 프로젝트 컨텍스트·규칙을 주입하고, 서브에이전트를 활용해 탐색·리팩토링·코드 리뷰를 병렬 수행합니다. 아키텍처 설계 시 Plan 모드로 구조를 먼저 잡은 뒤 구현에 진입하는 워크플로우를 사용합니다.',
+          'YOLOv8 · Stable Diffusion · BYTETracker · ODTrack · SPIGA 5개 AI 추론 모델을 RabbitMQ 큐 분리 · Redis Pub/Sub · WebSocket 3-tier 파이프라인으로 서비스에 연결했습니다. AI 모델을 단순 API 호출이 아닌 제품의 핵심 처리 흐름 안에 설계한 경험입니다.',
+        projectSlugs: ['vision-factory'],
       },
       {
-        name: 'Cursor',
+        name: 'Claude Code (AI Agent 워크플로우)',
         icon: 'mdi:creation',
         summary:
-          '각 프로젝트 특성에 맞는 .cursorrules를 작성하여 컨텍스트·코딩 컨벤션·금지 패턴 등을 사전 정의하고, 이를 통해 AI 코드 생성의 안전성과 일관성을 확보하면서 생산성을 극대화합니다.',
+          'CLAUDE.md 하네스로 프로젝트 컨텍스트·규칙·금지 패턴을 주입하고, 서브에이전트를 활용해 탐색·리팩터링·코드 리뷰를 병렬 수행합니다. Plan 모드로 아키텍처 구조를 먼저 정의한 뒤 구현에 진입하는 방식으로 AI를 개발 파트너로 활용합니다. 이 포트폴리오 자체도 Claude Code로 설계·구현했습니다.',
       },
       {
-        name: 'Gemini',
+        name: 'Cursor (.cursorrules 기반 컨텍스트 제어)',
         icon: 'mdi:creation',
         summary:
-          '개발 블로그 포스트에 삽입할 다이어그램·개념도 등 이미지를 생성하여 독자의 이해를 돕고, 새 프로젝트 착수 시 구조·일정·기술 선정 등 계획 수립에 활용합니다.',
+          '프로젝트별 .cursorrules를 직접 작성해 코딩 컨벤션·금지 패턴·도메인 규칙을 AI 생성 코드에 사전 반영합니다. LLM이 생성하는 코드의 일관성과 안전성을 높여 AI 코드 리뷰 부담을 줄입니다.',
       },
     ],
   },
@@ -366,35 +367,35 @@ const projectLabels: Record<string, string> = {
 
 <template>
   <div class="pt-24">
-    <section class="py-14 sm:py-20 bg-surface-50">
+    <section class="py-14 sm:py-20 bg-white">
       <div class="section-container">
-        <p class="text-sm font-semibold text-brand-500 tracking-wide mb-3">
+        <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">
           Skills
         </p>
-        <h1 class="text-2xl sm:text-3xl font-display font-bold text-surface-800 tracking-tight mb-3">
+        <h1 class="text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3">
           기술 스택
         </h1>
         <p class="text-sm text-surface-600 max-w-2xl leading-relaxed mb-2">
-          나열이 아니라, <strong class="text-surface-800">실무·개인 프로젝트에서 해당 기술로 무엇을 했는지</strong>를 정리했습니다.
-          시스템 흐름·아키텍처 다이어그램은 <NuxtLink to="/projects" class="text-brand-600 font-semibold hover:underline">프로젝트</NuxtLink> 탭을 참고해 주세요.
+          나열이 아니라, <strong class="text-black">실무·개인 프로젝트에서 해당 기술로 무엇을 했는지</strong>를 정리했습니다.
+          시스템 흐름·아키텍처는 <NuxtLink to="/projects" class="font-semibold text-black underline hover:no-underline">프로젝트</NuxtLink> 탭을 참고해 주세요.
         </p>
-        <p class="text-xs text-surface-500 max-w-2xl">
-          자기소개 탭에서는 정체성·강점·경력 요약만 다룹니다.
+        <p class="text-xs text-surface-400 max-w-2xl">
+          소개 탭에서는 강점·경력 요약만 다룹니다.
         </p>
       </div>
     </section>
 
-    <section class="py-14 sm:py-20 bg-white border-t border-surface-100">
+    <section class="py-14 sm:py-20 bg-surface-100 border-t border-surface-300">
       <div class="section-container space-y-14 sm:space-y-16">
         <div
           v-for="cat in skillCategories"
           :key="cat.title"
         >
           <div class="flex items-center gap-2.5 mb-6">
-            <div class="w-9 h-9 rounded-lg bg-brand-50 border border-brand-100 flex items-center justify-center">
-              <Icon :name="cat.icon" class="w-5 h-5 text-brand-600" />
+            <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
+              <Icon :name="cat.icon" class="w-5 h-5 text-white" />
             </div>
-            <h2 class="text-lg font-bold text-surface-800 tracking-tight">
+            <h2 class="text-base font-bold text-black tracking-tight">
               {{ cat.title }}
             </h2>
           </div>
@@ -402,14 +403,14 @@ const projectLabels: Record<string, string> = {
             <div
               v-for="item in cat.items"
               :key="item.name"
-              class="p-5 rounded-xl border border-surface-100 bg-surface-50/50 hover:border-brand-200/80 transition-colors"
+              class="card-base p-5 hover:shadow-[rgba(0,0,0,0.16)_0px_4px_16px_0px] transition-shadow"
             >
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-lg bg-white border border-surface-200 flex items-center justify-center flex-shrink-0">
-                  <Icon :name="item.icon" class="w-5 h-5 text-surface-600" />
+                <div class="w-10 h-10 rounded-[8px] bg-surface-200 flex items-center justify-center flex-shrink-0">
+                  <Icon :name="item.icon" class="w-5 h-5 text-surface-700" />
                 </div>
                 <div class="min-w-0 flex-1">
-                  <h3 class="text-sm font-bold text-surface-800 mb-1.5">
+                  <h3 class="text-sm font-bold text-black mb-1.5">
                     {{ item.name }}
                   </h3>
                   <p class="text-xs text-surface-600 leading-relaxed mb-3">
@@ -420,7 +421,7 @@ const projectLabels: Record<string, string> = {
                       v-for="slug in item.projectSlugs"
                       :key="slug"
                       :to="`/projects/${slug}`"
-                      class="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-100 hover:bg-brand-100 transition-colors"
+                      class="inline-flex items-center gap-0.5 text-[10px] font-bold px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black hover:bg-brand-200 transition-colors"
                     >
                       {{ projectLabels[slug] ?? slug }}
                       <Icon name="heroicons:arrow-top-right-on-square-20-solid" class="w-3 h-3 opacity-70" />

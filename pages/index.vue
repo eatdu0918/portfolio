@@ -1,6 +1,9 @@
 <script setup lang="ts">
 useHead({
-  title: 'Portfolio | TypeScript Full-Stack — Vue·Nuxt · React·Next.js · Spring',
+  title: '이두현 | 풀스택 개발자 — TypeScript · Vue · React · Spring',
+  meta: [
+    { name: 'description', content: '기능이 아닌 문제를 정의하고 End-to-End로 구현합니다. Vue 3 · Nuxt · React 19 · Next.js · Spring Boot 3 · AI 파이프라인 · Kubernetes' },
+  ],
 })
 
 const { data: projects } = await useAsyncData('featured-projects', () =>
@@ -10,143 +13,204 @@ const { data: projects } = await useAsyncData('featured-projects', () =>
     .all(),
 )
 
-const techStacks = {
-  frontend: {
-    label: '프론트엔드',
-    items: [
-      { name: 'Vue.js', icon: 'mdi:vuejs' },
-      { name: 'React', icon: 'mdi:react' },
-      { name: 'Next.js', icon: 'simple-icons:nextdotjs' },
-      { name: 'TypeScript', icon: 'mdi:language-typescript' },
-      { name: 'Tailwind CSS', icon: 'mdi:tailwind' },
-      { name: 'Nuxt', icon: 'mdi:nuxt' },
-      { name: 'Electron', icon: 'mdi:electron-framework' },
-    ],
+const capabilities = [
+  {
+    icon: 'heroicons:queue-list-20-solid',
+    title: '비동기 이벤트 파이프라인',
+    description:
+      'AI 추론 모델 5개를 RabbitMQ · Redis Pub/Sub · WebSocket으로 연결하는 파이프라인을 설계했습니다. 이커머스 주문 처리, 금융 정산, 미디어 트랜스코딩—어느 도메인이든 "오래 걸리는 작업"을 비동기로 풀어내는 패턴은 동일합니다.',
+    badge: 'Vision Factory · MSA',
   },
-  backend: {
-    label: '백엔드',
-    items: [
-      { name: 'Spring Boot', icon: 'mdi:leaf' },
-      { name: 'Spring Security / JWT', icon: 'mdi:shield-lock' },
-      { name: 'Node.js', icon: 'mdi:nodejs' },
-      { name: 'Python', icon: 'mdi:language-python' },
-      { name: 'PostgreSQL', icon: 'mdi:database' },
-      { name: 'Redis', icon: 'mdi:database-clock' },
-      { name: 'Kafka', icon: 'simple-icons:apachekafka' },
-      { name: 'RabbitMQ', icon: 'mdi:rabbit' },
-    ],
+  {
+    icon: 'heroicons:computer-desktop-20-solid',
+    title: '복잡한 실시간 UI 아키텍처',
+    description:
+      'WebSocket STOMP로 멀티 클라이언트를 동기화하고, Provider/Manager 패턴으로 수백 개 오브젝트를 LRU 캐시와 함께 렌더링합니다. 실시간 대시보드 · 협업 툴 · 물류 관제 화면에 그대로 전이되는 아키텍처입니다.',
+    badge: 'Tactical Viz · COP',
   },
-  devops: {
-    label: '데브옵스',
-    items: [
-      { name: 'Docker', icon: 'mdi:docker' },
-      { name: 'Kubernetes', icon: 'mdi:kubernetes' },
-      { name: 'AWS', icon: 'mdi:aws' },
-      { name: 'Nginx', icon: 'mdi:server' },
-      { name: 'GitHub Actions', icon: 'mdi:github' },
-      { name: 'ngrok', icon: 'simple-icons:ngrok' },
-      { name: 'Vercel', icon: 'simple-icons:vercel' },
-      { name: 'Linux', icon: 'mdi:linux' },
-      { name: 'Prometheus', icon: 'mdi:chart-line' },
-    ],
+  {
+    icon: 'heroicons:circle-stack-20-solid',
+    title: '분산 시스템 설계·운영',
+    description:
+      'Spring Cloud Gateway · Kafka · Kubernetes 기반 MSA를 처음부터 직접 설계하고 GHCR · GitHub Actions로 배포합니다. 서비스 경계 설계, 이벤트 흐름, Blue/Green 전략까지—규모와 도메인에 관계없이 적용됩니다.',
+    badge: 'e-commerce MSA',
   },
-}
+]
+
+const workingStyle = [
+  {
+    icon: 'heroicons:magnifying-glass-20-solid',
+    title: '문제를 먼저 정의합니다',
+    description:
+      '기능 요구사항을 받아도 "왜 이게 필요한가"를 먼저 묻습니다. AI 추론 파이프라인의 블로킹 이슈처럼, 증상이 아닌 Root Cause를 찾을 때까지 파고듭니다. Feature가 아닌 문제 단위로 설계를 시작합니다.',
+  },
+  {
+    icon: 'heroicons:bolt-20-solid',
+    title: '빠르게 실행하고 검증합니다',
+    description:
+      '3년간 1~3인 팀에서 프론트 · 백 · 인프라를 동시에 맡아 빠른 판단과 실행을 반복했습니다. 완벽한 설계를 기다리기보다 최소 동작 단위를 먼저 만들고 피드백을 통해 개선합니다.',
+  },
+  {
+    icon: 'heroicons:sparkles-20-solid',
+    title: 'AI를 제품 흐름 안에 녹입니다',
+    description:
+      'YOLOv8 · Stable Diffusion 추론을 서비스 파이프라인에 직접 연결한 경험이 있습니다. 개발 과정에서 Claude Code · Cursor로 서브에이전트 기반 탐색·리팩터링을 운용하며, AI를 보조 도구가 아닌 제품의 핵심 로직으로 활용합니다.',
+  },
+  {
+    icon: 'heroicons:chat-bubble-left-right-20-solid',
+    title: '팀의 언어로 끝까지 공유합니다',
+    description:
+      '아키텍처 변경은 다이어그램과 문서로 팀에 먼저 공유하고 리뷰를 요청합니다. AI 연구팀과 메시지 계약 · DTO 스펙을 맞추고, 기술적 제약도 숨기지 않고 함께 풀어나가는 방식으로 협업합니다.',
+  },
+]
+
+const problemCases = [
+  {
+    number: '01',
+    title: '수백 개 오브젝트 렌더링 지연 — Root Cause 추적',
+    situation: '지도 위에 수백 개 SVG 심볼을 동시에 배치할 때, 지도 이동·확대마다 눈에 띄는 렌더링 지연이 발생했습니다. "느리다"는 현상 뒤에 실제 병목이 무엇인지 먼저 측정했습니다.',
+    approach: 'Profiling 결과 SVG 생성 자체가 반복 호출되는 것이 원인이었습니다. LRU 알고리즘 기반 캐시(최대 120개)를 도입해 동일 심볼은 즉시 반환하도록 하고, keep-alive로 맵 화면 전환 시 컴포넌트 재마운트 비용도 제거했습니다.',
+    result: '심볼 생성 비용을 대폭 절감해 지도 인터랙션이 눈에 띄게 부드러워졌습니다. 증상이 아닌 원인을 해결한 덕에 이후 심볼 종류가 늘어도 구조가 버텼습니다.',
+    tags: ['Vue 3', 'OpenLayers', 'LRU Cache', 'Performance'],
+  },
+  {
+    number: '02',
+    title: 'AI 추론 파이프라인 블로킹 — 동기 구조의 근본 문제',
+    situation: 'AI 추론 모델 5개가 동기 방식으로 연결되어 하나의 모델 지연이 전체 흐름을 블로킹했습니다. 요청이 늘수록 처리 시간이 선형으로 증가하는 구조적 문제였습니다.',
+    approach: '"각 모델이 왜 서로를 기다려야 하는가"를 질문하고 의존 관계를 끊었습니다. 모델별 RabbitMQ 큐를 분리해 독립적으로 처리하도록 재설계하고, Redis Pub/Sub → Spring Boot → WebSocket의 3-tier로 상태를 클라이언트까지 실시간 전달했습니다.',
+    result: '특정 모델 지연이 다른 모델에 영향을 주지 않게 되었습니다. 처리 진행률을 실시간으로 확인할 수 있어 사용자 경험도 함께 개선됐습니다.',
+    tags: ['RabbitMQ', 'Redis Pub/Sub', 'Python', 'WebSocket'],
+  },
+]
 </script>
 
 <template>
   <div>
-    <!-- Hero -->
-    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden bg-surface-50">
-      <div class="absolute inset-0 dot-pattern opacity-40 pointer-events-none"></div>
-      <div class="absolute top-20 right-[15%] w-[300px] h-[300px] bg-brand-200/30 rounded-full blur-[80px] pointer-events-none"></div>
-      <div class="absolute bottom-10 left-[10%] w-[250px] h-[250px] bg-accent-200/25 rounded-full blur-[60px] pointer-events-none"></div>
 
-      <div class="section-container relative">
-        <div class="max-w-4xl">
-          <p class="text-sm font-semibold text-brand-500 tracking-wide mb-4 animate-fade-in">
+    <!-- ── Hero ─────────────────────────────────────────────── -->
+    <section class="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-white">
+      <div class="section-container">
+        <div class="max-w-3xl">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-5 animate-fade-in">
             Full-Stack Developer
           </p>
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-surface-800 leading-tight tracking-tight animate-slide-up">
-            <span class="gradient-text">이두현</span>입니다
+          <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-display font-bold text-black leading-[1.15] tracking-tight animate-slide-up">
+            기능보다 문제를,<br>
+            처음부터 끝까지.
           </h1>
-          <p class="mt-6 text-lg sm:text-xl text-surface-800 leading-relaxed animate-fade-in" style="animation-delay: 0.2s">
-            TypeScript를 공통 기반으로 Vue 3·Nuxt와 React 19·Next.js를 오가며 프론트엔드를, Spring Boot 3·Spring Cloud로 백엔드를 설계합니다. RabbitMQ·Kafka 이벤트 파이프라인과 WebSocket·Redis 실시간 연동, Electron·Kubernetes 배포까지 하나의 서비스 흐름으로 엮는 데 강점이 있습니다.
+          <p class="mt-6 text-base sm:text-lg text-surface-600 leading-relaxed max-w-2xl animate-fade-in" style="animation-delay: 0.15s">
+            군사 C4I · AI 파이프라인 · 3D GIS · 이커머스 MSA—
+            도메인이 달라도 문제를 먼저 정의하고 End-to-End로 구현합니다.
+            TypeScript 기반 풀스택 개발자 이두현입니다.
           </p>
-          <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.4s">
-            <NuxtLink
-              to="/projects"
-              class="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors"
-            >
+          <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.25s">
+            <NuxtLink to="/projects" class="btn-pill-primary">
               프로젝트 보기
               <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
             </NuxtLink>
-            <NuxtLink
-              to="/contact"
-              class="inline-flex items-center gap-2 px-5 py-2.5 border border-surface-300 hover:border-brand-400 text-surface-700 hover:text-brand-600 font-medium rounded-lg transition-colors"
-            >
-              연락하기
+            <NuxtLink to="/resume" class="btn-pill-secondary">
+              이력서 보기
             </NuxtLink>
+          </div>
+
+          <!-- 스펙 칩 -->
+          <div class="mt-10 flex flex-wrap gap-2 animate-fade-in" style="animation-delay: 0.35s">
+            <span
+              v-for="chip in ['경력 3년 1개월', 'Vue 3 · Nuxt', 'React · Next.js', 'Spring Boot 3', 'AI 파이프라인', 'Kubernetes']"
+              :key="chip"
+              class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium"
+            >
+              {{ chip }}
+            </span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Tech Stack -->
-    <section id="skills" class="py-16 sm:py-24 bg-white">
+    <!-- ── 일하는 방식 ─────────────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-black">
       <div class="section-container">
-        <h2 class="text-lg sm:text-xl font-bold text-surface-800 mb-3 text-center tracking-tight">
-          기술 스택
-        </h2>
-        <p class="text-center text-sm text-surface-500 mb-8 max-w-xl mx-auto">
-          대표 스택 요약입니다. 실무·개인 프로젝트에서의 활용은
-          <NuxtLink to="/skills" class="text-brand-600 font-semibold hover:underline">기술 스택</NuxtLink> 페이지를 참고해 주세요.
-        </p>
-        <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
+        <div class="mb-10">
+          <p class="text-xs font-semibold text-surface-500 tracking-[0.18em] uppercase mb-3">How I Work</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">
+            일하는 방식
+          </h2>
+          <p class="mt-3 text-sm text-surface-400 max-w-xl leading-relaxed">
+            어떤 팀에서 일해도 변하지 않는 네 가지입니다.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div
-            v-for="(stack, key) in techStacks"
-            :key="key"
-            class="text-center"
+            v-for="(w, i) in workingStyle"
+            :key="w.title"
+            class="p-5 rounded-[8px] border border-white/10 hover:border-white/25 transition-colors"
           >
-            <h3 class="text-xs font-semibold text-brand-500 uppercase tracking-wider mb-6">
-              {{ stack.label }}
-            </h3>
-            <div class="grid grid-cols-3 gap-4">
-              <div
-                v-for="item in stack.items"
-                :key="item.name"
-                class="flex flex-col items-center gap-2 group"
-              >
-                <div class="w-11 h-11 rounded-xl bg-surface-50 border border-surface-100 flex items-center justify-center group-hover:border-brand-200 group-hover:bg-brand-50 transition-all">
-                  <Icon :name="item.icon" class="w-5 h-5 text-surface-500 group-hover:text-brand-500 transition-colors" />
-                </div>
-                <span class="text-xs text-surface-500 group-hover:text-surface-700 transition-colors font-medium">{{ item.name }}</span>
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-[8px] bg-white/10 flex items-center justify-center">
+                <Icon :name="w.icon" class="w-4 h-4 text-white" />
               </div>
+              <span class="text-[11px] font-bold text-white/30 font-mono">0{{ i + 1 }}</span>
             </div>
+            <h3 class="text-sm font-bold text-white mb-2">{{ w.title }}</h3>
+            <p class="text-xs text-surface-400 leading-relaxed">{{ w.description }}</p>
           </div>
         </div>
-        <div class="mt-10 text-center">
-          <NuxtLink
-            to="/skills"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-surface-200 text-surface-600 hover:border-brand-400 hover:text-brand-600 font-medium transition-all"
+      </div>
+    </section>
+
+    <!-- ── 왜 어디서나 통하는가 ──────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-surface-100">
+      <div class="section-container">
+        <div class="mb-10">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Why It Works Anywhere</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+            스택이 다양한 게 아니라,<br class="hidden sm:block">
+            문제를 구조적으로 풀어온 겁니다.
+          </h2>
+          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
+            도메인은 바뀌어도 복잡한 시스템에서 반복되는 문제는 같습니다. 아래 세 역량은 어느 회사에서도 즉시 쓸 수 있습니다.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-5">
+          <div
+            v-for="cap in capabilities"
+            :key="cap.title"
+            class="card-base p-6"
           >
-            기술 스택 자세히 보기
+            <div class="w-10 h-10 rounded-[8px] bg-black flex items-center justify-center mb-4">
+              <Icon :name="cap.icon" class="w-5 h-5 text-white" />
+            </div>
+            <h3 class="text-base font-bold text-black mb-2">{{ cap.title }}</h3>
+            <p class="text-sm text-surface-600 leading-relaxed mb-4">{{ cap.description }}</p>
+            <span class="text-[10px] px-2.5 py-1 rounded-[999px] bg-brand-300 text-black font-medium">
+              {{ cap.badge }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Featured Projects ──────────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-white">
+      <div class="section-container">
+        <div class="flex items-end justify-between mb-8">
+          <div>
+            <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-2">Projects</p>
+            <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+              주요 프로젝트
+            </h2>
+          </div>
+          <NuxtLink
+            to="/projects"
+            class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-black hover:opacity-60 transition-opacity"
+          >
+            전체 보기
             <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
           </NuxtLink>
         </div>
-      </div>
-    </section>
 
-    <!-- Featured Projects -->
-    <section class="py-16 sm:py-24 bg-surface-50">
-      <div class="section-container">
-        <div class="mb-8">
-          <h2 class="text-lg sm:text-xl font-bold text-surface-800 tracking-tight">
-            최근 프로젝트
-          </h2>
-          <p class="mt-2 text-sm text-surface-500 max-w-3xl">
-            회사 제품(영상 비식별화·전장 상황 인지·데이터 관리 플랫폼 등)과 개인 작업(기술 블로그·e-commerce MSA)을 함께 정리했습니다.
-          </p>
-        </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <ProjectCard
             v-for="(project, idx) in projects"
@@ -165,118 +229,106 @@ const techStacks = {
             :index="Number(idx) + 1"
           />
         </div>
-        <div class="mt-10 text-center">
-          <NuxtLink
-            to="/projects"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-surface-200 text-surface-600 hover:border-brand-400 hover:text-brand-600 font-medium transition-all"
-          >
+
+        <div class="mt-8 sm:hidden text-center">
+          <NuxtLink to="/projects" class="btn-pill-secondary">
             모든 프로젝트 보기
-            <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
           </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- Closing — 탐색 유도 (협업·채용 카피 없음) -->
-    <section class="py-16 sm:py-24 bg-surface-50">
+    <!-- ── 문제 해결 사례 ──────────────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-surface-100">
       <div class="section-container">
-        <div
-          class="relative overflow-hidden rounded-3xl bg-white px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-16 shadow-xl shadow-surface-900/5 border border-surface-200"
-        >
-          <div
-            class="absolute -top-24 -right-16 h-72 w-72 rounded-full bg-brand-100/70 blur-3xl pointer-events-none"
-            aria-hidden="true"
-          ></div>
-          <div
-            class="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent-100/60 blur-3xl pointer-events-none"
-            aria-hidden="true"
-          ></div>
+        <div class="mb-10">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Problem Solving</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+            이렇게 Root Cause를 찾았습니다.
+          </h2>
+          <p class="mt-3 text-sm text-surface-500 max-w-xl">
+            증상이 아닌 원인을 찾아 해결한 사례입니다. 결과보다 접근 방식에 집중했습니다.
+          </p>
+        </div>
 
-          <div class="relative grid gap-10 lg:grid-cols-12 lg:gap-12 lg:items-center">
-            <div class="lg:col-span-7">
-              <p class="text-sm font-semibold tracking-wide text-brand-600 mb-2">
-                더 알아보기
-              </p>
-              <h2 class="text-2xl sm:text-3xl font-bold text-surface-800 tracking-tight leading-tight mb-4">
-                관심 있는 주제가 있으셨나요?
-              </h2>
-              <p class="text-sm sm:text-base text-surface-600 leading-relaxed mb-8 max-w-xl">
-                메인에는 요약만 올려 두었습니다. 작업 맥락·기술 선택·경력은 아래 페이지에서 이어집니다.
-              </p>
-              <ul class="space-y-3 text-sm text-surface-700">
-                <li class="flex gap-3">
-                  <Icon
-                    name="heroicons:check-circle-20-solid"
-                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
-                    aria-hidden="true"
-                  />
-                  <span>TypeScript + Vue 3·Nuxt와 React 19·Next.js로 SPA·Electron·SSR을 같은 언어 기반에서 오가며 구축했습니다.</span>
-                </li>
-                <li class="flex gap-3">
-                  <Icon
-                    name="heroicons:check-circle-20-solid"
-                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
-                    aria-hidden="true"
-                  />
-                  <span>RabbitMQ·Kafka·Redis 이벤트 파이프라인과 WebSocket STOMP로 비동기 처리·실시간 다중 클라이언트 연동을 설계했습니다.</span>
-                </li>
-                <li class="flex gap-3">
-                  <Icon
-                    name="heroicons:check-circle-20-solid"
-                    class="w-5 h-5 shrink-0 text-brand-500 mt-0.5"
-                    aria-hidden="true"
-                  />
-                  <span>Next.js 콘텐츠 파이프라인과 Spring Cloud·Kafka·Kubernetes 기반 MSA를 직접 구축해 운영 중입니다.</span>
-                </li>
-              </ul>
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div
+            v-for="c in problemCases"
+            :key="c.number"
+            class="card-base p-7"
+          >
+            <p class="text-[11px] font-bold text-surface-400 tracking-[0.15em] uppercase mb-3">Case {{ c.number }}</p>
+            <h3 class="text-base font-bold text-black mb-5 leading-snug">{{ c.title }}</h3>
+
+            <div class="space-y-4 text-sm">
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">상황</p>
+                <p class="text-surface-600 leading-relaxed">{{ c.situation }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">접근 (Root Cause → 해결)</p>
+                <p class="text-surface-600 leading-relaxed">{{ c.approach }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">결과</p>
+                <p class="text-surface-700 font-medium leading-relaxed">{{ c.result }}</p>
+              </div>
             </div>
 
-            <div class="lg:col-span-5 flex flex-col gap-3">
-              <NuxtLink
-                to="/projects"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 px-5 py-3.5 text-center text-sm font-semibold text-white shadow-lg shadow-brand-600/20 transition-colors hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            <div class="mt-5 flex flex-wrap gap-1.5">
+              <span
+                v-for="tag in c.tags"
+                :key="tag"
+                class="text-[10px] px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black font-medium"
               >
-                <Icon name="heroicons:squares-2x2-20-solid" class="w-4 h-4" />
-                프로젝트 전체 보기
-              </NuxtLink>
-              <NuxtLink
-                to="/resume"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-surface-200 bg-white px-5 py-3.5 text-center text-sm font-semibold text-surface-700 transition-colors hover:border-brand-300 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              >
-                <Icon name="heroicons:document-text-20-solid" class="w-4 h-4" />
-                이력서 보기
-              </NuxtLink>
-              <div
-                class="mt-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-surface-200 pt-5 text-xs text-surface-500"
-              >
-                <NuxtLink
-                  to="/skills"
-                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
-                >
-                  <Icon name="heroicons:cpu-chip-20-solid" class="w-4 h-4 text-brand-500" />
-                  기술 스택
-                </NuxtLink>
-                <NuxtLink
-                  to="/about"
-                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
-                >
-                  <Icon name="heroicons:user-20-solid" class="w-4 h-4 text-brand-500" />
-                  소개
-                </NuxtLink>
-                <a
-                  href="https://github.com/eatdu0918"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 text-surface-600 transition-colors hover:text-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
-                >
-                  <Icon name="mdi:github" class="w-4 h-4 text-brand-500" />
-                  GitHub
-                </a>
-              </div>
+                {{ tag }}
+              </span>
             </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- ── Final CTA ──────────────────────────────────────────── -->
+    <section class="py-16 sm:py-24 bg-white border-t border-surface-300">
+      <div class="section-container">
+        <div class="max-w-2xl">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4">Get In Touch</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight mb-4">
+            팀에 필요한 개발자라면<br>
+            지금 연락해 주세요.
+          </h2>
+          <p class="text-sm text-surface-500 leading-relaxed mb-8 max-w-lg">
+            문제를 정의하고 끝까지 해결하는 개발자를 찾고 있다면—
+            도메인은 가리지 않습니다.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="mailto:eatdu0918@gmail.com"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors"
+            >
+              <Icon name="heroicons:envelope-20-solid" class="w-4 h-4" />
+              이메일 보내기
+            </a>
+            <a
+              href="https://github.com/eatdu0918"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors"
+            >
+              <Icon name="mdi:github" class="w-4 h-4" />
+              GitHub
+            </a>
+            <NuxtLink
+              to="/resume"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors"
+            >
+              이력서 보기
+            </NuxtLink>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
