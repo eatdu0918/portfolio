@@ -10,11 +10,11 @@
   }
 
   body {
-    @apply bg-white text-surface-700;
+    @apply bg-white text-surface-700 dark:bg-[#0f0f0f] dark:text-surface-300;
   }
 
   ::selection {
-    @apply bg-surface-300 text-black;
+    @apply bg-surface-300 text-black dark:bg-surface-700 dark:text-white;
   }
 }
 
@@ -49,43 +49,107 @@
     }
   }
 
-  /* Pill — Uber의 999px 버튼 */
+  /* Pill buttons */
   .btn-pill-primary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors dark:bg-white dark:text-black dark:hover:bg-surface-200;
   }
 
   .btn-pill-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors dark:bg-white/10 dark:text-white dark:hover:bg-white/20;
   }
 
-  /* Card — Uber 8px radius + whisper shadow */
+  /* Card */
   .card-base {
-    @apply bg-white rounded-[8px] shadow-[rgba(0,0,0,0.12)_0px_4px_16px_0px];
+    @apply bg-white rounded-[8px] shadow-[rgba(0,0,0,0.08)_0px_2px_12px_0px] border border-surface-200/60 dark:bg-[#1a1a1a] dark:border-white/10 dark:shadow-none;
   }
 
   .card-featured {
-    @apply bg-white rounded-[12px] shadow-[rgba(0,0,0,0.12)_0px_4px_16px_0px];
+    @apply bg-white rounded-[12px] shadow-[rgba(0,0,0,0.12)_0px_4px_16px_0px] dark:bg-[#1a1a1a] dark:shadow-none dark:border dark:border-white/10;
+  }
+
+  /* Hero dot grid */
+  .hero-grid {
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .dark .hero-grid {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-22px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal-left.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+
+  .reveal-scale.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .rd-1 { transition-delay: 0.08s; }
+  .rd-2 { transition-delay: 0.16s; }
+  .rd-3 { transition-delay: 0.24s; }
+  .rd-4 { transition-delay: 0.32s; }
+  .rd-5 { transition-delay: 0.40s; }
+  .rd-6 { transition-delay: 0.48s; }
+
+  /* Terminal window */
+  .terminal-window {
+    @apply font-mono text-sm rounded-[12px] overflow-hidden border border-white/10 bg-[#161616];
+  }
+
+  .terminal-bar {
+    @apply flex items-center gap-1.5 px-4 py-3 border-b border-white/10 bg-[#1e1e1e];
+  }
+
+  .terminal-dot {
+    @apply w-2.5 h-2.5 rounded-full;
   }
 
   /* Prose */
   .prose-content h2 {
-    @apply text-2xl font-bold mt-12 mb-4 text-black;
+    @apply text-2xl font-bold mt-12 mb-4 text-black dark:text-white;
   }
 
   .prose-content h3 {
-    @apply text-xl font-semibold mt-8 mb-3 text-surface-800;
+    @apply text-xl font-semibold mt-8 mb-3 text-surface-800 dark:text-surface-200;
   }
 
   .prose-content p {
-    @apply mb-4 leading-relaxed text-surface-600;
+    @apply mb-4 leading-relaxed text-surface-600 dark:text-surface-400;
   }
 
   .prose-content ul {
-    @apply mb-4 space-y-2 list-disc list-inside text-surface-600;
+    @apply mb-4 space-y-2 list-disc list-inside text-surface-600 dark:text-surface-400;
   }
 
   .prose-content .prose-inline-code {
-    @apply inline rounded px-1.5 py-0.5 text-[0.92em] font-sans font-bold text-surface-800 bg-surface-200 align-baseline [overflow-wrap:anywhere];
+    @apply inline rounded px-1.5 py-0.5 text-[0.92em] font-sans font-bold text-surface-800 bg-surface-200 align-baseline [overflow-wrap:anywhere] dark:text-surface-200 dark:bg-surface-700;
   }
 
   .prose-content pre {
@@ -105,15 +169,15 @@
   }
 
   .prose-content th {
-    @apply text-left py-2 px-3 bg-surface-200 font-semibold text-surface-700 border-b border-surface-300;
+    @apply text-left py-2 px-3 bg-surface-200 font-semibold text-surface-700 border-b border-surface-300 dark:bg-surface-700 dark:text-surface-300 dark:border-surface-600;
   }
 
   .prose-content td {
-    @apply py-2 px-3 border-b border-surface-200 text-surface-600;
+    @apply py-2 px-3 border-b border-surface-200 text-surface-600 dark:border-surface-700 dark:text-surface-400;
   }
 
   .prose-content blockquote {
-    @apply my-3 py-0 pl-3.5 border-l-2 border-surface-300 text-surface-600 text-[0.9375rem] font-medium leading-relaxed not-italic bg-transparent rounded-none;
+    @apply my-3 py-0 pl-3.5 border-l-2 border-surface-300 text-surface-600 text-[0.9375rem] font-medium leading-relaxed not-italic bg-transparent rounded-none dark:border-surface-600 dark:text-surface-400;
   }
 
   .prose-content blockquote p {
