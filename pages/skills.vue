@@ -3,9 +3,9 @@ useHead({
   title: '기술 스택 | Portfolio',
 })
 
-/** 기술별 실무 활용 — 프로젝트 상세와 중복되지 않게 “무엇에 썼는지” 중심 */
 const skillCategories = [
   {
+    id: 'frontend',
     title: 'Frontend',
     icon: 'heroicons:computer-desktop-20-solid',
     items: [
@@ -55,12 +55,13 @@ const skillCategories = [
         name: 'TypeScript',
         icon: 'mdi:language-typescript',
         summary:
-          'Vue·React를 아우르는 공통 기반입니다. 개인 개발 블로그 (dev-blog)에서는 Next.js App Router·Server Actions·Prisma Client로 end-to-end 타입 전파, 본 포트폴리오(Nuxt 3)에서는 @nuxt/content Zod 스키마·컴포넌트 props·composables 타입을 정의했습니다. 전장 정보 편집기에서는 지도 Provider/Manager·MGRS 좌표 유틸·Draw 파이프라인의 상태 키와 API 응답 DTO를 명시해 팀 확장에도 리팩터링 비용을 낮췄고, 3D 전장 상황 인지 시스템 프론트엔드·e-commerce MSA React 클라이언트에서도 동일 원칙으로 적용했습니다.',
+          'Vue·React를 아우르는 공통 기반입니다. 개인 개발 블로그 (dev-blog)에서는 Next.js App Router·Server Actions·Prisma Client로 end-to-end 타입 전파, 본 포트폴리오(Nuxt 3)에서는 @nuxt/content Zod 스키마·컴포넌트 props·composables 타입을 정의했습니다. 전장 정보 편집기에서는 지도 Provider/Manager·MGRS 좌표 유틸·Draw 파이프라인의 상태 키와 API 응답 DTO를 명시해 팀 확장에도 리팩터링 비용을 낮췄습니다.',
         projectSlugs: ['dev-blog', 'sparta-ecommerce-msa', 'tactical-viz-cop', 'tactical-viz'],
       },
     ],
   },
   {
+    id: 'backend',
     title: 'Backend',
     icon: 'heroicons:server-20-solid',
     items: [
@@ -72,7 +73,7 @@ const skillCategories = [
         projectSlugs: ['vision-factory', 'tactical-viz'],
       },
       {
-        name: 'Spring Boot 2.7 / 멀티 앱 (AI 학습 데이터 관리 플랫폼)',
+        name: 'Spring Boot 2.7 / 멀티 앱',
         icon: 'mdi:leaf',
         summary:
           'resource_front_web(JSP·Tiles·세션), resource_api(JWT 지향 REST), resource_consumer(@RabbitListener), resource_common_lib(도메인·MyBatis·플러그인 공유) 구조에서 기능을 나눠 구현·연동했습니다.',
@@ -117,7 +118,7 @@ const skillCategories = [
         name: 'RabbitMQ',
         icon: 'mdi:rabbit',
         summary:
-          '지능형 영상 비식별화 플랫폼에서 파일 등록 후 큐로 AI 워커에 작업을 넘기고, 수동 비식별 시 tracking_zeroshot·video_selective_blur 등 추가 큐로 후속 처리를 분기했습니다. AI 학습 데이터 관리 플랫폼에서는 플러그인(SFTP import/export, 비식별 등)을 큐 기반 비동기로 발행·소비했습니다.',
+          '지능형 영상 비식별화 플랫폼에서 파일 등록 후 큐로 AI 워커에 작업을 넘기고, 수동 비식별 시 tracking_zeroshot·video_selective_blur 등 추가 큐로 후속 처리를 분기했습니다.',
         projectSlugs: ['vision-factory', 'resource-admin'],
       },
       {
@@ -130,6 +131,7 @@ const skillCategories = [
     ],
   },
   {
+    id: 'gis',
     title: 'GIS / Map',
     icon: 'heroicons:map-20-solid',
     items: [
@@ -178,6 +180,7 @@ const skillCategories = [
     ],
   },
   {
+    id: 'ai',
     title: 'AI / ML 연동',
     icon: 'heroicons:cpu-chip-20-solid',
     items: [
@@ -192,7 +195,7 @@ const skillCategories = [
         name: 'Python (워커·플러그인)',
         icon: 'mdi:language-python',
         summary:
-          '지능형 영상 비식별화 플랫폼 Python 컨슈머에서 videotoimage(FFmpeg 프레임 추출), detection(YOLO+BYTETrack JSON), blur/replace, zeroshot_track(ODTrack), zeroshot_blur(OpenCV+FFmpeg) 파이프라인을 큐 인자(argv) 기준으로 연결했습니다. AI 학습 데이터 관리 플랫폼 plugin_video_to_image에서는 OpenCV·pika·SFTP로 영상→이미지 변환을 Java 파이프라인과 맞췄습니다.',
+          '지능형 영상 비식별화 플랫폼 Python 컨슈머에서 videotoimage(FFmpeg 프레임 추출), detection(YOLO+BYTETrack JSON), blur/replace, zeroshot_track(ODTrack), zeroshot_blur(OpenCV+FFmpeg) 파이프라인을 큐 인자(argv) 기준으로 연결했습니다.',
         projectSlugs: ['vision-factory', 'resource-admin'],
       },
       {
@@ -212,28 +215,29 @@ const skillCategories = [
     ],
   },
   {
-    title: 'AI 활용 개발 (AI-Driven Development)',
+    id: 'aidev',
+    title: 'AI 활용 개발',
     icon: 'heroicons:sparkles-20-solid',
     items: [
       {
         name: 'CLAUDE.md 하네스 (팀 규칙 인코딩)',
         icon: 'mdi:file-document-outline',
         summary:
-          'MSA 프로젝트에 17KB CLAUDE.md를 작성해 서비스 포트맵, Entity 패턴(@DynamicInsert/@DynamicUpdate, static create() 팩토리), BigDecimal 금액 처리 규칙, Kafka Saga 흐름도, 자동 스킬 선택 매트릭스를 AI 컨텍스트로 주입했습니다. 팀 합류 시 3일 이내에 팀 규칙을 CLAUDE.md에 인코딩해 전체 팀의 생산성을 높이는 방식으로 운용합니다. 이 포트폴리오 자체도 Claude Code + CLAUDE.md로 설계·구현했습니다.',
+          'MSA 프로젝트에 17KB CLAUDE.md를 작성해 서비스 포트맵, Entity 패턴(@DynamicInsert/@DynamicUpdate, static create() 팩토리), BigDecimal 금액 처리 규칙, Kafka Saga 흐름도, 자동 스킬 선택 매트릭스를 AI 컨텍스트로 주입했습니다. 팀 합류 시 3일 이내에 팀 규칙을 CLAUDE.md에 인코딩해 전체 팀의 생산성을 높입니다.',
         projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
         name: '자동 검증 훅 4종 (Hooks)',
         icon: 'heroicons:shield-check-20-solid',
         summary:
-          'pre-bash-danger.py: docker compose down -v · git push --force 등 위험 명령을 실행 전 차단합니다. post-java-compile.py: 파일 수정 후 Gradle을 자동 컴파일해 즉시 에러를 확인합니다(90초 타임아웃). post-flyway-validate.py: 마이그레이션 파일 변경 시 utf8mb4·InnoDB·DECIMAL·timestamp 규칙을 자동 검증합니다. on-stop.py: 세션 종료 시 git diff 요약을 자동 출력해 변경 내역을 놓치지 않습니다.',
+          'pre-bash-danger.py: 위험 명령을 실행 전 차단합니다. post-java-compile.py: 파일 수정 후 Gradle 자동 컴파일(90초 타임아웃). post-flyway-validate.py: 마이그레이션 파일 변경 시 utf8mb4·InnoDB·DECIMAL·timestamp 규칙 자동 검증. on-stop.py: 세션 종료 시 git diff 요약 자동 출력.',
         projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
         name: '커스텀 커맨드 6종 (Slash Commands)',
         icon: 'heroicons:command-line-20-solid',
         summary:
-          '/새서비스: MSA 신규 서비스 전체 스캐폴딩(빌드 설정·도메인·API·Flyway·Docker·k8s 매니페스트)을 10분 내 완성합니다. /api추가: DTO·Service·Controller·Flyway 마이그레이션을 전 레이어 일괄 생성합니다. /saga구현: Kafka Saga 패턴 + 보상 트랜잭션을 표준 구조로 구현합니다. /마이그레이션, /상태확인, /코드리뷰로 반복 작업을 자동화합니다.',
+          '/새서비스: MSA 신규 서비스 전체 스캐폴딩을 10분 내 완성합니다. /api추가: DTO·Service·Controller·Flyway 마이그레이션을 전 레이어 일괄 생성합니다. /saga구현: Kafka Saga 패턴 + 보상 트랜잭션을 표준 구조로 구현합니다. /마이그레이션, /상태확인, /코드리뷰로 반복 작업을 자동화합니다.',
         projectSlugs: ['sparta-ecommerce-msa'],
       },
       {
@@ -248,10 +252,12 @@ const skillCategories = [
         icon: 'mdi:creation',
         summary:
           '프로젝트별 .cursorrules를 직접 작성해 코딩 컨벤션·금지 패턴·도메인 규칙을 AI 생성 코드에 사전 반영합니다. LLM이 생성하는 코드의 일관성과 안전성을 높여 AI 코드 리뷰 부담을 줄입니다.',
+        projectSlugs: [],
       },
     ],
   },
   {
+    id: 'db',
     title: 'Database',
     icon: 'heroicons:circle-stack-20-solid',
     items: [
@@ -300,6 +306,7 @@ const skillCategories = [
     ],
   },
   {
+    id: 'infra',
     title: 'Infrastructure & DevOps',
     icon: 'heroicons:cloud-20-solid',
     items: [
@@ -314,7 +321,7 @@ const skillCategories = [
         name: 'AWS',
         icon: 'mdi:aws',
         summary:
-          'EC2 인스턴스 생성 및 보안 그룹 설정, 탄력적 IP(EIP) 연결을 통해 서비스를 클라우드에 배치했습니다. 현재 보고 계신 포트폴리오 프로젝트(http://3.106.133.249:8082/)의 호스팅을 구축했습니다.',
+          'EC2 인스턴스 생성 및 보안 그룹 설정, 탄력적 IP(EIP) 연결을 통해 서비스를 클라우드에 배치했습니다.',
         projectSlugs: [],
       },
       {
@@ -346,27 +353,6 @@ const skillCategories = [
         projectSlugs: ['vision-factory', 'tactical-viz'],
       },
       {
-        name: 'Git',
-        icon: 'mdi:git',
-        summary:
-          '멀티 레포·브랜치 전략, 코드 리뷰로 팀 규칙을 맞췄습니다.',
-        projectSlugs: [],
-      },
-      {
-        name: 'Prometheus',
-        icon: 'mdi:chart-timeline-variant',
-        summary:
-          '메트릭 수집·기본 대시보드 연동을 경험했습니다.',
-        projectSlugs: ['tactical-viz'],
-      },
-      {
-        name: 'ngrok',
-        icon: 'simple-icons:ngrok',
-        summary:
-          '클라우드 인프라(ELK 등) 비용 절감을 위해 로컬에서 구동 중인 모니터링/로그 분석 서버를 외부로 포워딩하여 실시간 관측성을 확보하는 전략을 수립하고 운영했습니다.',
-        projectSlugs: ['sparta-ecommerce-msa'],
-      },
-      {
         name: 'Vercel',
         icon: 'simple-icons:vercel',
         summary:
@@ -385,57 +371,88 @@ const projectLabels: Record<string, string> = {
   'dev-blog': '개인 개발 블로그 (dev-blog)',
   'sparta-ecommerce-msa': 'e-commerce MSA',
 }
+
+const activeTab = ref('all')
+
+const tabs = [
+  { id: 'all', label: '전체', icon: 'heroicons:squares-2x2-20-solid' },
+  ...skillCategories.map(c => ({ id: c.id, label: c.title, icon: c.icon })),
+]
+
+const displayedCategories = computed(() => {
+  if (activeTab.value === 'all') return skillCategories
+  return skillCategories.filter(c => c.id === activeTab.value)
+})
 </script>
 
 <template>
   <div class="pt-24">
-    <section class="py-14 sm:py-20 bg-white">
+    <section class="py-14 sm:py-20 bg-white dark:bg-[#111]">
       <div class="section-container">
-        <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">
+        <p class="reveal text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3 dark:text-surface-500">
           Skills
         </p>
-        <h1 class="text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3">
+        <h1 class="reveal rd-1 text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3 dark:text-white">
           기술 스택
         </h1>
-        <p class="text-sm text-surface-600 max-w-2xl leading-relaxed mb-2">
-          나열이 아니라, <strong class="text-black">실무·개인 프로젝트에서 해당 기술로 무엇을 했는지</strong>를 정리했습니다.
-          시스템 흐름·아키텍처는 <NuxtLink to="/projects" class="font-semibold text-black underline hover:no-underline">프로젝트</NuxtLink> 탭을 참고해 주세요.
-        </p>
-        <p class="text-xs text-surface-400 max-w-2xl">
-          소개 탭에서는 강점·경력 요약만 다룹니다.
+        <p class="reveal rd-2 text-sm text-surface-600 max-w-2xl leading-relaxed mb-2 dark:text-surface-400">
+          나열이 아니라, <strong class="text-black dark:text-white">실무·개인 프로젝트에서 해당 기술로 무엇을 했는지</strong>를 정리했습니다.
+          시스템 흐름·아키텍처는 <NuxtLink to="/projects" class="font-semibold text-black underline hover:no-underline dark:text-white">프로젝트</NuxtLink> 탭을 참고해 주세요.
         </p>
       </div>
     </section>
 
-    <section class="py-14 sm:py-20 bg-surface-100 border-t border-surface-300">
+    <!-- 탭 필터 -->
+    <div class="sticky top-16 z-30 bg-white/90 dark:bg-[#111]/90 backdrop-blur-md border-b border-surface-200 dark:border-white/[8%]">
+      <div class="section-container py-3 overflow-x-auto">
+        <div class="flex items-center gap-2 min-w-max">
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-[999px] transition-colors whitespace-nowrap"
+            :class="activeTab === tab.id
+              ? 'bg-black text-white dark:bg-white dark:text-black'
+              : 'bg-brand-300 text-black hover:bg-brand-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20'"
+            @click="activeTab = tab.id"
+          >
+            <Icon :name="tab.icon" class="w-3.5 h-3.5" />
+            {{ tab.label }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <section class="py-14 sm:py-20 bg-surface-100 dark:bg-[#0f0f0f]">
       <div class="section-container space-y-14 sm:space-y-16">
         <div
-          v-for="cat in skillCategories"
-          :key="cat.title"
+          v-for="cat in displayedCategories"
+          :key="cat.id"
+          class="reveal"
         >
           <div class="flex items-center gap-2.5 mb-6">
-            <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
-              <Icon :name="cat.icon" class="w-5 h-5 text-white" />
+            <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center dark:bg-white">
+              <Icon :name="cat.icon" class="w-5 h-5 text-white dark:text-black" />
             </div>
-            <h2 class="text-base font-bold text-black tracking-tight">
+            <h2 class="text-base font-bold text-black tracking-tight dark:text-white">
               {{ cat.title }}
             </h2>
           </div>
           <div class="grid md:grid-cols-2 gap-4">
             <div
-              v-for="item in cat.items"
+              v-for="(item, i) in cat.items"
               :key="item.name"
-              class="card-base p-5 hover:shadow-[rgba(0,0,0,0.16)_0px_4px_16px_0px] transition-shadow"
+              class="card-base p-5 hover:shadow-[rgba(0,0,0,0.16)_0px_4px_16px_0px] transition-shadow reveal"
+              :class="`rd-${(i % 3) + 1}`"
             >
               <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-[8px] bg-surface-200 flex items-center justify-center flex-shrink-0">
-                  <Icon :name="item.icon" class="w-5 h-5 text-surface-700" />
+                <div class="w-10 h-10 rounded-[8px] bg-surface-200 flex items-center justify-center flex-shrink-0 dark:bg-white/10">
+                  <Icon :name="item.icon" class="w-5 h-5 text-surface-700 dark:text-surface-300" />
                 </div>
                 <div class="min-w-0 flex-1">
-                  <h3 class="text-sm font-bold text-black mb-1.5">
+                  <h3 class="text-sm font-bold text-black mb-1.5 dark:text-white">
                     {{ item.name }}
                   </h3>
-                  <p class="text-xs text-surface-600 leading-relaxed mb-3">
+                  <p class="text-xs text-surface-600 leading-relaxed mb-3 dark:text-surface-400">
                     {{ item.summary }}
                   </p>
                   <div v-if="item.projectSlugs?.length" class="flex flex-wrap gap-1.5">
@@ -443,7 +460,7 @@ const projectLabels: Record<string, string> = {
                       v-for="slug in item.projectSlugs"
                       :key="slug"
                       :to="`/projects/${slug}`"
-                      class="inline-flex items-center gap-0.5 text-[10px] font-bold px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black hover:bg-brand-200 transition-colors"
+                      class="inline-flex items-center gap-0.5 text-[10px] font-bold px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black hover:bg-brand-200 transition-colors dark:bg-white/10 dark:text-surface-300 dark:hover:bg-white/20"
                     >
                       {{ projectLabels[slug] ?? slug }}
                       <Icon name="heroicons:arrow-top-right-on-square-20-solid" class="w-3 h-3 opacity-70" />
