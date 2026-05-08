@@ -29,17 +29,17 @@ const filteredProjects = computed(() => {
 
 <template>
   <div class="pt-24">
-    <section class="py-14 sm:py-20 bg-white">
+    <section class="py-14 sm:py-20 bg-white dark:bg-[#111]">
       <div class="section-container">
-        <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Projects</p>
-        <h1 class="text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3">프로젝트</h1>
-        <p class="text-sm text-surface-500 mb-8 max-w-xl leading-relaxed">
+        <p class="reveal text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3 dark:text-surface-500">Projects</p>
+        <h1 class="reveal rd-1 text-3xl sm:text-4xl font-display font-bold text-black tracking-tight mb-3 dark:text-white">프로젝트</h1>
+        <p class="reveal rd-2 text-sm text-surface-500 mb-8 max-w-xl leading-relaxed dark:text-surface-400">
           실무 제품과 개인 프로젝트를 함께 정리했습니다. 각 카드에서 기술 선택 이유와 아키텍처 상세를 확인할 수 있습니다.
         </p>
 
         <div
           v-if="projects?.length"
-          class="flex flex-wrap gap-2 mb-8"
+          class="flex flex-wrap gap-2 mb-8 reveal rd-3"
           role="tablist"
           aria-label="프로젝트 필터"
         >
@@ -51,8 +51,8 @@ const filteredProjects = computed(() => {
             :aria-selected="workFilter === opt.key"
             class="px-4 py-2 text-xs font-semibold rounded-[999px] transition-colors"
             :class="workFilter === opt.key
-              ? 'bg-black text-white'
-              : 'bg-brand-300 text-black hover:bg-brand-200'"
+              ? 'bg-black text-white dark:bg-white dark:text-black'
+              : 'bg-brand-300 text-black hover:bg-brand-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20'"
             @click="workFilter = opt.key"
           >
             {{ opt.label }}
@@ -63,6 +63,8 @@ const filteredProjects = computed(() => {
           <ProjectCard
             v-for="(project, idx) in filteredProjects"
             :key="project.path"
+            class="reveal"
+            :class="`rd-${(Number(idx) % 3) + 1}`"
             :title="project.title"
             :summary="project.summary ?? ''"
             :slug="projectRouteSlug(project)"
@@ -79,8 +81,8 @@ const filteredProjects = computed(() => {
         </div>
 
         <div v-else class="text-center py-16">
-          <Icon name="heroicons:folder-open-20-solid" class="w-12 h-12 text-surface-300 mx-auto mb-3" />
-          <p class="text-sm text-surface-500">해당하는 프로젝트가 없습니다.</p>
+          <Icon name="heroicons:folder-open-20-solid" class="w-12 h-12 text-surface-300 mx-auto mb-3 dark:text-surface-600" />
+          <p class="text-sm text-surface-500 dark:text-surface-400">해당하는 프로젝트가 없습니다.</p>
         </div>
       </div>
     </section>
