@@ -6,9 +6,13 @@
         <div>
           <p class="font-display font-bold text-xl text-white mb-2">이두현</p>
           <p class="text-sm text-surface-400 leading-relaxed max-w-xs">
-            TypeScript 기반 풀스택 개발자.<br/>
+            TypeScript 기반 풀스택 개발자.<br />
             어느 도메인이든 처음부터 끝까지 설계합니다.
           </p>
+          <div class="mt-4 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <span class="text-xs text-surface-500">구직 중 · 2026년 5월</span>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-8 text-sm">
@@ -45,10 +49,11 @@
         </div>
       </div>
 
-      <!-- 하단 구분선 -->
+      <!-- 하단 -->
       <div class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p class="text-xs text-surface-500">
           © 2026 이두현. Built with Nuxt 3 · Tailwind CSS · Nuxt Content.
+          <span class="ml-2 text-surface-600">마지막 업데이트: 2026년 5월</span>
         </p>
         <div class="flex items-center gap-4">
           <a

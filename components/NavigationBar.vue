@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const colorMode = useColorMode()
 const mobileOpen = ref(false)
 
 const links = [
@@ -14,18 +15,22 @@ function isActive(path: string) {
   return route.path === path || route.path.startsWith(`${path}/`)
 }
 
+function toggleColorMode() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
 watch(() => route.path, () => {
   mobileOpen.value = false
 })
 </script>
 
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 border-b border-surface-300/70 bg-white/95 backdrop-blur-xl">
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-surface-300/70 bg-white/95 backdrop-blur-xl dark:bg-[#0f0f0f]/95 dark:border-white/[8%] transition-colors">
     <nav class="section-container flex items-center justify-between h-16">
       <!-- 로고 -->
       <NuxtLink
         to="/"
-        class="font-display font-bold text-base tracking-tight text-black hover:opacity-70 transition-opacity"
+        class="font-display font-bold text-base tracking-tight text-black hover:opacity-70 transition-opacity dark:text-white"
       >
         이두현
       </NuxtLink>
@@ -38,24 +43,36 @@ watch(() => route.path, () => {
           :to="link.to"
           class="px-4 py-2 text-sm font-medium rounded-[999px] transition-colors"
           :class="isActive(link.to)
-            ? 'bg-black text-white'
-            : 'bg-brand-300 text-black hover:bg-brand-200'"
+            ? 'bg-black text-white dark:bg-white dark:text-black'
+            : 'bg-brand-300 text-black hover:bg-brand-200 dark:bg-white/[8%] dark:text-white dark:hover:bg-white/15'"
         >
           {{ link.label }}
         </NuxtLink>
       </div>
 
-      <!-- 이력서 CTA + 모바일 메뉴 -->
-      <div class="flex items-center gap-3">
+      <!-- 이력서 CTA + 다크모드 토글 + 모바일 메뉴 -->
+      <div class="flex items-center gap-2">
+        <!-- 다크 모드 토글 -->
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full text-surface-500 hover:bg-surface-200 hover:text-black transition-colors dark:text-surface-400 dark:hover:bg-white/10 dark:hover:text-white"
+          aria-label="테마 전환"
+          @click="toggleColorMode"
+        >
+          <Icon
+            :name="colorMode.value === 'dark' ? 'heroicons:sun-20-solid' : 'heroicons:moon-20-solid'"
+            class="w-4 h-4"
+          />
+        </button>
+
         <NuxtLink
           to="/resume"
-          class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors"
+          class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors dark:bg-white dark:text-black dark:hover:bg-surface-200"
         >
           이력서
         </NuxtLink>
 
         <button
-          class="md:hidden w-10 h-10 flex items-center justify-center rounded-[50%] text-black hover:bg-brand-300 transition-colors"
+          class="md:hidden w-10 h-10 flex items-center justify-center rounded-[50%] text-black hover:bg-brand-300 transition-colors dark:text-white dark:hover:bg-white/10"
           aria-label="메뉴"
           @click="mobileOpen = !mobileOpen"
         >
@@ -74,7 +91,7 @@ watch(() => route.path, () => {
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-1"
     >
-      <div v-if="mobileOpen" class="md:hidden border-t border-surface-300/70 bg-white">
+      <div v-if="mobileOpen" class="md:hidden border-t border-surface-300/70 bg-white dark:bg-[#0f0f0f] dark:border-white/[8%]">
         <div class="section-container py-4 flex flex-col gap-2">
           <NuxtLink
             v-for="link in links"
@@ -82,14 +99,14 @@ watch(() => route.path, () => {
             :to="link.to"
             class="px-4 py-2.5 rounded-[999px] text-sm font-medium transition-colors"
             :class="isActive(link.to)
-              ? 'bg-black text-white'
-              : 'bg-brand-300 text-black hover:bg-brand-200'"
+              ? 'bg-black text-white dark:bg-white dark:text-black'
+              : 'bg-brand-300 text-black hover:bg-brand-200 dark:bg-white/[8%] dark:text-white dark:hover:bg-white/15'"
           >
             {{ link.label }}
           </NuxtLink>
           <NuxtLink
             to="/resume"
-            class="px-4 py-2.5 rounded-[999px] text-sm font-semibold bg-black text-white text-center hover:bg-surface-800 transition-colors mt-1"
+            class="px-4 py-2.5 rounded-[999px] text-sm font-semibold bg-black text-white text-center hover:bg-surface-800 transition-colors mt-1 dark:bg-white dark:text-black dark:hover:bg-surface-200"
           >
             이력서
           </NuxtLink>
