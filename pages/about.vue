@@ -110,76 +110,156 @@ const filteredExperiences = computed(() => {
   if (activeCategory.value === 'all') return experiences
   return experiences.filter(exp => exp.type === activeCategory.value)
 })
+
+const photoError = ref(false)
+const profileSrc = '/images/profile.jpg'
 </script>
 
 <template>
   <div class="pt-24">
 
     <!-- ── Hero ──────────────────────────────────────────── -->
-    <section class="py-14 sm:py-20 bg-white">
+    <section class="py-14 sm:py-20 bg-white dark:bg-[#111]">
       <div class="section-container">
         <div class="max-w-3xl">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4">About Me</p>
-          <h1 class="text-3xl sm:text-4xl font-display font-bold text-black leading-tight tracking-tight mb-5">
-            문제를 먼저 정의하고<br/>
-            끝까지 해결합니다.
-          </h1>
-          <div class="space-y-4 text-sm sm:text-base text-surface-600 leading-relaxed">
+          <p class="reveal text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4 dark:text-surface-500">About Me</p>
+
+          <!-- 프로필 + 텍스트 -->
+          <div class="flex flex-col sm:flex-row gap-6 sm:gap-10 items-start mb-8">
+            <!-- 프로필 사진 -->
+            <div class="flex-shrink-0 reveal">
+              <div class="w-24 h-24 rounded-full overflow-hidden ring-2 ring-surface-200 dark:ring-white/10">
+                <img
+                  v-if="!photoError"
+                  :src="profileSrc"
+                  alt="이두현 프로필 사진"
+                  class="w-full h-full object-cover"
+                  @error="photoError = true"
+                />
+                <div
+                  v-else
+                  class="w-full h-full bg-black dark:bg-white flex items-center justify-center"
+                >
+                  <span class="text-white dark:text-black font-bold text-xl font-display select-none">이두</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="reveal rd-1">
+              <h1 class="text-3xl sm:text-4xl font-display font-bold text-black leading-tight tracking-tight mb-3 dark:text-white">
+                문제를 먼저 정의하고<br />
+                끝까지 해결합니다.
+              </h1>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-200">경력 3년 1개월</span>
+                <span class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-200">인피닉(Infiniq) 재직 중</span>
+                <span class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-200">풀스택 · AI 파이프라인</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal rd-2 space-y-4 text-sm sm:text-base text-surface-600 leading-relaxed dark:text-surface-400">
             <p>
-              기능 요구사항을 받아도 <strong class="text-black">"왜 이게 필요한가"를 먼저 묻습니다.</strong>
+              기능 요구사항을 받아도 <strong class="text-black dark:text-white">"왜 이게 필요한가"를 먼저 묻습니다.</strong>
               증상이 아닌 Root Cause를 찾을 때까지 파고드는 방식으로
               3년간 AI 파이프라인 · 대규모 지도 UI · 분산 시스템을 설계해왔습니다.
             </p>
             <p>
-              <strong class="text-black">TypeScript를 공통 기반으로 Vue 3 · Nuxt와 React 19 · Next.js</strong> 프론트엔드,
-              <strong class="text-black">Spring Boot 3 · Spring Cloud</strong> 백엔드, Python AI 파이프라인까지
-              <strong class="text-black">End-to-End로 혼자 설계·구현·배포</strong>한 경험이 있습니다.
+              <strong class="text-black dark:text-white">TypeScript를 공통 기반으로 Vue 3 · Nuxt와 React 19 · Next.js</strong> 프론트엔드,
+              <strong class="text-black dark:text-white">Spring Boot 3 · Spring Cloud</strong> 백엔드, Python AI 파이프라인까지
+              <strong class="text-black dark:text-white">End-to-End로 혼자 설계·구현·배포</strong>한 경험이 있습니다.
             </p>
             <p>
               AI는 보조 도구가 아닌 제품의 핵심 로직으로 씁니다. YOLOv8 · Stable Diffusion 추론을 서비스에 연결하고,
-              개발 과정에서 <strong class="text-black">Claude Code · Cursor 기반 에이전트 워크플로우</strong>로 탐색·리팩터링을 자동화합니다.
-              아키텍처 변경은 다이어그램과 문서로 팀에 먼저 공유하고, 기술적 제약도 숨기지 않고 함께 풀어나갑니다.
+              개발 과정에서 <strong class="text-black dark:text-white">Claude Code · Cursor 기반 에이전트 워크플로우</strong>로 탐색·리팩터링을 자동화합니다.
             </p>
+          </div>
+
+          <!-- Currently -->
+          <div class="reveal rd-3 mt-8 p-5 rounded-[12px] border border-surface-300 bg-surface-50 dark:bg-white/5 dark:border-white/10">
+            <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-3 dark:text-surface-500">Currently</p>
+            <ul class="space-y-2 text-sm text-surface-700 dark:text-surface-300">
+              <li class="flex items-center gap-2">
+                <span class="text-base">📚</span>
+                <span>읽는 중: <em class="not-italic font-medium">Designing Data-Intensive Applications</em></span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-base">🔨</span>
+                <span>만드는 중: e-commerce MSA Blue/Green 배포 자동화</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-base">🎯</span>
+                <span>목표: Kubernetes CKA 자격증 취득</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ── 핵심 강점 ──────────────────────────────────────── -->
-    <section class="py-14 sm:py-20 bg-surface-100">
+    <!-- ── GitHub 기여 ──────────────────────────────────── -->
+    <section class="py-10 bg-surface-100 dark:bg-[#0f0f0f] border-t border-surface-300 dark:border-white/[8%]">
       <div class="section-container">
-        <h2 class="text-xl font-bold text-black mb-8 tracking-tight">핵심 강점</h2>
+        <div class="reveal">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4 dark:text-surface-500">GitHub Activity</p>
+          <div class="overflow-x-auto">
+            <img
+              src="https://ghchart.rshah.org/eatdu0918"
+              alt="GitHub contribution chart"
+              class="h-28 w-auto max-w-full dark:invert dark:opacity-70"
+              loading="lazy"
+            />
+          </div>
+          <a
+            href="https://github.com/eatdu0918"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 mt-3 text-xs text-surface-500 hover:text-black transition-colors dark:hover:text-white"
+          >
+            <Icon name="mdi:github" class="w-4 h-4" />
+            github.com/eatdu0918
+            <Icon name="heroicons:arrow-top-right-on-square-20-solid" class="w-3 h-3" />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 핵심 강점 ──────────────────────────────────────── -->
+    <section class="py-14 sm:py-20 bg-white dark:bg-[#111]">
+      <div class="section-container">
+        <h2 class="reveal text-xl font-bold text-black mb-8 tracking-tight dark:text-white">핵심 강점</h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div
-            v-for="s in strengths"
+            v-for="(s, i) in strengths"
             :key="s.title"
-            class="card-base p-5"
+            class="card-base p-5 reveal"
+            :class="`rd-${(i % 3) + 1}`"
           >
-            <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center mb-3">
-              <Icon :name="s.icon" class="w-4 h-4 text-white" />
+            <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center mb-3 dark:bg-white">
+              <Icon :name="s.icon" class="w-4 h-4 text-white dark:text-black" />
             </div>
-            <h3 class="text-sm font-bold text-black mb-1.5">{{ s.title }}</h3>
-            <p class="text-xs text-surface-500 leading-relaxed">{{ s.description }}</p>
+            <h3 class="text-sm font-bold text-black mb-1.5 dark:text-white">{{ s.title }}</h3>
+            <p class="text-xs text-surface-500 leading-relaxed dark:text-surface-400">{{ s.description }}</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ── 경력 타임라인 ──────────────────────────────────── -->
-    <section class="py-14 sm:py-20 bg-white">
+    <section class="py-14 sm:py-20 bg-surface-100 dark:bg-[#1a1a1a]">
       <div class="section-container">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h2 class="text-xl font-bold text-black tracking-tight">경력 · 프로젝트</h2>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 reveal">
+          <h2 class="text-xl font-bold text-black tracking-tight dark:text-white">경력 · 프로젝트</h2>
 
-          <div class="flex bg-surface-200 p-1 rounded-[999px] w-fit gap-1">
+          <div class="flex bg-surface-200 p-1 rounded-[999px] w-fit gap-1 dark:bg-white/[8%]">
             <button
               v-for="cat in categories"
               :key="cat.id"
               class="px-4 py-1.5 text-xs font-semibold rounded-[999px] transition-all whitespace-nowrap"
               :class="[
                 activeCategory === cat.id
-                  ? 'bg-black text-white'
-                  : 'text-surface-600 hover:text-black'
+                  ? 'bg-black text-white dark:bg-white dark:text-black'
+                  : 'text-surface-600 hover:text-black dark:text-surface-400 dark:hover:text-white'
               ]"
               @click="activeCategory = cat.id"
             >
@@ -192,24 +272,24 @@ const filteredExperiences = computed(() => {
           <div
             v-for="exp in filteredExperiences"
             :key="exp.period + exp.project"
-            class="card-base p-5 sm:p-6"
+            class="card-base p-5 sm:p-6 reveal"
           >
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 mb-3">
               <div>
                 <div class="flex items-center gap-2 mb-1">
                   <span
                     class="text-[10px] px-2.5 py-0.5 rounded-[999px] font-bold"
-                    :class="exp.type === 'work' ? 'bg-black text-white' : 'bg-brand-300 text-black'"
+                    :class="exp.type === 'work' ? 'bg-black text-white dark:bg-white dark:text-black' : 'bg-brand-300 text-black dark:bg-white/10 dark:text-surface-300'"
                   >
                     {{ exp.type === 'work' ? '실무' : '개인' }}
                   </span>
-                  <h3 class="text-sm font-bold text-black">{{ exp.role }}</h3>
+                  <h3 class="text-sm font-bold text-black dark:text-white">{{ exp.role }}</h3>
                 </div>
-                <p class="text-xs text-surface-500 font-medium">{{ exp.company }} · {{ exp.project }}</p>
+                <p class="text-xs text-surface-500 font-medium dark:text-surface-400">{{ exp.company }} · {{ exp.project }}</p>
               </div>
-              <span class="text-xs text-surface-400 whitespace-nowrap font-mono">{{ exp.period }}</span>
+              <span class="text-xs text-surface-400 whitespace-nowrap font-mono dark:text-surface-500">{{ exp.period }}</span>
             </div>
-            <p class="text-sm text-surface-600 leading-relaxed mb-3">{{ exp.description }}</p>
+            <p class="text-sm text-surface-600 leading-relaxed mb-3 dark:text-surface-400">{{ exp.description }}</p>
             <div class="flex flex-wrap gap-1.5">
               <TechBadge v-for="tech in exp.techs" :key="tech" :label="tech" size="sm" />
             </div>
@@ -221,7 +301,7 @@ const filteredExperiences = computed(() => {
     <!-- ── CTA ───────────────────────────────────────────── -->
     <section class="py-14 sm:py-20 bg-black">
       <div class="section-container">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 reveal">
           <div>
             <h2 class="text-xl font-bold text-white mb-1">프로젝트 더 보기</h2>
             <p class="text-sm text-surface-400">각 프로젝트의 기술 선택 이유와 아키텍처를 상세히 정리했습니다.</p>

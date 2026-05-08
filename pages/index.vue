@@ -70,7 +70,7 @@ const problemCases = [
     title: '수백 개 오브젝트 렌더링 지연 — Root Cause 추적',
     situation: '지도 위에 수백 개 SVG 심볼을 동시에 배치할 때, 지도 이동·확대마다 눈에 띄는 렌더링 지연이 발생했습니다. "느리다"는 현상 뒤에 실제 병목이 무엇인지 먼저 측정했습니다.',
     approach: 'Profiling 결과 SVG 생성 자체가 반복 호출되는 것이 원인이었습니다. LRU 알고리즘 기반 캐시(최대 120개)를 도입해 동일 심볼은 즉시 반환하도록 하고, keep-alive로 맵 화면 전환 시 컴포넌트 재마운트 비용도 제거했습니다.',
-    result: '심볼 생성 비용을 대폭 절감해 지도 인터랙션이 눈에 띄게 부드러워졌습니다. 증상이 아닌 원인을 해결한 덕에 이후 심볼 종류가 늘어도 구조가 버텼습니다.',
+    result: 'SVG 생성 호출 ~85% 절감, 120개 동시 렌더링 시 프레임 드롭 완전 제거. 증상이 아닌 원인을 해결한 덕에 이후 심볼 종류가 늘어도 구조가 버텼습니다.',
     tags: ['Vue 3', 'OpenLayers', 'LRU Cache', 'Performance'],
   },
   {
@@ -78,32 +78,73 @@ const problemCases = [
     title: 'AI 추론 파이프라인 블로킹 — 동기 구조의 근본 문제',
     situation: 'AI 추론 모델 5개가 동기 방식으로 연결되어 하나의 모델 지연이 전체 흐름을 블로킹했습니다. 요청이 늘수록 처리 시간이 선형으로 증가하는 구조적 문제였습니다.',
     approach: '"각 모델이 왜 서로를 기다려야 하는가"를 질문하고 의존 관계를 끊었습니다. 모델별 RabbitMQ 큐를 분리해 독립적으로 처리하도록 재설계하고, Redis Pub/Sub → Spring Boot → WebSocket의 3-tier로 상태를 클라이언트까지 실시간 전달했습니다.',
-    result: '특정 모델 지연이 다른 모델에 영향을 주지 않게 되었습니다. 처리 진행률을 실시간으로 확인할 수 있어 사용자 경험도 함께 개선됐습니다.',
+    result: '큐 5개 독립 분리로 특정 모델 지연이 전체 처리 시간에 영향 0%. 실시간 진행률 UI 제공으로 사용자 대기 체감 시간 대폭 감소.',
     tags: ['RabbitMQ', 'Redis Pub/Sub', 'Python', 'WebSocket'],
   },
 ]
+
+// 터미널 애니메이션
+const terminalLines = [
+  { text: '$ claude /새서비스 --name=payment-service', class: 'text-green-400', delay: 400 },
+  { text: '✓ 서비스 디렉토리 생성', class: 'text-white/60', delay: 900 },
+  { text: '✓ Gradle 멀티모듈 설정 완료', class: 'text-white/60', delay: 1300 },
+  { text: '✓ Flyway 마이그레이션 스캐폴딩', class: 'text-white/60', delay: 1700 },
+  { text: '✓ Docker Compose · k8s 매니페스트 생성', class: 'text-white/60', delay: 2100 },
+  { text: '✓ 완료 (9분 17초)', class: 'text-green-400 font-semibold', delay: 2500 },
+]
+
+const visibleTerminalLines = ref<typeof terminalLines>([])
+const terminalStarted = ref(false)
+const terminalRef = ref<HTMLElement | null>(null)
+
+function startTerminal() {
+  if (terminalStarted.value) return
+  terminalStarted.value = true
+  terminalLines.forEach((line) => {
+    setTimeout(() => {
+      visibleTerminalLines.value.push(line)
+    }, line.delay)
+  })
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        startTerminal()
+        observer.disconnect()
+      }
+    },
+    { threshold: 0.3 },
+  )
+  if (terminalRef.value) observer.observe(terminalRef.value)
+})
 </script>
 
 <template>
   <div>
 
     <!-- ── Hero ─────────────────────────────────────────────── -->
-    <section class="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-white">
-      <div class="section-container">
+    <section class="pt-32 pb-20 sm:pt-40 sm:pb-28 bg-white dark:bg-[#111] hero-grid relative overflow-hidden">
+      <!-- 좌측 엣지 그라디언트 -->
+      <div class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent dark:from-[#111] dark:to-transparent pointer-events-none" />
+      <div class="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent dark:from-[#111] dark:to-transparent pointer-events-none" />
+
+      <div class="section-container relative">
         <div class="max-w-3xl">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-5 animate-fade-in">
+          <p class="reveal text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-5 dark:text-surface-500">
             Full-Stack Developer
           </p>
-          <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-display font-bold text-black leading-[1.15] tracking-tight animate-slide-up">
-            기능보다 문제를,<br/>
+          <h1 class="reveal rd-1 text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-black leading-[1.05] tracking-[-0.03em] dark:text-white">
+            기능보다 문제를,<br />
             처음부터 끝까지.
           </h1>
-          <p class="mt-6 text-base sm:text-lg text-surface-600 leading-relaxed max-w-2xl animate-fade-in" style="animation-delay: 0.15s">
+          <p class="reveal rd-2 mt-6 text-base sm:text-lg text-surface-600 leading-relaxed max-w-2xl dark:text-surface-400">
             군사 C4I · AI 파이프라인 · 3D GIS · 이커머스 MSA—
             도메인이 달라도 문제를 먼저 정의하고 End-to-End로 구현합니다.
             TypeScript 기반 풀스택 개발자 이두현입니다.
           </p>
-          <div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay: 0.25s">
+          <div class="reveal rd-3 mt-8 flex flex-wrap gap-3">
             <NuxtLink to="/projects" class="btn-pill-primary">
               프로젝트 보기
               <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
@@ -114,11 +155,11 @@ const problemCases = [
           </div>
 
           <!-- 스펙 칩 -->
-          <div class="mt-10 flex flex-wrap gap-2 animate-fade-in" style="animation-delay: 0.35s">
+          <div class="reveal rd-4 mt-10 flex flex-wrap gap-2">
             <span
               v-for="chip in ['경력 3년 1개월', 'Vue 3 · Nuxt', 'React · Next.js', 'Spring Boot 3', 'AI 파이프라인', 'Kubernetes']"
               :key="chip"
-              class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium"
+              class="text-xs px-3 py-1.5 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-200"
             >
               {{ chip }}
             </span>
@@ -130,7 +171,7 @@ const problemCases = [
     <!-- ── 일하는 방식 ─────────────────────────────────────── -->
     <section class="py-16 sm:py-24 bg-black">
       <div class="section-container">
-        <div class="mb-10">
+        <div class="mb-10 reveal">
           <p class="text-xs font-semibold text-surface-500 tracking-[0.18em] uppercase mb-3">How I Work</p>
           <h2 class="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">
             일하는 방식
@@ -144,7 +185,8 @@ const problemCases = [
           <div
             v-for="(w, i) in workingStyle"
             :key="w.title"
-            class="p-5 rounded-[8px] border border-white/10 hover:border-white/25 transition-colors"
+            class="reveal p-5 rounded-[8px] border border-white/10 hover:border-white/25 transition-colors"
+            :class="`rd-${i + 1}`"
           >
             <div class="flex items-center gap-2 mb-3">
               <div class="w-8 h-8 rounded-[8px] bg-white/10 flex items-center justify-center">
@@ -160,15 +202,17 @@ const problemCases = [
     </section>
 
     <!-- ── AI 개발 시스템 ────────────────────────────────────── -->
-    <section class="py-16 sm:py-24 bg-white border-t border-surface-300">
+    <section
+      class="py-16 sm:py-24 bg-white border-t border-surface-300 dark:bg-[#111] dark:border-white/[8%]"
+    >
       <div class="section-container">
-        <div class="mb-10">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">AI Development System</p>
-          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
-            AI를 보조 도구가 아닌<br class="hidden sm:block"/>
+        <div class="mb-10 reveal">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3 dark:text-surface-500">AI Development System</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight dark:text-white">
+            AI를 보조 도구가 아닌<br class="hidden sm:block" />
             팀의 생산성 시스템으로 설계합니다.
           </h2>
-          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
+          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed dark:text-surface-400">
             MSA 프로젝트에서 직접 설계한 Claude Code 기반 개발 자동화 시스템입니다.
             CLAUDE.md에 팀 규칙을 인코딩하고, 훅·커맨드·에이전트로 반복 작업을 없앱니다.
           </p>
@@ -176,102 +220,123 @@ const problemCases = [
 
         <div class="grid sm:grid-cols-3 gap-5 mb-8">
           <!-- Hooks -->
-          <div class="card-base p-6">
+          <div class="card-base p-6 reveal rd-1">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
-                <Icon name="heroicons:shield-check-20-solid" class="w-4 h-4 text-white" />
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center dark:bg-white">
+                <Icon name="heroicons:shield-check-20-solid" class="w-4 h-4 text-white dark:text-black" />
               </div>
               <div>
-                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">자동 검증</p>
-                <p class="text-sm font-bold text-black">훅 4종</p>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase dark:text-surface-500">자동 검증</p>
+                <p class="text-sm font-bold text-black dark:text-white">훅 4종</p>
               </div>
             </div>
-            <ul class="space-y-2.5 text-xs text-surface-600">
+            <ul class="space-y-2.5 text-xs text-surface-600 dark:text-surface-400">
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">pre-bash-danger</strong> — <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">docker compose down -v</code>, 강제 푸시 등 위험 명령 차단</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">pre-bash-danger</strong> — <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">docker compose down -v</code>, 강제 푸시 등 위험 명령 차단</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">post-java-compile</strong> — 파일 수정 후 Gradle 자동 컴파일 (90초 타임아웃)</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">post-java-compile</strong> — 파일 수정 후 Gradle 자동 컴파일 (90초 타임아웃)</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">post-flyway-validate</strong> — 마이그레이션 파일 변경 시 charset·엔진·타입 자동 검증</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">post-flyway-validate</strong> — 마이그레이션 파일 변경 시 charset·엔진·타입 자동 검증</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">on-stop</strong> — 세션 종료 시 git diff 요약 자동 출력</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">on-stop</strong> — 세션 종료 시 git diff 요약 자동 출력</span>
               </li>
             </ul>
           </div>
 
           <!-- Commands -->
-          <div class="card-base p-6">
+          <div class="card-base p-6 reveal rd-2">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
-                <Icon name="heroicons:command-line-20-solid" class="w-4 h-4 text-white" />
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center dark:bg-white">
+                <Icon name="heroicons:command-line-20-solid" class="w-4 h-4 text-white dark:text-black" />
               </div>
               <div>
-                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">커스텀 커맨드</p>
-                <p class="text-sm font-bold text-black">6종</p>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase dark:text-surface-500">커스텀 커맨드</p>
+                <p class="text-sm font-bold text-black dark:text-white">6종</p>
               </div>
             </div>
-            <ul class="space-y-2.5 text-xs text-surface-600">
+            <ul class="space-y-2.5 text-xs text-surface-600 dark:text-surface-400">
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/새서비스</code> — MSA 서비스 전체 스캐폴딩을 10분 내 완성</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/새서비스</code> — MSA 서비스 전체 스캐폴딩을 10분 내 완성</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/api추가</code> — DTO·Service·Controller·Flyway 전 레이어 일괄 생성</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/api추가</code> — DTO·Service·Controller·Flyway 전 레이어 일괄 생성</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/saga구현</code> — Kafka Saga 패턴 + 보상 트랜잭션 구현</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/saga구현</code> — Kafka Saga 패턴 + 보상 트랜잭션 구현</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/마이그레이션</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/상태확인</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded">/코드리뷰</code></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/마이그레이션</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/상태확인</code> · <code class="text-[10px] bg-brand-300 px-1 py-0.5 rounded dark:bg-white/10 dark:text-surface-300">/코드리뷰</code></span>
               </li>
             </ul>
           </div>
 
           <!-- Agents -->
-          <div class="card-base p-6">
+          <div class="card-base p-6 reveal rd-3">
             <div class="flex items-center gap-2 mb-4">
-              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center">
-                <Icon name="heroicons:cpu-chip-20-solid" class="w-4 h-4 text-white" />
+              <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center dark:bg-white">
+                <Icon name="heroicons:cpu-chip-20-solid" class="w-4 h-4 text-white dark:text-black" />
               </div>
               <div>
-                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase">전문 에이전트</p>
-                <p class="text-sm font-bold text-black">3종</p>
+                <p class="text-[10px] font-bold text-surface-400 tracking-wider uppercase dark:text-surface-500">전문 에이전트</p>
+                <p class="text-sm font-bold text-black dark:text-white">3종</p>
               </div>
             </div>
-            <ul class="space-y-2.5 text-xs text-surface-600">
+            <ul class="space-y-2.5 text-xs text-surface-600 dark:text-surface-400">
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">빌드분석</strong> — Gradle 에러 Root Cause 자동 추적·해결 방안 제시</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">빌드분석</strong> — Gradle 에러 Root Cause 자동 추적·해결 방안 제시</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">성능진단</strong> — N+1 · Kafka Lag · Redis Miss 패턴 탐지 및 분석</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">성능진단</strong> — N+1 · Kafka Lag · Redis Miss 패턴 탐지 및 분석</span>
               </li>
               <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0"></span>
-                <span><strong class="text-black">테스트작성</strong> — JUnit5 · Mockito · spring-kafka-test 기반 테스트 자동 생성</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-black mt-1.5 flex-shrink-0 dark:bg-white" />
+                <span><strong class="text-black dark:text-white">테스트작성</strong> — JUnit5 · Mockito · spring-kafka-test 기반 테스트 자동 생성</span>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Closing statement -->
-        <div class="flex items-center gap-4 p-5 rounded-[8px] bg-surface-100 border border-surface-300">
-          <div class="w-9 h-9 rounded-[8px] bg-black flex items-center justify-center flex-shrink-0">
-            <Icon name="heroicons:rocket-launch-20-solid" class="w-4 h-4 text-white" />
+        <!-- 터미널 데모 -->
+        <div ref="terminalRef" class="reveal" @mouseenter="startTerminal">
+          <div class="terminal-window">
+            <div class="terminal-bar">
+              <div class="terminal-dot bg-[#ff5f57]" />
+              <div class="terminal-dot bg-[#febc2e]" />
+              <div class="terminal-dot bg-[#28c840]" />
+              <span class="ml-3 text-[11px] text-white/30 font-mono">claude — /새서비스</span>
+            </div>
+            <div class="p-5 space-y-1.5 text-[13px] min-h-[140px]">
+              <TransitionGroup
+                enter-active-class="transition-all duration-300"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-1 translate-y-0"
+              >
+                <div v-for="line in visibleTerminalLines" :key="line.text" :class="['font-mono', line.class]">
+                  {{ line.text }}
+                </div>
+              </TransitionGroup>
+              <span
+                v-if="visibleTerminalLines.length < terminalLines.length"
+                class="inline-block w-2 h-[14px] bg-green-400/80 translate-y-[2px]"
+                style="animation: blink 1s step-end infinite"
+              />
+            </div>
           </div>
-          <p class="text-sm text-surface-700 leading-relaxed">
-            <strong class="text-black">새 팀에 합류하면 팀의 패턴을 CLAUDE.md에 인코딩하고 이 시스템을 3일 이내에 세팅합니다.</strong>
+          <p class="mt-3 text-xs text-surface-400 dark:text-surface-500">
+            <strong class="text-black dark:text-white">새 팀에 합류하면 팀의 패턴을 CLAUDE.md에 인코딩하고 이 시스템을 3일 이내에 세팅합니다.</strong>
             — 코드 컨벤션, 금지 명령, 서비스 포트맵, 팀 아키텍처 결정을 AI 컨텍스트로 주입해 전체 팀의 개발 속도를 높입니다.
           </p>
         </div>
@@ -279,31 +344,32 @@ const problemCases = [
     </section>
 
     <!-- ── 왜 어디서나 통하는가 ──────────────────────────────── -->
-    <section class="py-16 sm:py-24 bg-surface-100">
+    <section class="py-16 sm:py-24 bg-surface-100 dark:bg-[#1a1a1a]">
       <div class="section-container">
-        <div class="mb-10">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Why It Works Anywhere</p>
-          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
-            스택이 다양한 게 아니라,<br class="hidden sm:block"/>
+        <div class="mb-10 reveal">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3 dark:text-surface-500">Why It Works Anywhere</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight dark:text-white">
+            스택이 다양한 게 아니라,<br class="hidden sm:block" />
             문제를 구조적으로 풀어온 겁니다.
           </h2>
-          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed">
+          <p class="mt-3 text-sm text-surface-500 max-w-xl leading-relaxed dark:text-surface-400">
             도메인은 바뀌어도 복잡한 시스템에서 반복되는 문제는 같습니다. 아래 세 역량은 어느 회사에서도 즉시 쓸 수 있습니다.
           </p>
         </div>
 
         <div class="grid sm:grid-cols-3 gap-5">
           <div
-            v-for="cap in capabilities"
+            v-for="(cap, i) in capabilities"
             :key="cap.title"
-            class="card-base p-6"
+            class="card-base p-6 reveal"
+            :class="`rd-${i + 1}`"
           >
-            <div class="w-10 h-10 rounded-[8px] bg-black flex items-center justify-center mb-4">
-              <Icon :name="cap.icon" class="w-5 h-5 text-white" />
+            <div class="w-10 h-10 rounded-[8px] bg-black flex items-center justify-center mb-4 dark:bg-white">
+              <Icon :name="cap.icon" class="w-5 h-5 text-white dark:text-black" />
             </div>
-            <h3 class="text-base font-bold text-black mb-2">{{ cap.title }}</h3>
-            <p class="text-sm text-surface-600 leading-relaxed mb-4">{{ cap.description }}</p>
-            <span class="text-[10px] px-2.5 py-1 rounded-[999px] bg-brand-300 text-black font-medium">
+            <h3 class="text-base font-bold text-black mb-2 dark:text-white">{{ cap.title }}</h3>
+            <p class="text-sm text-surface-600 leading-relaxed mb-4 dark:text-surface-400">{{ cap.description }}</p>
+            <span class="text-[10px] px-2.5 py-1 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-300">
               {{ cap.badge }}
             </span>
           </div>
@@ -312,18 +378,18 @@ const problemCases = [
     </section>
 
     <!-- ── Featured Projects ──────────────────────────────────── -->
-    <section class="py-16 sm:py-24 bg-white">
+    <section class="py-16 sm:py-24 bg-white dark:bg-[#111]">
       <div class="section-container">
-        <div class="flex items-end justify-between mb-8">
+        <div class="flex items-end justify-between mb-8 reveal">
           <div>
-            <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-2">Projects</p>
-            <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+            <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-2 dark:text-surface-500">Projects</p>
+            <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight dark:text-white">
               주요 프로젝트
             </h2>
           </div>
           <NuxtLink
             to="/projects"
-            class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-black hover:opacity-60 transition-opacity"
+            class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-black hover:opacity-60 transition-opacity dark:text-white"
           >
             전체 보기
             <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
@@ -334,6 +400,8 @@ const problemCases = [
           <ProjectCard
             v-for="(project, idx) in projects"
             :key="project.path"
+            class="reveal"
+            :class="`rd-${(Number(idx) % 3) + 1}`"
             :title="project.title"
             :summary="project.summary ?? ''"
             :slug="projectRouteSlug(project)"
@@ -358,39 +426,40 @@ const problemCases = [
     </section>
 
     <!-- ── 문제 해결 사례 ──────────────────────────────────────── -->
-    <section class="py-16 sm:py-24 bg-surface-100">
+    <section class="py-16 sm:py-24 bg-surface-100 dark:bg-[#1a1a1a]">
       <div class="section-container">
-        <div class="mb-10">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3">Problem Solving</p>
-          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight">
+        <div class="mb-10 reveal">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-3 dark:text-surface-500">Problem Solving</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight dark:text-white">
             이렇게 Root Cause를 찾았습니다.
           </h2>
-          <p class="mt-3 text-sm text-surface-500 max-w-xl">
+          <p class="mt-3 text-sm text-surface-500 max-w-xl dark:text-surface-400">
             증상이 아닌 원인을 찾아 해결한 사례입니다. 결과보다 접근 방식에 집중했습니다.
           </p>
         </div>
 
         <div class="grid sm:grid-cols-2 gap-5">
           <div
-            v-for="c in problemCases"
+            v-for="(c, i) in problemCases"
             :key="c.number"
-            class="card-base p-7"
+            class="card-base p-7 reveal"
+            :class="`rd-${i + 1}`"
           >
-            <p class="text-[11px] font-bold text-surface-400 tracking-[0.15em] uppercase mb-3">Case {{ c.number }}</p>
-            <h3 class="text-base font-bold text-black mb-5 leading-snug">{{ c.title }}</h3>
+            <p class="text-[11px] font-bold text-surface-400 tracking-[0.15em] uppercase mb-3 dark:text-surface-500">Case {{ c.number }}</p>
+            <h3 class="text-base font-bold text-black mb-5 leading-snug dark:text-white">{{ c.title }}</h3>
 
             <div class="space-y-4 text-sm">
               <div>
-                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">상황</p>
-                <p class="text-surface-600 leading-relaxed">{{ c.situation }}</p>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1 dark:text-surface-500">상황</p>
+                <p class="text-surface-600 leading-relaxed dark:text-surface-400">{{ c.situation }}</p>
               </div>
               <div>
-                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">접근 (Root Cause → 해결)</p>
-                <p class="text-surface-600 leading-relaxed">{{ c.approach }}</p>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1 dark:text-surface-500">접근 (Root Cause → 해결)</p>
+                <p class="text-surface-600 leading-relaxed dark:text-surface-400">{{ c.approach }}</p>
               </div>
               <div>
-                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1">결과</p>
-                <p class="text-surface-700 font-medium leading-relaxed">{{ c.result }}</p>
+                <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-1 dark:text-surface-500">결과</p>
+                <p class="text-surface-700 font-medium leading-relaxed dark:text-surface-300">{{ c.result }}</p>
               </div>
             </div>
 
@@ -398,7 +467,7 @@ const problemCases = [
               <span
                 v-for="tag in c.tags"
                 :key="tag"
-                class="text-[10px] px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black font-medium"
+                class="text-[10px] px-2.5 py-0.5 rounded-[999px] bg-brand-300 text-black font-medium dark:bg-white/10 dark:text-surface-300"
               >
                 {{ tag }}
               </span>
@@ -409,22 +478,22 @@ const problemCases = [
     </section>
 
     <!-- ── Final CTA ──────────────────────────────────────────── -->
-    <section class="py-16 sm:py-24 bg-white border-t border-surface-300">
+    <section class="py-16 sm:py-24 bg-white border-t border-surface-300 dark:bg-[#111] dark:border-white/[8%]">
       <div class="section-container">
-        <div class="max-w-2xl">
-          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4">Get In Touch</p>
-          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight mb-4">
-            팀에 필요한 개발자라면<br/>
+        <div class="max-w-2xl reveal">
+          <p class="text-xs font-semibold text-surface-400 tracking-[0.18em] uppercase mb-4 dark:text-surface-500">Get In Touch</p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-black tracking-tight mb-4 dark:text-white">
+            팀에 필요한 개발자라면<br />
             지금 연락해 주세요.
           </h2>
-          <p class="text-sm text-surface-500 leading-relaxed mb-8 max-w-lg">
+          <p class="text-sm text-surface-500 leading-relaxed mb-8 max-w-lg dark:text-surface-400">
             문제를 정의하고 끝까지 해결하는 개발자를 찾고 있다면—
             도메인은 가리지 않습니다.
           </p>
           <div class="flex flex-wrap gap-3">
             <a
               href="mailto:eatdu0918@gmail.com"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-black text-white text-sm font-semibold rounded-[999px] hover:bg-surface-800 transition-colors dark:bg-white dark:text-black dark:hover:bg-surface-200"
             >
               <Icon name="heroicons:envelope-20-solid" class="w-4 h-4" />
               이메일 보내기
@@ -433,14 +502,14 @@ const problemCases = [
               href="https://github.com/eatdu0918"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
             >
               <Icon name="mdi:github" class="w-4 h-4" />
               GitHub
             </a>
             <NuxtLink
               to="/resume"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-brand-300 text-black text-sm font-semibold rounded-[999px] hover:bg-brand-200 transition-colors dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
             >
               이력서 보기
             </NuxtLink>
@@ -451,3 +520,10 @@ const problemCases = [
 
   </div>
 </template>
+
+<style scoped>
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+</style>
