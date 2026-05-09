@@ -4,9 +4,9 @@ const colorMode = useColorMode()
 const mobileOpen = ref(false)
 
 const links = [
-  { to: '/projects', label: '프로젝트' },
-  { to: '/skills', label: '기술 스택' },
   { to: '/about', label: '소개' },
+  { to: '/skills', label: '기술 스택' },
+  { to: '/projects', label: '프로젝트' },
   { to: '/contact', label: '연락처' },
 ]
 
