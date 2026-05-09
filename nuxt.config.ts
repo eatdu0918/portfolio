@@ -2,6 +2,13 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
 
+  runtimeConfig: {
+    public: {
+      // 배포 시 .env에 NUXT_PUBLIC_SITE_URL=https://your-domain.com 설정
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || '',
+    },
+  },
+
   // Windows에서 fs.watch EPERM 회피 (백신·동기화 폴더 등)
   vite: {
     server: {
@@ -54,6 +61,7 @@ export default defineNuxtConfig({
         { property: 'og:title', content: 'Portfolio | Full-Stack — Vue/Spring & Next.js/MSA' },
         { property: 'og:description', content: 'Vue·Spring·Python 풀스택, OpenLayers/Cesium GIS, AI 파이프라인 — 개인: Next.js 블로그(unified·Sandpack), e-commerce MSA' },
         { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
