@@ -176,7 +176,7 @@ const profileSrc = '/images/profile.jpg'
           </div>
 
           <!-- Currently -->
-          <div class="reveal rd-3 mt-8 p-5 rounded-[12px] border border-surface-300 bg-surface-50 dark:bg-white/5 dark:border-white/10">
+          <!-- <div class="reveal rd-3 mt-8 p-5 rounded-[12px] border border-surface-300 bg-surface-50 dark:bg-white/5 dark:border-white/10">
             <p class="text-[10px] font-bold text-surface-400 uppercase tracking-wider mb-3 dark:text-surface-500">Currently</p>
             <ul class="space-y-2 text-sm text-surface-700 dark:text-surface-300">
               <li class="flex items-center gap-2">
@@ -192,7 +192,7 @@ const profileSrc = '/images/profile.jpg'
                 <span>목표: Kubernetes CKA 자격증 취득</span>
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
