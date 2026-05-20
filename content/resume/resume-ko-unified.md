@@ -6,7 +6,7 @@ role: 웹 풀스택 개발자 · 경력 약 3년 1개월
 email: eatdu0918@gmail.com
 phone: 010-8310-1753
 github: https://github.com/eatdu0918
-portfolio: http://3.106.133.249:8082
+portfolio: http://13.210.147.17/:8082
 ---
 
 ## 자기소개
@@ -43,47 +43,42 @@ AI는 보조 도구가 아닌 제품의 핵심 로직으로 활용합니다. YOL
 
 > 프론트엔드 개발 · 아키텍처 설계 (브라우저 기반 전장정보 편집기 · 공통작전상황도)
 
-- OpenLayers 10 + MIL-STD-2525D로 NATO 표준 **부대 심볼·전술 그래픽**을 한 제품에서 다루는 렌더링·파이프라인 설계
-- Provider(Facade) + Manager/Renderer로 지도·심볼·그래픽 결합도를 낮추고, Screen 1~3을 동일 패턴으로 확장
-- OpenLayers **3개 독립 맵** + 라우터 keep-alive로 인스턴스·타일·심볼 상태 유지
-- **이중 렌더러 + LRU SVG 캐시(120)** 로 대량 심볼 반복 배치 구간 성능 확보
-- 전술 그래픽 **Draw → 미리보기 → GeoJSON** 단방향 파이프라인으로 UX·규격 경로 분리
-- Vue Flow **ORBAT**와 지도 배치 모드 연동, 레이어 **가시성·편집 권한(assignment / rule)** 으로 화면별 작전 뷰 표현
-- 지도 캡처·Excel 내보내기, 퍼사드 공개 계약·멀티 맵 상태·그래픽 시퀀스 등 **기술 문서** 정리
+- v1에서 Vue 컴포넌트가 OpenLayers SDK를 직접 참조하면서 규격 변경마다 전체 수정이 필요했던 문제를 → **Provider(Facade) + Manager/Renderer** 레이어로 외부 의존을 한 축에 격리, Screen 1~3이 동일 패턴으로 확장 가능하도록 재설계
+- 3개 맵 화면을 전환할 때마다 타일·심볼이 재로드되어 UX 단절이 생기는 문제를 → **vue-router keep-alive + 뷰별 샤딩 Pinia 상태**로 인스턴스를 유지, 화면 전환을 즉시 응답 수준으로 개선
+- 수백 개 SVG 심볼 배치 환경에서 화면 이동마다 재생성이 일어나는 병목을 → 프로파일링으로 특정 후 **LRU SVG 캐시(120)** 도입, 동일 심볼 즉시 반환으로 지도 인터랙션 지연 해소
+- 드로잉 중 미리보기와 확정 데이터가 같은 레이어에 섞여 취소 시 잔상이 남거나 잘못된 GeoJSON이 전송되는 리스크를 → **Draw → 미리보기 → GeoJSON Commit** 단방향 파이프라인으로 분리, 규격 정합성 확보
+- ORBAT 편성표 노드를 지도에 드롭할 때 배치 모드 전환 타이밍이 충돌해 인터랙션이 깨지는 문제를 → **드래그 시작~드롭 구간에만 배치 모드를 한정 활성화** 후 즉시 복귀하는 방식으로 해결, 레이어 가시성·편집 권한(assignment / rule)으로 화면별 뷰 표현
+- LRU 키 조합·Draw 취소 순서 같은 구현 디테일이 PR·이슈에만 남아 맥락이 사라지는 문제를 → 모듈 README·ADR·시퀀스 다이어그램·온보딩 체크리스트로 공개 계약과 내부 구현 경계를 저장소에 문서화
 - **기술:** Vue 3 · OpenLayers 10 · MIL-STD-2525D · Vue Flow · Turf.js · Tailwind CSS 4 · Pinia
 
 #### 3D 전장 상황 인지 시스템 | 2025.06 ~ 2025.11
 
 > 풀스택 개발 (Cesium 기반 C4I)
 
-- Cesium 3D 지도 기반 실시간 작전 상황판 구현 (부대 배치, 기동로, 타격범위 시각화)
-- AI 이동로·타격범위 분석 모델 API 연동 및 서비스 바인딩 (비동기 콜백 패턴, GeoTIFF 오버레이)
-- WebSocket STOMP 기반 실시간 GPS 위치 추적 및 상황 공유, 엣지 장비(드론/LiDAR) HLS 스트리밍 연동
-- Spring Boot 3 멀티모듈(main-api / admin-api / common) RESTful API 설계, MapStruct 기반 DTO-VO 자동 변환
-- PostgreSQL → SQLite 엣지 DB 동기화 기능 구현, 3개 Vue 3 클라이언트(지휘 Main / 관리 Admin / 현장 Edge) 동시 개발
+- AI 분석 모델 호출이 수 분씩 걸려 동기 HTTP로 붙이면 API 스레드 전체가 묶이는 문제를 → **세션 키 기반 콜백 + WebSocket STOMP 비동기 푸시**로 분리, API는 요청 접수까지만 책임지고 결과는 지휘 화면에 실시간 반영
+- 지휘·관리·현장 클라이언트가 같은 도메인 모델을 쓰면서도 배포·권한·성능 경계가 달라야 하는 요구를 → **Spring Boot 3 멀티모듈(main-api / admin-api / common)** + MapStruct DTO-VO로 계층 계약을 컴파일 타임에 고정
+- 현장 단말은 네트워크 단절 상황에서도 동작해야 하는데 PostgreSQL 전체를 내려줄 수 없는 제약을 → **필요한 테이블만 SQLite로 선택적 동기화**해 용량·유출 범위를 줄이고 오프라인 연속성 확보
+- 3개 Vue 3 클라이언트(지휘 PrimeVue / 관리 PrimeVue / 현장 Quasar)를 같은 도메인 타입·API 스키마 위에서 병렬 개발, 드론·LiDAR 장비 HLS 영상을 지휘 화면에 통합
 - **기술:** Vue 3 · Cesium 1.128 · PrimeVue 4 · Quasar 2 · Spring Boot 3.3 · PostgreSQL · WebSocket(STOMP) · HLS.js · Docker
 
 #### 지능형 영상 비식별화 플랫폼 | 2024.04 ~ 2025.05
 
 > 풀스택 개발 · AI 모델 바인딩 및 파이프라인 통합
 
-- 마이크로서비스 기반 **5개 AI 추론 모델**(YOLOv8, Stable Diffusion, BYTETracker 등) 바인딩 및 Consumer 파이프라인 설계
-- RabbitMQ + Redis Pub/Sub 이벤트 드리븐 아키텍처로 실시간 처리 상태 관리, **웹소켓** 기반 진행률·완료 알림
-- Electron + Vue 3 크로스플랫폼 데스크톱 앱(SFTP 파일 전송, SQLite 로컬 DB), **수동 비식별화**(캔버스 기반 영역 선택)
-- Spring Boot 3 멀티모듈(사용자 API · 관리 API · 공통 모듈) 아키텍처 설계 및 구현
-- ONNX Runtime + TensorRT GPU 가속 추론 최적화, 다국어(한·영·일) 지원
+- GPU 추론이 수 분씩 걸려 동기 HTTP로 연결하면 모델 하나의 지연이 전체 파이프라인을 블로킹하는 문제를 → **RabbitMQ 모델별 큐 분리**로 재설계, API는 큐 투입 시점까지만 책임져 응답 시간을 일정하게 유지 (YOLOv8·Stable Diffusion·BYTETracker 등 5개 모델 병렬 처리)
+- Python 워커가 늘어날수록 상태를 Spring Boot로 역전송하는 콜백 엔드포인트가 난립하는 문제를 → **Redis Pub/Sub → Spring → WebSocket STOMP 단일 경로**로 단순화, 사용자에게 처리 진행률·완료 이벤트 실시간 반영
+- 대용량 파일 SFTP 전송과 로컬 편집이 동시에 필요한 현장 환경을 → **Electron 메인 프로세스에 SFTP·SQLite·FFmpeg 책임을 집중**하고, `isElectron()` 분기로 웹과 동일한 Vue 3 코드베이스 유지 (하이브리드 전략)
+- 자동 AI 처리와 수동 비식별화 편집이 상태·로컬 저장을 공유해야 하는 요구를 → **Spring Boot 3 멀티모듈(front_api / back_api / common)** 위에서 캔버스 기반 영역 선택 편집기를 동일 도메인 모델로 통합
 - **기술:** Vue 3 · Electron 30 · Spring Boot 3.2 · Python · RabbitMQ · Redis · YOLOv8 · Stable Diffusion · Docker
 
 #### AI 학습 데이터 관리 플랫폼 | 2023.04 ~ 2024.03
 
 > 풀스택 개발 (첫 직장 · 입문 프로젝트)
 
-- 플러그인 기반 데이터 처리 파이프라인 아키텍처 설계 (Import / Transform / Export / Profile)
-- RabbitMQ 비동기 메시지 큐로 **7종** 데이터 처리 작업 자동화 (SFTP Import/Export, 비디오→이미지, JSONL→텍스트, 비식별화 등)
-- 외부 LLM 연동 텍스트 정제 도구 및 Model API 바인딩/피드백 시스템 구현
-- MariaDB + MongoDB 하이브리드 저장(관계형 메타 + 비정형 텍스트/API 데이터), **Apache Tiles** 로 관리자/작업자 UI 분리
-- **CCTV RTSP** 수집기 Docker 컨테이너 원격 실행·모니터링
-- Spring Boot 멀티 프로젝트 **공통 라이브러리**(웹 · 소비자 · API 공유 모듈) 설계
+- SFTP·RTSP·LLM API 등 수집 경로마다 처리 시간과 실패 방식이 달라 동기 파이프라인으로는 하나의 지연이 전체를 멈추는 문제를 → **RabbitMQ 큐로 단계를 분리**, Java/Python 워커가 같은 큐 계약 위에서 독립 처리 (7종 작업 자동화)
+- 운영 메타(관계형)와 LLM 정제 결과·API 산출물(비정형)을 한 스키마에 억지로 넣으면 인덱스 전략이 충돌하는 문제를 → **MariaDB(정형 메타) + MongoDB(비정형 산출) 하이브리드**로 각 DB의 강점을 데이터 특성에 맞게 분리 적용
+- JSP 기반 레거시 화면과 JWT REST API 신규 기능이 같은 도메인 모델을 공유해야 하는 제약을 → **resource_front_web / resource_api / resource_consumer / resource_common_lib 4 모듈**로 분리, 공통 라이브러리로 도메인 규칙을 단일 출처로 강제
+- Java 파이프라인과 Python OpenCV 워커가 언어·프로세스 경계를 넘어 협력해야 하는 요구를 → **동일 RabbitMQ 큐 계약(메시지 스펙·포맷)으로 결합**, 언어 의존 없이 플러그인 단위로 처리 단계 추가 가능하게 설계
 - **기술:** Spring Boot 2.7 · JSP / jQuery · MyBatis · MariaDB · MongoDB · RabbitMQ · Python · Docker
 
 ---
@@ -94,19 +89,19 @@ AI는 보조 도구가 아닌 제품의 핵심 로직으로 활용합니다. YOL
 
 > 배포: https://dev-blog-snowy-alpha.vercel.app/
 
-- Next.js 16 App Router, React 19, TypeScript로 개인 기술 블로그 구축 및 Vercel 배포
-- 파일 시스템 기반 Markdown을 unified(remark/rehype)로 확장 — Sandpack 인라인 실행, Mermaid, 커스텀 컴포넌트를 본문에 삽입(플레이스홀더 재주입 패턴)
-- Prisma + PostgreSQL + Server Actions로 댓글 처리(Server Actions·경로 캐시 무효화), Vitest·Testing Library 단위 테스트
+- Sandpack·Mermaid·커스텀 컴포넌트를 MDX 전환 없이 삽입하려면 Markdown 파이프라인 자체를 확장해야 했고 → unified에서 커스텀 블록을 **추출 → 토큰화 → HTML 플레이스홀더 재주입**하는 방식을 직접 설계해 Git 친화적 작성 흐름 유지
+- 인터랙티브 블록을 서버 HTML 생성 시점에 섞으면 hydration·CLS가 깨지는 문제를 → **글은 서버 컴포넌트 정적 경로, 동적 블록은 클라이언트 재주입**으로 경계를 분리해 TTFB와 SEO를 함께 확보
+- 댓글은 동적 데이터이지만 글 전체를 클라이언트로 가져가면 TTFB가 나빠지는 문제를 → **Prisma + PostgreSQL + Server Actions + 경로 캐시 무효화**로 글과 댓글의 렌더링 경계를 독립적으로 설계
+- 예제 코드와 본문 설명이 어긋나면 신뢰가 떨어진다는 판단 아래 → **예제 소스 폴더 + Vitest**로 글 주제와 코드를 짝지어 드리프트를 방지
 - **기술:** Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Prisma · PostgreSQL · Vitest · Sandpack
 
 ### e-commerce MSA — 이커머스 마이크로서비스 | 2026.01 ~ 현재
 
 > 팀스파르타 교육 **최종 과제** 착수 후, 게이트웨이·도메인·이벤트·배포를 스스로 보완하는 **개인 레퍼런스**로 유지
 
-- Spring Cloud Gateway 단일 진입점, 서비스별 MySQL, Kafka 이벤트·보상 트랜잭션(Saga 범위) 이커머스 MSA 설계·구현
-- Aggregation API 등 게이트웨이·서비스 간 조합 패턴 적용, Blue/Green 기반 클라이언트 배포 전략
-- React 19(Vite 7) 주문·상품 클라이언트, PortOne/Toss Payments SDK 결제 연동, **ngrok** 으로 로컬 게이트웨이 공개·웹훅·외부 콜백 검증
-- Docker + Kubernetes + GitHub Actions → GHCR CI/CD 파이프라인 구성, TestContainers 통합 테스트
+- 클라이언트가 서비스마다 다른 호스트를 알면 CORS·토큰·운영이 지옥이 되는 문제를 → **Spring Cloud Gateway 단일 진입점**에서 JWT·Redis 횡단 관심사를 처리하고, Aggregation API로 서비스 간 조합을 외부에 단일 인터페이스로 노출
+- 주문·결제는 즉시 일관성, 취소·환불은 느슨한 결합이 필요한 성격 차이를 → **Feign(동기) + Kafka 이벤트(비동기)** 혼합으로 각 흐름의 특성에 맞는 처리 패턴 분리, Saga 보상 트랜잭션으로 분산 일관성 직접 구현·검증
+- "로컬에서만 되는 MSA"는 의미가 없다는 판단 아래 → **Docker/K8s + GitHub Actions → GHCR + TestContainers**로 배포·테스트 전제를 운영 환경과 동일하게 맞추고, ngrok으로 외부 결제 웹훅 콜백까지 로컬에서 검증
 - **기술:** Spring Boot 3.2 · Spring Cloud Gateway · Kafka · Redis · React 19 · Kubernetes · Docker · GitHub Actions
 
 ---
